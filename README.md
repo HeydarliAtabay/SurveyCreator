@@ -1,5 +1,6 @@
-# Exam #1234: "Exam Title"
-## Student: s123456 LASTNAME FIRSTNAME 
+# Exam #1: "Survey"
+
+## Student: s277000 HEYDARLI ATABAY
 
 ## React Client Application Routes
 
