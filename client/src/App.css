@@ -48,3 +48,10 @@
   align-self: center;
   margin: auto;
 }
+.questionCards {
+  width: 850px;
+  margin: auto;
+  border: 2px solid rgb(41, 39, 39);
+  border-radius: 25px;
+  padding: 1rem;
+}

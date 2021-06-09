@@ -13,7 +13,7 @@ function SurveyItem(props){
             <Card.Body>
             <Card.Title>{survey.tittle}</Card.Title>
             
-            <Button variant="primary">Go somewhere</Button>
+            <Button variant="primary" >Go somewhere</Button>
         </Card.Body>
 </Card>  
         </div>

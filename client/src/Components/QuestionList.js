@@ -1,5 +1,5 @@
 import React from 'react'
-import {ListGroup,Card,Button,Form} from 'react-bootstrap'
+import {ListGroup,Button,Form} from 'react-bootstrap'
 
 
 function QuestionItem(props){
@@ -7,20 +7,15 @@ function QuestionItem(props){
 
     return(
         <>
-        <div className="survCards">
-        <Card> 
-            <Card.Header>{question.id}</Card.Header>
-            <Card.Body>
-            <Card.Text>
-     {question.description}
-    </Card.Text>
+        <div className="questionCards">   
+     <h5>{question.description}</h5>
+   
            <Form.Check type="checkbox" label={question.answ1}></Form.Check>
            <Form.Check type="checkbox" label={question.answ2}></Form.Check>
            <Form.Check type="checkbox" label={question.answ3}></Form.Check>
            <Form.Check type="checkbox" label={question.answ4}></Form.Check>
             <Button variant="primary">Go somewhere</Button>
-        </Card.Body>
-</Card>  
+        
         </div>
         </>
     )
