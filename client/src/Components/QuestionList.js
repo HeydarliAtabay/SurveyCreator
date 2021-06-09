@@ -9,11 +9,61 @@ function QuestionItem(props){
         <>
         <div className="questionCards">   
      <h5>{question.description}</h5>
-   
-           <Form.Check type="checkbox" label={question.answ1}></Form.Check>
-           <Form.Check type="checkbox" label={question.answ2}></Form.Check>
-           <Form.Check type="checkbox" label={question.answ3}></Form.Check>
-           <Form.Check type="checkbox" label={question.answ4}></Form.Check>
+
+     { question.answ1!=='' && question.answ2!=='' && question.answ3!=='' && question.answ4!=='' &&
+        <>
+        <Form.Check type="checkbox" label={question.answ1}></Form.Check>
+        <Form.Check type="checkbox" label={question.answ2}></Form.Check>
+        <Form.Check type="checkbox" label={question.answ3}></Form.Check>
+        <Form.Check type="checkbox" label={question.answ4}></Form.Check>
+       </>   
+     }
+       { question.answ1!=='' && question.answ2!=='' && question.answ3!=='' && question.answ4==='' &&
+        <>
+        <Form.Check type="checkbox" label={question.answ1}></Form.Check>
+        <Form.Check type="checkbox" label={question.answ2}></Form.Check>
+        <Form.Check type="checkbox" label={question.answ3}></Form.Check>
+       </>   
+     }
+     { question.answ1!=='' && question.answ2!=='' && question.answ3==='' && question.answ4==='' &&
+        <>
+        <Form.Check type="checkbox" label={question.answ1}></Form.Check>
+        <Form.Check type="checkbox" label={question.answ2}></Form.Check>
+       </>   
+     }
+     { question.answ1==='' && question.answ2==='' && question.answ3==='' && question.answ4==='' &&
+        <>
+        <Form.Control size="lg" type="text" placeholder="Write your answer here" />
+       </>   
+     }
+     
+            {/* {question.answ1==='' && question.answ2==='' && question.answ3===''   ?
+                <>
+                 <Form.Control size="lg" type="text" placeholder="Write your answer here" />
+ 
+ </> 
+            :
+            <>
+            <Form.Check type="checkbox" label={question.answ1}></Form.Check>
+            <Form.Check type="checkbox" label={question.answ2}></Form.Check>
+            <Form.Check type="checkbox" label={question.answ3}></Form.Check>
+            <Form.Check type="checkbox" label={question.answ4}></Form.Check>
+           </> 
+            }
+            {!question.answ1==='' && !question.answ2==='' && question.answ3===''   ?
+                <>
+                    <Form.Check type="checkbox" label={question.answ1}></Form.Check>
+                    <Form.Check type="checkbox" label={question.answ2}></Form.Check>
+ </> 
+            :
+            <>
+            <Form.Check type="checkbox" label={question.answ1}></Form.Check>
+            <Form.Check type="checkbox" label={question.answ2}></Form.Check>
+            <Form.Check type="checkbox" label={question.answ3}></Form.Check>
+            <Form.Check type="checkbox" label={question.answ4}></Form.Check>
+           </> 
+            } */}
+          
             <Button variant="primary">Go somewhere</Button>
         
         </div>
@@ -26,7 +76,7 @@ function QuestionList(props){
     return(
         <>
         <div className="cont">
-        <h3>Please, Answer the question</h3>
+        <h3>Please, Answer questions for finishing the survey</h3>
             <ListGroup as="ul" variant="flush">
             {
                 questions.map(q=>{
