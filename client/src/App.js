@@ -15,7 +15,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 //import ModalForm from './Components/ModalForm'
 
 function App() {
-  const [surveyList]=useState(SURVEYS)
+  const [surveyList, setSurveyList]=useState(SURVEYS)
   const [questionList]=useState(QUESTIONS)
 
   const MODAL = { CLOSED: -2, ADD: -1 };
@@ -23,6 +23,17 @@ function App() {
 
   const handleClose = () => {
     setSelectedTask(MODAL.CLOSED);
+  }
+
+  function addSurvey (survey)  {
+    const id = Math.max(...surveyList.map( s => s.id )) + 1;
+    setSurveyList((oldSurveys) => [...oldSurveys, { ...survey, id: id }] );
+  }
+
+  const handleSave = (survey) => {
+    // if the task has an id it is an update
+    addSurvey(survey);
+    setSelectedTask(MODAL.CLOSED); 
   }
 
   return (
@@ -33,7 +44,7 @@ function App() {
       <Route path="/surveys"> 
       <SurveyList surveys={surveyList}/>
       <div className="addbtn"><Button variant="success" size="lg"  onClick={() => setSelectedTask(MODAL.ADD)}>Add a Survey</Button></div>
-      {(selectedTask !== MODAL.CLOSED) && <ModalForm onClose={handleClose}></ModalForm>}
+      {(selectedTask !== MODAL.CLOSED) && <ModalForm onSave={handleSave} onClose={handleClose}></ModalForm>}
       </Route>
       <Route path="/questions"> 
       <QuestionList questions={questionList}/>
