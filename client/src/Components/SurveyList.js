@@ -13,7 +13,7 @@ function SurveyItem(props){
             <Card.Body>
             <Card.Title>{survey.tittle}</Card.Title>
             
-            <Button variant="primary" >Go somewhere</Button>
+            <Button variant="primary" onClick={(event) =>  window.location.href='/questions'}>Start the Survey</Button>
         </Card.Body>
 </Card>  
         </div>
@@ -25,6 +25,7 @@ function SurveyList(props){
     const {surveys} =props
     return(
         <>
+        {/* <div className="addbtn"><Button variant="success" size="lg">Add a Survey</Button></div> */}
         <div className="cont">
         <h3>Please, Select the survey</h3>
             <ListGroup as="ul" variant="flush">
