@@ -39,4 +39,12 @@
 
 .cont {
   padding-top: 5rem;
+  width: 800px;
+  margin: auto;
+}
+
+.survCards {
+  width: 600px;
+  align-self: center;
+  margin: auto;
 }
