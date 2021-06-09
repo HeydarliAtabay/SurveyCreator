@@ -2,11 +2,13 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import {React, useState} from 'react'
-import{Button} from 'react-bootstrap'
+import{Button,Container} from 'react-bootstrap'
 import Header from './Components/Header'
 import SurveyList from './Components/SurveyList'
 import QuestionList from './Components/QuestionList'
 import ModalForm from './Components/ModalForm'
+import CreateSurvey from './Components/CreateSurvey'
+import LoginComponet from './Components/LoginComponent'
 import SURVEYS from './surveys'
 import QUESTIONS from './questions'
 
@@ -38,20 +40,27 @@ function App() {
 
   return (
     <Router>
-    <div className="App">
+      <Container fluid > 
       <Header/>
       <Switch>
       <Route path="/surveys"> 
-      <SurveyList surveys={surveyList}/>
       <div className="addbtn"><Button variant="success" size="lg"  onClick={() => setSelectedTask(MODAL.ADD)}>Add a Survey</Button></div>
       {(selectedTask !== MODAL.CLOSED) && <ModalForm onSave={handleSave} onClose={handleClose}></ModalForm>}
+      <SurveyList surveys={surveyList} />
+      
       </Route>
       <Route path="/questions"> 
       <QuestionList questions={questionList}/>
       </Route>
+      <Route path="/createSurvey"> 
+      <CreateSurvey/>
+      </Route>
+      <Route path="/login"> 
+      <LoginComponet/>
+      </Route>
      <Redirect to="/surveys"/>
       </Switch>
-    </div>
+    </Container>
     </Router>
   );
 }

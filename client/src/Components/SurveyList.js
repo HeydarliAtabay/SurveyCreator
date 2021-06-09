@@ -14,7 +14,7 @@ function SurveyItem(props){
             <Card.Title>{survey.tittle}</Card.Title>
             
             <Button variant="primary" onClick={(event) =>  window.location.href='/questions'}>Start the Survey</Button>
-            {survey.published===0 && <Button variant="warning" onClick={(event) =>  window.location.href='/questions'}>Modify the Survey</Button>}
+            {survey.published===0 && <Button variant="warning" onClick={(event) =>  window.location.href='/createSurvey'}>Modify the Survey</Button>}
         </Card.Body>
 </Card>  
         </div>
@@ -34,7 +34,7 @@ function SurveyList(props){
                 surveys.map(s=>{
                     return(
                         <ListGroup.Item as ="li" key={s.id} >
-                            <SurveyItem survey={s}/>
+                            <SurveyItem survey={s} />
                             </ListGroup.Item>                    )
                 })
             }

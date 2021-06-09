@@ -8,7 +8,7 @@ function QuestionItem(props){
     return(
         <>
         <div className="questionCards">   
-     <h5>{question.description}</h5>
+     <h4>{question.description}</h4>
 
      { question.answ1!=='' && question.answ2!=='' && question.answ3!=='' && question.answ4!=='' &&
         <>
