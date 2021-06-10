@@ -1,5 +1,6 @@
 import React from 'react'
 import {ListGroup,Button,Form,Row,Col} from 'react-bootstrap'
+import {BookmarkStar, Check2All} from 'react-bootstrap-icons'
 
 
 function QuestionItem(props){
@@ -10,11 +11,27 @@ function QuestionItem(props){
 
     return(
         <>
-        <div className="questionCards">   
+        <div className="questionCards">  
+        {question.min===1 && 
+        <>
+        <div className="mandatory">
+        <BookmarkStar size={48}/> 
+        </div>
+        
+        </>
+         } 
+         {question.max===2 && 
+        <>
+        <div className="multiple">
+        <Check2All size={48}/> 
+        </div>
+        
+        </>
+         } 
         <h1>{question.num}</h1>
         {/* {mandatory ? <h1>This is mandatory</h1>: <h1>this is optional</h1>} */}
         <h4>{question.description}</h4>
-        <h6>min:{question.min} max:{question.max}</h6>
+        
    {question.num!==0 &&
     
        [...Array(question.num),].map((q, index) => {
