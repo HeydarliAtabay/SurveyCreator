@@ -25,9 +25,20 @@ const handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation(); 
 
-      const newQuestion = Object.assign({}, question, { description: text, num:0} );
+    if(type===true) {
+        const newQuestion = Object.assign({}, question, { description: text, num:0} );
+        onSave(newQuestion);
+    }
+    else {
+        const newQuestion = Object.assign({}, question, { description: text, answ1:answer1, answ2:answer2, answ3:answer3, 
+            answ4:answer4,answ5:answer5, answ6:answer6,answ7:answer7, answ8:answer8,
+            answ9: answer9, answ10: answer10,
+            num: number} )
+        onSave(newQuestion);
+    }
+      
 
-      onSave(newQuestion);
+     
     
   }
     return(
@@ -71,11 +82,14 @@ const handleSubmit = (event) => {
                     <Form.Label> Write each answer</Form.Label>
                     {
                        [...Array(number),].map((q, index) => {
+                        let states=[answer1,answer2,answer3,answer4,answer5,answer6,answer7,answer8,answer9,answer10]
+                        let setters=[setAnswer1,setAnswer2, setAnswer3, setAnswer4, setAnswer5,setAnswer6, setAnswer7, setAnswer8,setAnswer9, setAnswer10]
                         return(
                             <>
                             <Row>
                             <Col sm={1}> <h6>{index+1}</h6></Col>
-                             <Col sm={11}> <Form.Control type="text"  ></Form.Control></Col>
+                             <Col sm={11}> <Form.Control type="text" name="answer" placeholder="Enter the text of possible answer" value={states[index]}
+                            onChange={(ev) => setters[index](ev.target.value)} required autoFocus /></Col>
                             </Row>
                             </>
                         )}) 
