@@ -14,7 +14,7 @@ function QuestionItem(props){
         <h1>{question.num}</h1>
         {/* {mandatory ? <h1>This is mandatory</h1>: <h1>this is optional</h1>} */}
         <h4>{question.description}</h4>
-
+        <h6>min:{question.min} max:{question.max}</h6>
    {question.num!==0 &&
     
        [...Array(question.num),].map((q, index) => {

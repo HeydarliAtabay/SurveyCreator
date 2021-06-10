@@ -8,7 +8,7 @@ function ModalFormQuestion(props){
 
     const [type, setType] = useState(true);
     const [text, setText]=useState(question ? question.description : '')
-    const [number, setNumber]=useState(question? question.num : 1)
+    const [number, setNumber]=useState(question? question.num : 2)
     const [answer1, setAnswer1]=useState( '')
     const [answer2, setAnswer2]=useState('')
     const [answer3, setAnswer3]=useState('')
@@ -19,6 +19,8 @@ function ModalFormQuestion(props){
     const [answer8, setAnswer8]=useState('')
     const [answer9, setAnswer9]=useState('')
     const [answer10, setAnswer10]=useState('')
+    const [optional, setOptional]=useState(true)
+    const [single, setSingle] =useState(true)
 
 const handleSubmit = (event) => {
     // stop event default and propagation
@@ -30,9 +32,11 @@ const handleSubmit = (event) => {
         onSave(newQuestion);
     }
     else {
+
         const newQuestion = Object.assign({}, question, { description: text, answ1:answer1, answ2:answer2, answ3:answer3, 
             answ4:answer4,answ5:answer5, answ6:answer6,answ7:answer7, answ8:answer8,
             answ9: answer9, answ10: answer10,
+            min: optional?0:1, max: single?1:2,
             num: number} )
         onSave(newQuestion);
     }
@@ -70,8 +74,8 @@ const handleSubmit = (event) => {
                     console.log(number)
                     }}>
                     {
-                         [...Array(10),].map((q, index) => {
-                            return(<option>{index+1}</option>)})
+                         [...Array(9),].map((q, index) => {
+                            return(<option>{index+2}</option>)})
                     } 
                 </Form.Control>
                 
@@ -97,6 +101,35 @@ const handleSubmit = (event) => {
                 </Form.Group>
                 
 
+            }
+            {
+               
+                number && !type &&
+            <>
+           
+            
+                <Form.Group controlId="form-optional">
+                    
+                    <Form.Label>Define the specifications of the question</Form.Label>
+                   
+                        <Col>
+                        <Form.Check custom type="checkbox" label="Optional" name="opt" checked={optional}  onChange={(ev) => setOptional(ev.target.checked)} />
+                    <Form.Check custom type="checkbox" label="Mandatory" name="mand" checked={!optional}  onChange={(ev) => setOptional(ev.target.checked)} />   
+                        </Col>
+                   
+                    
+                     </Form.Group>
+                
+                <Form.Group controlId="form-single">
+                   <Col>
+                   <Form.Check custom type="checkbox" label="Single-Choice" name="sin" checked={single}  onChange={(ev) => setSingle(ev.target.checked)} />
+                    <Form.Check custom type="checkbox" label="Multiple-Choice" name="mult" checked={!single}  onChange={(ev) => setSingle(ev.target.checked)} />  
+                    
+                   </Col>
+                     </Form.Group> 
+                      
+              </>
+            
             }
            
             </Modal.Body>
