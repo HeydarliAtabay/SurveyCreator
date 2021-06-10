@@ -15,9 +15,11 @@ function QuestionItem(props){
         {/* {mandatory ? <h1>This is mandatory</h1>: <h1>this is optional</h1>} */}
         <h4>{question.description}</h4>
 
-   {
+   {question.num!==0 &&
+    
        [...Array(question.num),].map((q, index) => {
            let string=`answ${index+1}`
+         
            return(
             <>
                 <Form.Check id={index + 1} key={index} type="checkbox" label={question[string]}></Form.Check>
@@ -25,6 +27,9 @@ function QuestionItem(props){
            )} 
         )
     }
+     {question.num===0 &&
+             <Form.Control size="lg" type="text" placeholder="Write your answer here" />  
+ }
         </div>
         </>
     )
@@ -48,7 +53,7 @@ function QuestionList(props){
                     
                     return(
                     <>
-                    <ListGroup.Item as ="li" key={q.id} >
+                    <ListGroup.Item as ="li" key={questions.order} >
                     <QuestionItem question={q} />
                     </ListGroup.Item>  
                                    

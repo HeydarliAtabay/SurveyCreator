@@ -2,7 +2,7 @@ import {React,useState} from 'react'
 
 import {Form, Modal,Button} from 'react-bootstrap';
 
-function ModalForm(props){
+function ModalFormTitle(props){
    
     const {survey,onClose,onSave}=props
 
@@ -46,4 +46,4 @@ const handleSubmit = (event) => {
     )
 }
 
-export default ModalForm
+export default ModalFormTitle
