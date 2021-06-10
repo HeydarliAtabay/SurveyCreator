@@ -5,38 +5,26 @@ import {ListGroup,Button,Form,Row,Col} from 'react-bootstrap'
 function QuestionItem(props){
     const {question} = props
 
+       
+  
+
     return(
         <>
         <div className="questionCards">   
-     <h4>{question.description}</h4>
+        <h1>{question.num}</h1>
+        {/* {mandatory ? <h1>This is mandatory</h1>: <h1>this is optional</h1>} */}
+        <h4>{question.description}</h4>
 
-     { question.answ1!=='' && question.answ2!=='' && question.answ3!=='' && question.answ4!=='' &&
-        <>
-        <Form.Check type="checkbox" label={question.answ1}></Form.Check>
-        <Form.Check type="checkbox" label={question.answ2}></Form.Check>
-        <Form.Check type="checkbox" label={question.answ3}></Form.Check>
-        <Form.Check type="checkbox" label={question.answ4}></Form.Check>
-       </>   
-     }
-       { question.answ1!=='' && question.answ2!=='' && question.answ3!=='' && question.answ4==='' &&
-        <>
-        <Form.Check type="checkbox" label={question.answ1}></Form.Check>
-        <Form.Check type="checkbox" label={question.answ2}></Form.Check>
-        <Form.Check type="checkbox" label={question.answ3}></Form.Check>
-       </>   
-     }
-     { question.answ1!=='' && question.answ2!=='' && question.answ3==='' && question.answ4==='' &&
-        <>
-        <Form.Check type="checkbox" label={question.answ1}></Form.Check>
-        <Form.Check type="checkbox" label={question.answ2}></Form.Check>
-       </>   
-     }
-     { question.answ1==='' && question.answ2==='' && question.answ3==='' && question.answ4==='' &&
-        <>
-        <Form.Control size="lg" type="text" placeholder="Write your answer here" />
-       </>   
-     }
-            {/* <Button variant="primary">Go somewhere</Button>   */}
+   {
+       [...Array(question.num),].map((q, index) => {
+           let string=`answ${index+1}`
+           return(
+            <>
+                <Form.Check id={index + 1} key={index} type="checkbox" label={question[string]}></Form.Check>
+           </>
+           )} 
+        )
+    }
         </div>
         </>
     )
@@ -51,14 +39,21 @@ function QuestionList(props){
         <Row>
         <Col sm={4}><h3>Your name:</h3></Col>
         <Col sm={8}><Form.Control size="lg" type="text" placeholder="Write your name" /></Col>
+        
         </Row>
             <ListGroup as="ul" variant="flush">
             {
+                
                 questions.map(q=>{
+                    
                     return(
-                        <ListGroup.Item as ="li" key={q.id} >
-                            <QuestionItem question={q}/>
-                            </ListGroup.Item>                    )
+                    <>
+                    <ListGroup.Item as ="li" key={q.id} >
+                    <QuestionItem question={q} />
+                    </ListGroup.Item>  
+                                   
+                    </>
+                    )
                 })
             }
             </ListGroup>
