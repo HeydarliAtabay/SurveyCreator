@@ -11,3 +11,10 @@ POST http://localhost:3001/api/surveys
 Content-Type: application/json
 
 { "title": "Test", "numRespond": 4,"published": 1, "user":1 }
+
+
+
+
+
+### Getting all questions
+GET http://localhost:3001/api/questions

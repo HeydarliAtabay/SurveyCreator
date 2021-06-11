@@ -6,7 +6,8 @@ const PORT = 3001;
 const morgan = require('morgan');
 
 
-const surveyDao = require('./surveyDao'); // module for accessing the DB for tasks
+const surveyDao = require('./surveyDao'); // module for accessing the DB for surveys
+const questionDao = require('./questionDao'); // module for accessing the DB for questions
 
 app.use(morgan('dev'))
 app.use(express.json())
@@ -14,6 +15,9 @@ app.use(express.json())
 app.get('/',(req, res)=>{
     res.send(`Hi from the server, which is running on  http://localhost:${PORT}/`)
 })
+
+// for Surveys
+
 app.get('/api/surveys', (req,res)=>{
   surveyDao.listAllSurveys()
       .then((surveys)=>{res.json(surveys)})
@@ -32,7 +36,13 @@ app.post('/api/surveys', (req,res) => {
   }
 });
 
-// init express
+// for Questions
+
+app.get('/api/questions', (req,res)=>{
+  questionDao.listAllQuestions()
+      .then((surveys)=>{res.json(surveys)})
+      .catch((error)=>{res.status(500).json(error)} )
+})
 
 
 // activate the server
