@@ -18,7 +18,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 
 function App() {
   const [surveyList, setSurveyList]=useState(SURVEYS)
-  const [questionList, setQuestionList]=useState(QUESTIONS)
+  const [questionList, setQuestionList]=useState(QUESTIONS? QUESTIONS: [])
 
   const MODAL = { CLOSED: -2, ADD: -1 };
   const [selectedTask, setSelectedTask] = useState(MODAL.CLOSED);
@@ -39,6 +39,20 @@ function App() {
 
   function deleteQuestion (question) {
     setQuestionList((oldQuestions) => oldQuestions.filter( q => q.id !== question.id ));
+  }
+
+  function orderUpQuestion (question) {
+    const id = Math.min(...questionList.map( q => q.id ))-1 ;
+    setQuestionList((oldQuestions) => oldQuestions.filter( q => q.id !== question.id ));
+    setQuestionList((oldQuestions) => [...oldQuestions, { ...question, id: id-1 }] );
+  }
+
+  function orderDownQuestion (question) {
+    const id = (questionList.map( q => q.id ));
+    console.log(id)
+    //setQuestionList((oldQuestions) => oldQuestions.filter( q => q.id === question.id ));
+    // setQuestionList((oldQuestions) => [...oldQuestions, { ...question, id: id+1 }] );
+    
   }
 
 
@@ -68,7 +82,7 @@ function App() {
       <Route path="/questions"> 
       <div className="addbtn"><Button variant="success" size="lg"  onClick={() => setSelectedTask(MODAL.ADD)}>Add a Question</Button></div>
       {(selectedTask !== MODAL.CLOSED) && <ModalFormQuestion onSave={handleSaveQuestions} onClose={handleClose}></ModalFormQuestion>}
-      <QuestionList questions={questionList} onDelete={deleteQuestion} />
+      <QuestionList questions={questionList} onDelete={deleteQuestion} onUp={orderUpQuestion} onDown={orderDownQuestion} />
       </Route>
       <Route path="/login"> 
       <LoginComponet/>

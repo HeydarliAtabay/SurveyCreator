@@ -1,9 +1,9 @@
 import { React } from "react";
 import { ListGroup, Button, Form, Row, Col } from "react-bootstrap";
-import { BookmarkStar, Check2All, Trash } from "react-bootstrap-icons";
+import { BookmarkStar, Check2All, Trash, ArrowUpSquare, ArrowDownSquare} from "react-bootstrap-icons";
 
 function QuestionItem(props) {
-  const { question, onDelete } = props;
+  const { question, onDelete, onUp, onDown } = props;
 
   return (
     <>
@@ -63,7 +63,7 @@ function QuestionItem(props) {
             )}
           </Col>
           <Col>
-            <QuestionRowControl onDelete={onDelete} />
+            <QuestionRowControl onDelete={onDelete} onUp={onUp} onDown={onDown} />
           </Col>
         </Row>
       </div>
@@ -72,7 +72,7 @@ function QuestionItem(props) {
 }
 
 function QuestionRowControl(props) {
-  const { onDelete } = props;
+  const { onDelete, onUp, onDown } = props;
   return (
     <>
       <div className="flex-fill m-auto">
@@ -82,14 +82,14 @@ function QuestionRowControl(props) {
           <Trash size={24} />
         </Button>
         </Col>
-        {/* <Col>
-        <Button variant="link" className="shadow-none" onClick={onDelete}>
+         <Col>
+        <Button variant="link" className="shadow-none" onClick={onUp}>
           <ArrowUpSquare size={32} />
         </Button>
-        <Button variant="link" className="shadow-none" onClick={onDelete}>
+        <Button variant="link" className="shadow-none" onClick={onDown}>
           <ArrowDownSquare size={32} />
         </Button>
-        </Col> */}
+        </Col> 
        
         </Row>
       </div>
@@ -98,7 +98,7 @@ function QuestionRowControl(props) {
 }
 
 function QuestionList(props) {
-  const { questions, onDelete } = props;
+  const { questions, onDelete, onUp, onDown } = props;
   return (
     <>
       <div className="cont">
@@ -117,8 +117,8 @@ function QuestionList(props) {
           {questions.map((q) => {
             return (
               <>
-                <ListGroup.Item as="li" key={questions.order}>
-                  <QuestionItem question={q} onDelete={() => onDelete(q)}  />
+                <ListGroup.Item as="li" key={questions.id}>
+                  <QuestionItem question={q} onDelete={() => onDelete(q)} onUp={() => onUp(q)} onDown={() => onDown(q)}  />
                 </ListGroup.Item>
               </>
             );
