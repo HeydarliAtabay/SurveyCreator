@@ -1,0 +1,5 @@
+### Connection check
+GET http://localhost:3001/
+
+### Getting all surveys
+GET http://localhost:3001/api/surveys
