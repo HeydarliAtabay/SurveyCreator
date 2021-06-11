@@ -3,3 +3,11 @@ GET http://localhost:3001/
 
 ### Getting all surveys
 GET http://localhost:3001/api/surveys
+
+
+### Adding new survey
+
+POST http://localhost:3001/api/surveys
+Content-Type: application/json
+
+{ "title": "Test", "numRespond": 4,"published": 1, "user":1 }

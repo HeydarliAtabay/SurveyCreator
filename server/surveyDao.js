@@ -21,3 +21,19 @@ exports.listAllSurveys = () => {
       });
     });
   };
+
+  exports.createSurvey=(survey)=>{
+    return new Promise((resolve, reject)=>{
+      const sql = 'INSERT INTO surveys(title, numRespond, published, user) VALUES(?,?,?,?)'
+      //const sql= 'INSERT INTO tasks(description,user) VALUES(?,?))';
+  
+      db.run(sql, [survey.title,survey.numRespond, survey.published,survey.user], function(err){
+        if(err){
+          reject(err);
+          return;
+        }
+        console.log(this.lastID);
+        resolve(this.lastID)
+      });
+    });
+  };

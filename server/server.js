@@ -20,6 +20,18 @@ app.get('/api/surveys', (req,res)=>{
       .catch((error)=>{res.status(500).json(error)} )
 })
 
+app.post('/api/surveys', (req,res) => {
+  const survey = req.body;
+  if(!survey){
+      res.status(400).end();
+  } else {
+      surveyDao.createSurvey(survey)
+          .then((id) => res.status(201).json({"id" : id}))
+          .catch((err) => res.status(500).json(error),
+      );
+  }
+});
+
 // init express
 
 
