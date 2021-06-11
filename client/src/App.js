@@ -37,6 +37,9 @@ function App() {
     setQuestionList((oldQuestions) => [...oldQuestions, { ...question, id: id }] );
   }
 
+  function deleteQuestion (question) {
+    setQuestionList((oldQuestions) => oldQuestions.filter( q => q.id !== question.id ));
+  }
 
 
   const handleSaveSurvey = (survey) => {
@@ -65,7 +68,7 @@ function App() {
       <Route path="/questions"> 
       <div className="addbtn"><Button variant="success" size="lg"  onClick={() => setSelectedTask(MODAL.ADD)}>Add a Question</Button></div>
       {(selectedTask !== MODAL.CLOSED) && <ModalFormQuestion onSave={handleSaveQuestions} onClose={handleClose}></ModalFormQuestion>}
-      <QuestionList questions={questionList}/>
+      <QuestionList questions={questionList} onDelete={deleteQuestion} />
       </Route>
       <Route path="/login"> 
       <LoginComponet/>
