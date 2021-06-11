@@ -44,6 +44,37 @@ app.get('/api/questions', (req,res)=>{
       .catch((error)=>{res.status(500).json(error)} )
 })
 
+app.post('/api/questions', (req,res) => {
+  const question = req.body;
+  if(!question){
+      res.status(400).end();
+  } else {
+      questionDao.createQuestion(question)
+          .then((id) => res.status(201).json({"id" : id}))
+          .catch((err) => res.status(500).json(error),
+      );
+  }
+});
+
+//for Answers
+app.get('/api/submissions', (req,res)=>{
+  questionDao.listAllSubmissions()
+      .then((surveys)=>{res.json(surveys)})
+      .catch((error)=>{res.status(500).json(error)} )
+})
+
+app.post('/api/submissions', (req,res) => {
+  const submission = req.body;
+  if(!submission){
+      res.status(400).end();
+  } else {
+      questionDao.createSubmissions(submission)
+          .then((id) => res.status(201).json({"id" : id}))
+          .catch((err) => res.status(500).json(error),
+      );
+  }
+});
+
 
 // activate the server
 app.listen(PORT, () => {

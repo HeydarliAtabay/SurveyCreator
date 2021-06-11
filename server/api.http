@@ -10,7 +10,7 @@ GET http://localhost:3001/api/surveys
 POST http://localhost:3001/api/surveys
 Content-Type: application/json
 
-{ "title": "Test", "numRespond": 4,"published": 1, "user":1 }
+{ "title": "Atabays Survey", "numRespond": 4,"published": 1, "user":1 }
 
 
 
@@ -18,3 +18,25 @@ Content-Type: application/json
 
 ### Getting all questions
 GET http://localhost:3001/api/questions
+
+
+### Adding new questions
+
+POST http://localhost:3001/api/questions
+Content-Type: application/json
+
+{ "text": "Hello", "type": 0,"num": 0, "min":1, "max":1, "answ1":" a", "answ2":"c ", "answ3":"b ", "answ4":"a ", "answ5":"s ", "answ6":" d", "answ7":"f ", "answ8":" a", "answ9":"f ","answ10":" a","survey_id": 1, "order": 3 }
+
+
+
+
+
+### Getting all submissions
+GET http://localhost:3001/api/submissions
+
+### Adding new submission
+
+POST http://localhost:3001/api/submissions
+Content-Type: application/json
+
+{ "responder": "Vladimir", "survey_id":4 }
