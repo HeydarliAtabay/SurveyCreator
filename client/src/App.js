@@ -65,6 +65,15 @@ function App() {
     setQuestionList((oldQuestions) => oldQuestions.filter( q => q.id !== question.id ));
   }
 
+  function deleteSurvey (survey) {
+    setSurveyList((oldSurveys) => oldSurveys.filter( s => s.id !== survey.id ));
+    API.deleteSurvey(survey)
+    .then(() => {
+      setDirty(true);
+    }).catch(err => (err) );
+
+  }
+
   function orderUpQuestion (question) {
     const id = Math.min(...questionList.map( q => q.id ))-1 ;
     setQuestionList((oldQuestions) => oldQuestions.filter( q => q.id !== question.id ));
@@ -100,7 +109,7 @@ function App() {
       <Route path="/surveys"> 
       <div className="addbtn"><Button variant="success" size="lg"  onClick={() => setSelectedTask(MODAL.ADD)}>Add a Survey</Button></div>
       {(selectedTask !== MODAL.CLOSED) && <ModalFormTitle onSave={handleSaveSurvey} onClose={handleClose}></ModalFormTitle>}
-      <SurveyList surveys={surveyList} />
+      <SurveyList surveys={surveyList} numberOfResponders={numberResponders} onDelete={deleteSurvey} />
       
       </Route>
       <Route path="/questions"> 

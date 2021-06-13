@@ -3,7 +3,7 @@ import {ListGroup,Card,Button} from 'react-bootstrap'
 
 
 function SurveyItem(props){
-    const {survey,numberOfResponders} = props
+    const {survey,numberOfResponders, onDelete} = props
 
     return(
         <>
@@ -15,6 +15,9 @@ function SurveyItem(props){
             
             <Button variant="primary" onClick={(event) =>  window.location.href='/questions'}>Start the Survey</Button>
             {survey.published===0 && <Button variant="warning" onClick={(event) =>  window.location.href='/questions'}>Modify the Survey</Button>}
+            <Button variant="danger" onClick={onDelete}>Delete the Survey</Button>
+            
+            <h5>number of responders for this survey is : {numberOfResponders}</h5>
         </Card.Body>
 </Card>  
         </div>
@@ -23,7 +26,7 @@ function SurveyItem(props){
 }
 
 function SurveyList(props){
-    const {surveys, numberOfResponders} =props
+    const {surveys, numberOfResponders, onDelete} =props
     return(
         <>
         {/* <div className="addbtn"><Button variant="success" size="lg">Add a Survey</Button></div> */}
@@ -34,7 +37,7 @@ function SurveyList(props){
                 surveys.map(s=>{
                     return(
                         <ListGroup.Item as ="li" key={s.id} >
-                            <SurveyItem survey={s} />
+                            <SurveyItem survey={s}  numberOfResponders={numberOfResponders}  onDelete={() => onDelete(s)}/>
                             </ListGroup.Item>                    )
                 })
             }
