@@ -52,8 +52,9 @@ function App() {
 
 
   function addSurvey (survey)  {
-    const id = Math.max(...surveyList.map( s => s.id )) + 1;
-    setSurveyList((oldSurveys) => [...oldSurveys, { ...survey, id: id }] );
+    // const id = Math.max(...surveyList.map( s => s.id )) + 1;
+    // setSurveyList((oldSurveys) => [...oldSurveys, { ...survey, id: id }] );
+    API.addSurvey(survey).then((err)=>{setDirty(true)})
   }
 
   function addQuestion (question)  {

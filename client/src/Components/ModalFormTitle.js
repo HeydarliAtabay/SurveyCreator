@@ -5,14 +5,14 @@ import { Form, Modal, Button } from "react-bootstrap";
 function ModalFormTitle(props) {
   const { survey, onClose, onSave } = props;
 
-  const [tittle, setTittle] = useState(survey ? survey.tittle : "");
+  const [title, setTitle] = useState(survey ? survey.title : "");
 
   const handleSubmit = (event) => {
     // stop event default and propagation
     event.preventDefault();
     event.stopPropagation();
 
-    const newSurvey = Object.assign({}, survey, { tittle, published: 0 });
+    const newSurvey = Object.assign({}, survey, { title, published: 0 });
 
     onSave(newSurvey);
   };
@@ -30,8 +30,8 @@ function ModalFormTitle(props) {
                 type="text"
                 name="description"
                 placeholder="Enter the Title of the survey"
-                value={tittle}
-                onChange={(ev) => setTittle(ev.target.value)}
+                value={title}
+                onChange={(ev) => setTitle(ev.target.value)}
                 required
                 autoFocus
               />
