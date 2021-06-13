@@ -52,6 +52,13 @@ app.get('/api/questions', (req,res)=>{
       .catch((error)=>{res.status(500).json(error)} )
 })
 
+app.get('/api/questions/survey/:id', async (req,res)=>{
+    const surveyId = req.params.id
+    questionDao.getQuestionsOfSurvey(surveyId)
+        .then((rentals) => res.json(rentals))
+        .catch((err) => res.status(500).json({errors: [{'msg': err}] }));
+});
+
 app.post('/api/questions', (req,res) => {
     const submission = req.body;
     if(!submission){

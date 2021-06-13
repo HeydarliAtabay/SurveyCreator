@@ -27,6 +27,17 @@ exports.listAllQuestions = () => {
     });
   };
 
+
+  exports.getQuestionsOfSurvey = function (surveyId) {
+    return new Promise((resolve, reject) => {
+        const sql = "SELECT * from questions WHERE survey_id=?";
+        db.all(sql, [surveyId], (err, rows) => {
+            if(err) reject(err);
+            else resolve(rows);
+        });
+    });
+  };
+
 // ADD a question
   exports.createQuestion=(question)=>{
     return new Promise((resolve, reject)=>{

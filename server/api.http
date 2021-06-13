@@ -5,6 +5,8 @@ GET http://localhost:3001/
 GET http://localhost:3001/api/surveys
 
 
+
+
 ### Adding new survey
 
 POST http://localhost:3001/api/surveys
@@ -22,13 +24,17 @@ DELETE http://localhost:3001/api/surveys/delete/5
 ### Getting all questions
 GET http://localhost:3001/api/questions
 
+### Getting all questions of the selected survey
+GET http://localhost:3001/api/questions/survey/2
+
+
 
 ### Adding new questions
 
 POST http://localhost:3001/api/questions
 Content-Type: application/json
 
-{ "question": "How much is your salary", "questiontype":1, "num":3, "min":1, "max":1, "one": "<1000", "two": ">1000 and <2500", "three": ">2500", "four": "", "five":"", "six":"", "seven": "", "eight": "", "nine": "", "ten" :"", "order": 2, "survey_id":1}
+{ "question": "Describe yourself", "questiontype":0, "num":0, "min":1, "max":1, "one": "", "two": "", "three": "", "four": "", "five":"", "six":"", "seven": "", "eight": "", "nine": "", "ten" :"", "order": 1, "survey_id":2}
 
 
 ### Delete existing question with a given id
@@ -51,8 +57,8 @@ Content-Type: application/json
 { "responder": "Yuri Caridi", "survey_id":1 }
 
 
-### Getting all submissions
+### Getting number of submissions from selected survey
 GET http://localhost:3001/api/submissions/number/1
 
-### Getting all submissions
+### Getting list of submissions of selected survey
 GET http://localhost:3001/api/submissions/survey/1
