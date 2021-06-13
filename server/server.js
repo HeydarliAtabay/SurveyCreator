@@ -134,6 +134,18 @@ app.get('/api/answers', (req,res)=>{
         .catch((err) => res.status(500).json({errors: [{'msg': err}] }));
 });
 
+app.post('/api/answers', (req,res) => {
+    const answer = req.body;
+    if(!answer){
+        res.status(400).end();
+    } else {
+        questionDao.createAnswer(answer)
+            .then((id) => res.status(201).json({"id" : id}))
+            .catch((err) => res.status(500).json(error),
+        );
+    }
+  });
+
 // activate the server
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);

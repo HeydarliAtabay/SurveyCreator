@@ -168,3 +168,19 @@ exports.getAnswersOfSurvey = function (surveyId) {
       });
   });
 };
+
+exports.createAnswer=(question)=>{
+  return new Promise((resolve, reject)=>{
+    const sql = 'INSERT INTO answers(submission_id, survey_id, question_id, questiontype, answer, one, two, three, four, five, six, seven, eight, nine, ten) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+    //const sql= 'INSERT INTO tasks(description,user) VALUES(?,?))';
+
+    db.run(sql, [question.submission_id, question.survey_id,question.question_id, question.questiontype, question.answer, question.one, question.two, question.three, question.four, question.five, question.six, question.seven, question.eight, question.nine, question.ten],  function(err){
+      if(err){
+        reject(err);
+        return;
+      }
+      console.log(this.lastID);
+      resolve(this.lastID)
+    });
+  });
+};

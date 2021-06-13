@@ -52,6 +52,8 @@ function QuestionItem(props) {
                   type="text"
                   placeholder="Write your answer here"
                   maxLength={200}
+                  as="textarea" 
+                  rows={3}
                 />
                 {question.min === 1 && (
                   <Form.Control.Feedback type="invalid">
