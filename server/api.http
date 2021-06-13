@@ -65,5 +65,8 @@ GET http://localhost:3001/api/submissions/survey/1
 
 
 
-### Getting all submissions
+### Getting all answers
 GET http://localhost:3001/api/answers
+
+### Getting answers of given survey
+GET http://localhost:3001/api/answers/survey/4

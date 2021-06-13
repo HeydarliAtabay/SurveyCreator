@@ -127,6 +127,13 @@ app.get('/api/answers', (req,res)=>{
         .catch((error)=>{res.status(500).json(error)} )
   })
 
+  app.get('/api/answers/survey/:id', async (req,res)=>{
+    const surveyId = req.params.id
+    questionDao.getAnswersOfSurvey(surveyId)
+        .then((rentals) => res.json(rentals))
+        .catch((err) => res.status(500).json({errors: [{'msg': err}] }));
+});
+
 // activate the server
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);

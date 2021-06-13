@@ -157,3 +157,14 @@ exports.listAllAnswers = () => {
     });
   });
 };
+
+
+exports.getAnswersOfSurvey = function (surveyId) {
+  return new Promise((resolve, reject) => {
+      const sql = "SELECT * from answers WHERE survey_id=?";
+      db.all(sql, [surveyId], (err, rows) => {
+          if(err) reject(err);
+          else resolve(rows);
+      });
+  });
+};
