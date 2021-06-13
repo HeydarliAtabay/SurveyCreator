@@ -55,6 +55,15 @@ app.post('/api/questions', (req,res) => {
         );
     }
   });
+
+
+  app.delete('/api/questions/delete/:questionId', (req,res) => {
+      const id= req.params.questionId
+    questionDao.deleteQuestion(id)
+        .then((id) => res.status(204).json(`Selected task with id:${id} was deleted`))
+        .catch((err) => res.status(500).json(`Error while deleting the task with id:${req.params.questionId}  `+err),
+        );
+});
   
   
 

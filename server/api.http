@@ -25,8 +25,11 @@ GET http://localhost:3001/api/questions
 POST http://localhost:3001/api/questions
 Content-Type: application/json
 
-{ "question": "Haji", "questiontype":1, "num":1, "min":0, "max":1, "one": "ahaha", "two": "ahdsadas", "three": "aadada", "four": "ahdada", "five":"asasd", "six":"aa", "seven": "bb", "eight": "", "nine": "", "ten" :"", "order": 5, "survey_id":1}
+{ "question": "How much is your salary", "questiontype":1, "num":3, "min":1, "max":1, "one": "<1000", "two": ">1000 and <2500", "three": ">2500", "four": "", "five":"", "six":"", "seven": "", "eight": "", "nine": "", "ten" :"", "order": 2, "survey_id":1}
 
+
+### Delete existing task with a given id
+DELETE http://localhost:3001/api/questions/delete/2
 
 ### Getting all submissions
 GET http://localhost:3001/api/submissions

@@ -6,7 +6,7 @@ const db = require('./db');
 
 
 
-//get all tasks
+//GET all question
 exports.listAllQuestions = () => {
     return new Promise((resolve, reject) => {
       const sql = 'SELECT * FROM questions';
@@ -27,7 +27,7 @@ exports.listAllQuestions = () => {
     });
   };
 
-
+// ADD a question
   exports.createQuestion=(question)=>{
     return new Promise((resolve, reject)=>{
       const sql = 'INSERT INTO questions(question, questiontype, num, min, max, one, two, three, four, five, six, seven, eight, nine, ten, [order], [survey_id]) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
@@ -43,6 +43,20 @@ exports.listAllQuestions = () => {
       });
     });
   };
+
+
+  // DELETE existing question with a given id
+exports.deleteQuestion = function(id) {
+  return new Promise((resolve, reject) => {
+      const sql = 'DELETE FROM questions WHERE id = ?';
+      db.run(sql, [id], (err) => {
+          if(err)
+              reject(err);
+          else 
+              resolve(null);
+      })
+  });
+}
 
 
   // for answers
