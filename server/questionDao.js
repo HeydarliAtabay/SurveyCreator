@@ -85,18 +85,6 @@ exports.listAllAnswers = () => {
     });
   });
 };
-
-
-
-
-
-
-
-
-
-
-
-
   // for submissions
 
 
@@ -152,5 +140,20 @@ exports.getSubmissionOfSurvey = function (surveyId) {
           if(err) reject(err);
           else resolve(rows);
       });
+  });
+};
+
+// for answers
+
+exports.listAllAnswers = () => {
+  return new Promise((resolve, reject) => {
+    const sql = 'SELECT * FROM answers';
+    db.all(sql, [], (err, rows) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      else resolve(rows);
+    });
   });
 };

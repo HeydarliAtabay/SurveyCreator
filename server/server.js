@@ -120,6 +120,13 @@ app.get('/api/submissions/survey/:id', async (req,res)=>{
 });
 
 
+// for ANswers
+app.get('/api/answers', (req,res)=>{
+    questionDao.listAllAnswers()
+        .then((answers)=>{res.json(answers)})
+        .catch((error)=>{res.status(500).json(error)} )
+  })
+
 // activate the server
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);
