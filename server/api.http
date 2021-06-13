@@ -13,6 +13,9 @@ Content-Type: application/json
 { "title": "Atabays Survey", "numRespond": 4,"published": 1, "user":1 }
 
 
+### Delete existing survey with a given id
+DELETE http://localhost:3001/api/surveys/delete/5
+
 
 
 
@@ -28,8 +31,14 @@ Content-Type: application/json
 { "question": "How much is your salary", "questiontype":1, "num":3, "min":1, "max":1, "one": "<1000", "two": ">1000 and <2500", "three": ">2500", "four": "", "five":"", "six":"", "seven": "", "eight": "", "nine": "", "ten" :"", "order": 2, "survey_id":1}
 
 
-### Delete existing task with a given id
+### Delete existing question with a given id
 DELETE http://localhost:3001/api/questions/delete/2
+
+
+
+
+
+
 
 ### Getting all submissions
 GET http://localhost:3001/api/submissions

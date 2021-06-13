@@ -37,3 +37,16 @@ exports.listAllSurveys = () => {
       });
     });
   };
+
+// DELETE existing question with a given id
+exports.deleteSurvey = function(id) {
+  return new Promise((resolve, reject) => {
+      const sql = 'DELETE FROM surveys WHERE id = ?';
+      db.run(sql, [id], (err) => {
+          if(err)
+              reject(err);
+          else 
+              resolve(null);
+      })
+  });
+}

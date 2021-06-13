@@ -36,6 +36,14 @@ app.post('/api/surveys', (req,res) => {
   }
 });
 
+app.delete('/api/surveys/delete/:surveyId', (req,res) => {
+    const id= req.params.surveyId
+  surveyDao.deleteSurvey(id)
+      .then((id) => res.status(204).json(`Selected task with id:${id} was deleted`))
+      .catch((err) => res.status(500).json(`Error while deleting the task with id:${req.params.id}  `+err),
+      );
+});
+
 // for Questions
 
 app.get('/api/questions', (req,res)=>{
