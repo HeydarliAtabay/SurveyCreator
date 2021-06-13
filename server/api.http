@@ -48,4 +48,8 @@ GET http://localhost:3001/api/submissions
 POST http://localhost:3001/api/submissions
 Content-Type: application/json
 
-{ "responder": "Haji", "survey_id":1 }
+{ "responder": "Yuri Caridi", "survey_id":1 }
+
+
+### Getting all submissions
+GET http://localhost:3001/api/submissions/number/1

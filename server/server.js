@@ -75,7 +75,7 @@ app.post('/api/questions', (req,res) => {
   
   
 
-//for Answers
+//for Submissions
 app.get('/api/submissions', (req,res)=>{
   questionDao.listAllSubmissions()
       .then((surveys)=>{res.json(surveys)})
@@ -93,6 +93,17 @@ app.post('/api/submissions', (req,res) => {
       );
   }
 });
+
+app.get('/api/submissions/number/:id', async (req,res)=>{
+    const id= req.params.id;
+    try{
+        let task=await questionDao.getSubmissionCount(id)
+        res.json(task)
+    }
+    catch(error){
+        res.status(500).json(`Cannot get a task with selected id:${id}   `+ error)
+    }
+})
 
 
 // activate the server

@@ -58,14 +58,56 @@ exports.deleteQuestion = function(id) {
   });
 }
 
+// For answers
 
-  // for answers
+exports.listAllAnswers = () => {
+  return new Promise((resolve, reject) => {
+    const sql = 'SELECT * FROM submissions';
+    db.all(sql, [], (err, rows) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      const answers = rows.map((answer) => ({ id: answer.id, responder: answer.responder, survey_id: answer.survey_id
+  }));
+      resolve(answers);
+    });
+  });
+};
 
 
+
+
+
+
+
+
+
+
+
+
+  // for submissions
+
+
+  
+  exports.listAllSubmissions = () => {
+    return new Promise((resolve, reject) => {
+      const sql = 'SELECT * FROM submissions';
+      db.all(sql, [], (err, rows) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        const answers = rows.map((answer) => ({ id: answer.id, responder: answer.responder, survey_id: answer.survey_id
+    }));
+        resolve(answers);
+      });
+    });
+  };
 
   exports.createSubmissions=(submission)=>{
     return new Promise((resolve, reject)=>{
-      const sql = 'INSERT INTO answers(responder, survey_id) VALUES(?,?)'
+      const sql = 'INSERT INTO submissions(responder, survey_id) VALUES(?,?)'
       //const sql= 'INSERT INTO tasks(description,user) VALUES(?,?))';
   
       db.run(sql, [submission.responder, submission.survey_id], function(err){
@@ -79,17 +121,14 @@ exports.deleteQuestion = function(id) {
     });
   };
 
-  exports.listAllSubmissions = () => {
+
+  exports.getSubmissionCount = function (survey) {
     return new Promise((resolve, reject) => {
-      const sql = 'SELECT * FROM answers';
-      db.all(sql, [], (err, rows) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        const answers = rows.map((answer) => ({ id: answer.id, responder: answer.responder, survey_id: answer.survey_id
-    }));
-        resolve(answers);
-      });
+        const sql = "SELECT COUNT(*) AS c FROM submissions WHERE survey_id = ?";
+        db.get(sql, [survey], (err, row) => {
+            const value = row.c;
+            if(err) reject(err);
+            else resolve(value);
+        });
     });
-  };
+}
