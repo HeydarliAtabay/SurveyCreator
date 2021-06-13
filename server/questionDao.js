@@ -9,7 +9,7 @@ const db = require('./db');
 //GET all question
 exports.listAllQuestions = () => {
     return new Promise((resolve, reject) => {
-      const sql = 'SELECT * FROM questions';
+      const sql = 'SELECT * FROM questions ORDER by [order] ';
       db.all(sql, [], (err, rows) => {
         if (err) {
           reject(err);
