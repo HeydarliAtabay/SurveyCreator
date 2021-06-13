@@ -53,3 +53,6 @@ Content-Type: application/json
 
 ### Getting all submissions
 GET http://localhost:3001/api/submissions/number/1
+
+### Getting all submissions
+GET http://localhost:3001/api/submissions/survey/1

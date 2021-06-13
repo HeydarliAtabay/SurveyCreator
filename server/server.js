@@ -105,6 +105,13 @@ app.get('/api/submissions/number/:id', async (req,res)=>{
     }
 })
 
+app.get('/api/submissions/survey/:id', async (req,res)=>{
+    const surveyId = req.params.id
+    questionDao.getSubmissionOfSurvey(surveyId)
+        .then((rentals) => res.json(rentals))
+        .catch((err) => res.status(500).json({errors: [{'msg': err}] }));
+});
+
 
 // activate the server
 app.listen(PORT, () => {

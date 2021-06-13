@@ -132,3 +132,14 @@ exports.listAllAnswers = () => {
         });
     });
 }
+
+
+exports.getSubmissionOfSurvey = function (surveyId) {
+  return new Promise((resolve, reject) => {
+      const sql = "SELECT * from submissions WHERE survey_id=?";
+      db.all(sql, [surveyId], (err, rows) => {
+          if(err) reject(err);
+          else resolve(rows);
+      });
+  });
+};
