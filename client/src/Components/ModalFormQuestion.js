@@ -25,26 +25,40 @@ function ModalFormQuestion(props) {
     // stop event default and propagation
     event.preventDefault();
     event.stopPropagation();
-
+    const emptyString=""
     if (type === true) {
       const newQuestion = Object.assign({}, question, {
-        description: text,
+        question: text,
+        questiontype: 0,
         num: 0,
+        one: emptyString,
+        two: emptyString,
+        three:emptyString,
+        four: emptyString,
+        five: emptyString,
+        six: emptyString,
+        seven: emptyString,
+        eight: emptyString,
+        nine: emptyString,
+        ten: emptyString, 
+        min: optional,
+        max: 1,
       });
       onSave(newQuestion);
     } else {
       const newQuestion = Object.assign({}, question, {
-        description: text,
-        answ1: answer1,
-        answ2: answer2,
-        answ3: answer3,
-        answ4: answer4,
-        answ5: answer5,
-        answ6: answer6,
-        answ7: answer7,
-        answ8: answer8,
-        answ9: answer9,
-        answ10: answer10,
+        question: text,
+        questiontype: 1,
+        one: answer1,
+        two: answer2,
+        three: answer3,
+        four: answer4,
+        five: answer5,
+        six: answer6,
+        seven: answer7,
+        eight: answer8,
+        nine: answer9,
+        ten: answer10,
         min: optional ? 0 : 1,
         max: single ? 1 : 2,
         num: number,
@@ -164,7 +178,7 @@ function ModalFormQuestion(props) {
                 })}
               </Form.Group>
             )}
-            {number && !type && (
+            
               <>
                 <Form.Group controlId="form-optional">
                   <Form.Label>
@@ -190,7 +204,10 @@ function ModalFormQuestion(props) {
                     />
                   </Col>
                 </Form.Group>
-
+                </>
+               
+                {number && !type &&(
+                <>
                 <Form.Group controlId="form-single">
                   <Col>
                     <Form.Check
@@ -211,9 +228,10 @@ function ModalFormQuestion(props) {
                     />
                   </Col>
                 </Form.Group>
+                
               </>
-            )}
-          </Modal.Body>
+                )} 
+  </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={onClose}>
               Cancel

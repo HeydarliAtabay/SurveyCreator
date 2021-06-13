@@ -21,6 +21,7 @@ function App() {
   const [questionList, setQuestionList]=useState([])
   const [loading, setLoading]=useState(true)//this for checking the loading at mount
   const [dirty, setDirty] =useState(true)
+  const [dirtyQuestions, setDirtyQuestions] =useState(true)
 
   const MODAL = { CLOSED: -2, ADD: -1 };
   const [selectedTask, setSelectedTask] = useState(MODAL.CLOSED);
@@ -49,16 +50,16 @@ function App() {
   // }
 
   useEffect(() => {
-    if(dirty){
+    if(dirtyQuestions){
       API.loadAllQuestions().then(newQuestion=>{
         setQuestionList(newQuestion)
         setLoading(false)
-        setDirty(false)
+        setDirtyQuestions(false)
        })
 
 
       }
-    }, [dirty])
+    }, [dirtyQuestions])
 
   function addSurvey (survey)  {
     // const id = Math.max(...surveyList.map( s => s.id )) + 1;
@@ -69,6 +70,7 @@ function App() {
   function addQuestion (question)  {
     const id = Math.max(...questionList.map( q => q.id )) + 1;
     setQuestionList((oldQuestions) => [...oldQuestions, { ...question, id: id }] );
+    API.addQuestion(question).then((err)=>{setDirtyQuestions(true)})
   }
 
   function deleteQuestion (question) {
