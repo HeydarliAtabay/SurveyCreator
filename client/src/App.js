@@ -75,6 +75,10 @@ function App() {
 
   function deleteQuestion (question) {
     setQuestionList((oldQuestions) => oldQuestions.filter( q => q.id !== question.id ));
+    API.deleteQuestion(question)
+    .then(() => {
+      setDirtyQuestions(true);
+    }).catch(err => (err) );
   }
 
   function deleteSurvey (survey) {

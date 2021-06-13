@@ -92,7 +92,27 @@ function addQuestion(question) {
     });
   }
 
+
+  // api/questions/delete
    
+  function deleteQuestion(question) {
+    // call: DELETE /api/exams/:coursecode
+    return new Promise((resolve, reject) => {
+      fetch(url + '/api/questions/delete/' + question.id, {
+        method: 'DELETE',
+      }).then((response) => {
+        if (response.ok) {
+          resolve(null);
+        } else {
+          // analyze the cause of error
+          response.json()
+            .then((message) => { reject(message); }) // error message in the response body
+            .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+          }
+      }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+    });
+  }
+
     //Error handling is missing
-const API={loadAllSurveys, deleteSurvey, addSurvey, addQuestion, loadAllQuestions}
+const API={loadAllSurveys, deleteSurvey, addSurvey, addQuestion, loadAllQuestions, deleteQuestion}
 export default API
