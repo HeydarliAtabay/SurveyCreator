@@ -3,7 +3,7 @@ import {ListGroup,Card,Button} from 'react-bootstrap'
 
 
 function SurveyItem(props){
-    const {survey} = props
+    const {survey,numberOfResponders} = props
 
     return(
         <>
@@ -11,7 +11,7 @@ function SurveyItem(props){
         <Card bg="dark" text="light"> 
             <Card.Header>Survey</Card.Header>
             <Card.Body>
-            <Card.Title>{survey.tittle}</Card.Title>
+            <Card.Title>{survey.title}</Card.Title>
             
             <Button variant="primary" onClick={(event) =>  window.location.href='/questions'}>Start the Survey</Button>
             {survey.published===0 && <Button variant="warning" onClick={(event) =>  window.location.href='/questions'}>Modify the Survey</Button>}
@@ -23,7 +23,7 @@ function SurveyItem(props){
 }
 
 function SurveyList(props){
-    const {surveys} =props
+    const {surveys, numberOfResponders} =props
     return(
         <>
         {/* <div className="addbtn"><Button variant="success" size="lg">Add a Survey</Button></div> */}

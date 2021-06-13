@@ -1,7 +1,7 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import {React, useState} from 'react'
+import {React, useState, useEffect} from 'react'
 import{Button,Container} from 'react-bootstrap'
 import Header from './Components/Header'
 import SurveyList from './Components/SurveyList'
@@ -11,14 +11,18 @@ import ModalFormQuestion from './Components/ModalFormQuestion'
 import LoginComponet from './Components/LoginComponent'
 import SURVEYS from './surveys'
 import QUESTIONS from './questions'
+import API from './API'
 
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 
 //import ModalForm from './Components/ModalForm'
 
 function App() {
-  const [surveyList, setSurveyList]=useState(SURVEYS)
+  const [surveyList, setSurveyList]=useState([])
+  const [numberResponders, setNumberOfResponders]=useState(0)
   const [questionList, setQuestionList]=useState(QUESTIONS? QUESTIONS: [])
+  const [loading, setLoading]=useState(true)//this for checking the loading at mount
+  const [dirty, setDirty] =useState(true)
 
   const MODAL = { CLOSED: -2, ADD: -1 };
   const [selectedTask, setSelectedTask] = useState(MODAL.CLOSED);
@@ -26,6 +30,26 @@ function App() {
   const handleClose = () => {
     setSelectedTask(MODAL.CLOSED);
   }
+
+  // for getting all tasks
+  useEffect(() => {
+    if(dirty){
+      API.loadAllSurveys().then(newTask=>{
+        setSurveyList(newTask)
+        setLoading(false)
+        setDirty(false)
+       })
+
+
+      }
+    }, [dirty])
+    
+  // function handleSelection() {
+  //     API.getSurveys()
+  //       .then((tasks) => setSurveyList(tasks))
+  //       .catch(err => (err) );
+  // }
+
 
   function addSurvey (survey)  {
     const id = Math.max(...surveyList.map( s => s.id )) + 1;
