@@ -25,10 +25,7 @@ GET http://localhost:3001/api/questions
 POST http://localhost:3001/api/questions
 Content-Type: application/json
 
-{ "text": "Hello", "type": 0,"num": 0, "min":1, "max":1, "answ1":" a", "answ2":"c ", "answ3":"b ", "answ4":"a ", "answ5":"s ", "answ6":" d", "answ7":"f ", "answ8":" a", "answ9":"f ","answ10":" a","survey_id": 1, "order": 3 }
-
-
-
+{ "question": "Haji", "questiontype":1, "num":1, "min":0, "max":1, "one": "ahaha", "two": "ahdsadas", "three": "aadada", "four": "ahdada", "five":"asasd", "six":"aa", "seven": "bb", "eight": "", "nine": "", "ten" :"", "order": 5, "survey_id":1}
 
 
 ### Getting all submissions
@@ -39,4 +36,4 @@ GET http://localhost:3001/api/submissions
 POST http://localhost:3001/api/submissions
 Content-Type: application/json
 
-{ "responder": "Vladimir", "survey_id":4 }
+{ "responder": "Haji", "survey_id":1 }

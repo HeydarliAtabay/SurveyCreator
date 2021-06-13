@@ -45,16 +45,18 @@ app.get('/api/questions', (req,res)=>{
 })
 
 app.post('/api/questions', (req,res) => {
-  const question = req.body;
-  if(!question){
-      res.status(400).end();
-  } else {
-      questionDao.createQuestion(question)
-          .then((id) => res.status(201).json({"id" : id}))
-          .catch((err) => res.status(500).json(error),
-      );
-  }
-});
+    const submission = req.body;
+    if(!submission){
+        res.status(400).end();
+    } else {
+        questionDao.createQuestion(submission)
+            .then((id) => res.status(201).json({"id" : id}))
+            .catch((err) => res.status(500).json(err),
+        );
+    }
+  });
+  
+  
 
 //for Answers
 app.get('/api/submissions', (req,res)=>{
