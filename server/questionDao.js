@@ -16,10 +16,10 @@ exports.listAllQuestions = () => {
           return;
         }
         const questions = rows.map((question) => ({ id: question.id, question: question.question, questiontype: question.questiontype,
-      num: question.num, min: question.min, max: question.max, answ1:question.answ1,
-      answ2:question.answ2,answ3:question.answ3,answ4:question.answ4,answ5:question.answ5,
-      answ6:question.answ6,answ7:question.answ7,answ8:question.answ8,answ9:question.answ9,
-      answ10:question.answ10, survey_id: question.survey_id, order: question.order
+      num: question.num, min: question.min, max: question.max, one:question.one,
+      two:question.two,three:question.three,four:question.four,five:question.five,
+      six:question.six,seven:question.seven,eight:question.eight,nine:question.nine,
+      ten:question.ten, survey_id: question.survey_id, order: question.order
 
     }));
         resolve(questions);

@@ -24,13 +24,14 @@ function QuestionItem(props) {
         )}
         <h1>{question.num}</h1>
         {/* {mandatory ? <h1>This is mandatory</h1>: <h1>this is optional</h1>} */}
-        <h4>{question.description}</h4>
+        <h4>{question.question}</h4>
         <Row>
           <Col sm={10}>
             {question.num !== 0 && (
               <Form.Group>
                 {[...Array(question.num)].map((q, index) => {
-                  let string = `answ${index + 1}`;
+                 // let string = `answ${index + 1}`;
+                 let string=["one","two","three","four","five","six","seven","eight","nine","ten"]
 
                   return (
                     <>
@@ -38,7 +39,7 @@ function QuestionItem(props) {
                         id={index + 1}
                         key={index}
                         type="checkbox"
-                        label={question[string]}
+                        label={question[string[index]]}
                       ></Form.Check>
                     </>
                   );

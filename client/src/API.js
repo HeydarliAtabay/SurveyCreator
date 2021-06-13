@@ -1,7 +1,7 @@
 const url='http://localhost:3000'
 
 
-// API for loading all tasks
+// APIs for surveys
 async function  loadAllSurveys(){
  const response= await fetch(url+'/api/surveys')
  const surveys= await response.json()
@@ -53,5 +53,19 @@ function addSurvey(survey) {
     });
   }
 
-const API={loadAllSurveys, deleteSurvey, addSurvey}
+
+
+
+// APIs for questions
+
+async function  loadAllQuestions(){
+    const response= await fetch(url+'/api/questions')
+    const questions= await response.json()
+    console.log(questions)
+    return questions
+   
+   
+    //Error handling is missing
+   }
+const API={loadAllSurveys, deleteSurvey, addSurvey, loadAllQuestions}
 export default API

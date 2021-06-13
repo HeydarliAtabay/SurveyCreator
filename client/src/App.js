@@ -9,8 +9,6 @@ import QuestionList from './Components/QuestionList'
 import ModalFormTitle from './Components/ModalFormTitle'
 import ModalFormQuestion from './Components/ModalFormQuestion'
 import LoginComponet from './Components/LoginComponent'
-import SURVEYS from './surveys'
-import QUESTIONS from './questions'
 import API from './API'
 
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
@@ -20,7 +18,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 function App() {
   const [surveyList, setSurveyList]=useState([])
   const [numberResponders, setNumberOfResponders]=useState(0)
-  const [questionList, setQuestionList]=useState(QUESTIONS? QUESTIONS: [])
+  const [questionList, setQuestionList]=useState([])
   const [loading, setLoading]=useState(true)//this for checking the loading at mount
   const [dirty, setDirty] =useState(true)
 
@@ -50,6 +48,17 @@ function App() {
   //       .catch(err => (err) );
   // }
 
+  useEffect(() => {
+    if(dirty){
+      API.loadAllQuestions().then(newQuestion=>{
+        setQuestionList(newQuestion)
+        setLoading(false)
+        setDirty(false)
+       })
+
+
+      }
+    }, [dirty])
 
   function addSurvey (survey)  {
     // const id = Math.max(...surveyList.map( s => s.id )) + 1;

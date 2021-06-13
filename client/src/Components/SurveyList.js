@@ -13,7 +13,7 @@ function SurveyItem(props){
             <Card.Body>
             <Card.Title>{survey.title}</Card.Title>
             
-            <Button variant="primary" onClick={(event) =>  window.location.href='/questions'}>Start the Survey</Button>
+            <Button variant="primary" onClick={(event) =>  window.location.href='/questions'}>Start the Survey </Button>
             {survey.published===0 && <Button variant="warning" onClick={(event) =>  window.location.href='/questions'}>Modify the Survey</Button>}
             <Button variant="danger" onClick={onDelete}>Delete the Survey</Button>
             
