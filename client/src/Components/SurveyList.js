@@ -11,15 +11,6 @@ function SurveyItem(props){
             <Card.Header>Survey</Card.Header>
             <Card.Body>
             <Card.Title>{survey.title}</Card.Title>
-            
-            <Button variant="primary" onClick={(event) => { 
-                console.log(survey.id)
-                window.location.href='/questions'
-                 onSelect(survey.id);
-                
-            }
-
-            } >Start the Survey </Button>
             <Link
             onClick={(event) => onSelect(survey.id)}
           className="btn btn-primary"
@@ -27,7 +18,7 @@ function SurveyItem(props){
             pathname: "/questions"
           }}
         >
-          Register
+          Start the Survey
         </Link>
             {survey.published===0 && <Button variant="warning" onClick={(event) =>  window.location.href='/questions'}>Modify the Survey</Button>}
             <Button variant="danger" onClick={onDelete}>Delete the Survey</Button>

@@ -67,9 +67,12 @@ function App(props) {
   }
 
   function addQuestion (question)  {
-    const id = Math.max(...questionList.map( q => q.id )) + 1;
-    setQuestionList((oldQuestions) => [...oldQuestions, { ...question, id: id }] );
-    API.addQuestion(question).then((err)=>{setDirtyQuestions(true)})
+    
+    let orders=[...questionList.filter(q => q.survey_id===surveyId)].map(q =>  q.order)
+
+    let id = Math.max.apply(null,orders)+1 ;
+   // setQuestionList((oldQuestions) => [...oldQuestions, { ...question, id: id }] );
+   API.addQuestion(question,id, surveyId).then((err)=>{setDirtyQuestions(true)})
   }
 
 
@@ -79,13 +82,13 @@ function App(props) {
   {
 
     setSurveyId(id)
-    // try {
-    //   const questions = await API.getQuestions(id);
-    //   setQuestionList(questions);
-    //   setDirtyQuestions(false)
-    // } catch(err) {
-    //   console.log(err);
-    // }
+    try {
+      const questions = await API.getQuestions(id);
+      setQuestionList(questions);
+      setDirtyQuestions(false)
+    } catch(err) {
+      console.log(err);
+    }
   }
 
   function deleteQuestion (question) {

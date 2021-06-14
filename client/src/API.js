@@ -85,7 +85,7 @@ async function getQuestions(id) {
 }
 
 // api for adding the questions 
-function addQuestion(question) {
+function addQuestion(question,orderId, surveyId) {
     return new Promise((resolve, reject) => {
       fetch(url + '/api/questions', {
         method: 'POST',
@@ -95,7 +95,7 @@ function addQuestion(question) {
         //body: JSON.stringify({code: exam.coursecode, score: exam.score, date: exam.date}),
         body : JSON.stringify({question: question.question, questiontype: question.questiontype, num: question.num, min: question.min, max: question.max,
         one: question.one, two: question.two, three: question.three, four: question.four, five: question.five, six: question.six, seven: question.seven,
-        eight: question.eight, nine: question.nine, ten: question.ten, order: 3, survey_id:1
+        eight: question.eight, nine: question.nine, ten: question.ten, order: orderId, survey_id:surveyId
 
         })
         }).then((response) => {
