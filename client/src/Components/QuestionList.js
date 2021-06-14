@@ -1,14 +1,20 @@
-import { React } from "react";
+import { React,} from "react";
 import { ListGroup, Button, Form, Row, Col } from "react-bootstrap";
-import { BookmarkStar, Check2All, Trash, ArrowUpSquare, ArrowDownSquare} from "react-bootstrap-icons";
+import {
+  BookmarkStar,
+  Check2All,
+  Trash,
+  ArrowUpSquare,
+  ArrowDownSquare,
+} from "react-bootstrap-icons";
 
 function QuestionItem(props) {
   const { question, onDelete, onUp, onDown } = props;
-
   return (
     <>
       <div className="questionCards">
         {question.min === 1 && (
+          
           <>
             <div className="mandatory">
               <BookmarkStar size={36} />
@@ -22,7 +28,6 @@ function QuestionItem(props) {
             </div>
           </>
         )}
-        <h1>{question.num}</h1>
         {/* {mandatory ? <h1>This is mandatory</h1>: <h1>this is optional</h1>} */}
         <h4>{question.question}</h4>
         <Row>
@@ -30,17 +35,38 @@ function QuestionItem(props) {
             {question.num !== 0 && (
               <Form.Group>
                 {[...Array(question.num)].map((q, index) => {
-                 // let string = `answ${index + 1}`;
-                 let string=["one","two","three","four","five","six","seven","eight","nine","ten"]
+                  // let string = `answ${index + 1}`;
+                  let string = [
+                    "one",
+                    "two",
+                    "three",
+                    "four",
+                    "five",
+                    "six",
+                    "seven",
+                    "eight",
+                    "nine",
+                    "ten",
+                  ];
 
                   return (
                     <>
-                      <Form.Check
+                      <Form.Check className="questionText"
                         id={index + 1}
                         key={index}
                         type="checkbox"
-                        label={question[string[index]]}
+                        size="lg"
+                        label ={question[string[index]]}
                       ></Form.Check>
+                      {/* {  this part will be added after authentication part
+                        <Form.Check
+                        disabled
+                          id={index + 1}
+                          key={index}
+                          type="checkbox"
+                          label={question[string[index]]}
+                        ></Form.Check>
+                      } */}
                     </>
                   );
                 })}
@@ -53,7 +79,7 @@ function QuestionItem(props) {
                   type="text"
                   placeholder="Write your answer here"
                   maxLength={200}
-                  as="textarea" 
+                  as="textarea"
                   rows={3}
                 />
                 {question.min === 1 && (
@@ -66,9 +92,14 @@ function QuestionItem(props) {
             )}
           </Col>
           <Col>
-            <QuestionRowControl onDelete={onDelete} onUp={onUp} onDown={onDown} />
+            <QuestionRowControl
+              onDelete={onDelete}
+              onUp={onUp}
+              onDown={onDown}
+            />
           </Col>
         </Row>
+        
       </div>
     </>
   );
@@ -80,20 +111,19 @@ function QuestionRowControl(props) {
     <>
       <div className="flex-fill m-auto">
         <Row>
-         <Col>
-        <Button variant="link" className="shadow-none" onClick={onDelete}>
-          <Trash size={24} />
-        </Button>
-        </Col>
-         <Col>
-        <Button variant="link" className="shadow-none" onClick={onUp}>
-          <ArrowUpSquare size={32} />
-        </Button>
-        <Button variant="link" className="shadow-none" onClick={onDown}>
-          <ArrowDownSquare size={32} />
-        </Button>
-        </Col> 
-       
+          <Col>
+            <Button variant="link" className="shadow-none" onClick={onDelete}>
+              <Trash size={24} />
+            </Button>
+          </Col>
+          <Col>
+            <Button variant="link" className="shadow-none" onClick={onUp}>
+              <ArrowUpSquare size={32} />
+            </Button>
+            <Button variant="link" className="shadow-none" onClick={onDown}>
+              <ArrowDownSquare size={32} />
+            </Button>
+          </Col>
         </Row>
       </div>
     </>
@@ -101,6 +131,7 @@ function QuestionRowControl(props) {
 }
 
 function QuestionList(props) {
+  let number=0
   const { questions, onDelete, onUp, onDown } = props;
   return (
     <>
@@ -118,19 +149,36 @@ function QuestionList(props) {
         </Row>
         <ListGroup as="ul" variant="flush">
           {questions.map((q) => {
+            number++
             return (
               <>
+              
                 <ListGroup.Item as="li" key={questions.id}>
-                  <QuestionItem question={q} onDelete={() => onDelete(q)} onUp={() => onUp(q)} onDown={() => onDown(q)}  />
+                  <QuestionItem
+                   
+                    question={q}
+                    onDelete={() => onDelete(q)}
+                    onUp={() => onUp(q)}
+                    onDown={() => onDown(q)}
+                  />
                 </ListGroup.Item>
               </>
             );
           })}
         </ListGroup>
-
+{number===0? <h4>Number of questions is {number}. You should have at least one question for publishing the survey</h4>
+: <h6>The number of questions is {number}. It is enough for publishing. Good Luck</h6>
+}
+     
         <Button size="lg" variant="primary">
           Submit the answers
         </Button>
+        { number!==0 &&
+          <Button size="lg" variant="success">
+          Publish the survey
+          </Button>
+        }
+        
       </div>
     </>
   );

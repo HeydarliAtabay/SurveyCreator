@@ -132,6 +132,21 @@ exports.listAllAnswers = () => {
     });
 }
 
+exports.getCountOfResponders = () => {
+  return new Promise((resolve, reject) => {
+    const sql = 'SELECT COUNT(*)AS c FROM submissions GROUP BY [survey_id]';
+    db.all(sql, [], (err, rows) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      const answers = rows.map((answer) => ({ count: answer.c}));
+     
+      resolve(answers);
+    });
+  });
+};
+
 
 exports.getSubmissionOfSurvey = function (surveyId) {
   return new Promise((resolve, reject) => {

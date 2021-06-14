@@ -25,7 +25,7 @@ DELETE http://localhost:3001/api/surveys/delete/5
 GET http://localhost:3001/api/questions
 
 ### Getting all questions of the selected survey
-GET http://localhost:3001/api/questions/survey/2
+GET http://localhost:3001/api/questions/survey/1
 
 
 
@@ -59,6 +59,9 @@ Content-Type: application/json
 
 ### Getting number of submissions from selected survey
 GET http://localhost:3001/api/submissions/number/1
+
+### Getting number of submissions from selected survey
+GET http://localhost:3001/api/submissions/number
 
 ### Getting list of submissions of selected survey
 GET http://localhost:3001/api/submissions/survey/1

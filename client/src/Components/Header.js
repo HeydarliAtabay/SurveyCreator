@@ -1,5 +1,5 @@
 import { Navbar, Nav, Form } from "react-bootstrap/";
-import { PersonCircle, CheckAll } from "react-bootstrap-icons";
+import { PersonCircle, ClipboardData } from "react-bootstrap-icons";
 
 function Header(props) {
   return (
@@ -7,7 +7,7 @@ function Header(props) {
       {/* <Navbar.Toggle aria-controls="left-sidebar" onClick={this.showSidebar}/> */}
       <Navbar.Toggle aria-controls="left-sidebar" />
       <Navbar.Brand href="/">
-        <CheckAll className="mr-1" size="30" /> Survey manager
+        <ClipboardData className="mr-1" size="30" /> Survey manager
       </Navbar.Brand>
       <Form
         inline

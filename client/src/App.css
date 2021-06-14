@@ -88,3 +88,8 @@
   position: absolute;
   right: 80px;
 }
+
+.questionText {
+  font-size: larger;
+  font-style: italic;
+}

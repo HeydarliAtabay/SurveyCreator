@@ -112,6 +112,27 @@ app.get('/api/submissions/number/:id', async (req,res)=>{
     }
 })
 
+app.get('/api/submissions/number/:id', async (req,res)=>{
+    const id= req.params.id;
+    try{
+        let task=await questionDao.getSubmissionCount(id)
+        res.json(task)
+    }
+    catch(error){
+        res.status(500).json(`Cannot get a task with selected id:${id}   `+ error)
+    }
+})
+
+app.get('/api/submissions/number/', async (req,res)=>{
+    try{
+        let count=await questionDao.getCountOfResponders()
+        res.json(count)
+    }
+    catch(error){
+        res.status(500).json(`Cannot get a task with selected id:${id}   `+ error)
+    }
+})
+
 app.get('/api/submissions/survey/:id', async (req,res)=>{
     const surveyId = req.params.id
     questionDao.getSubmissionOfSurvey(surveyId)

@@ -15,13 +15,14 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 
 //import ModalForm from './Components/ModalForm'
 
-function App() {
+function App(props) {
   const [surveyList, setSurveyList]=useState([])
   const [numberResponders, setNumberOfResponders]=useState(0)
   const [questionList, setQuestionList]=useState([])
   const [loading, setLoading]=useState(true)//this for checking the loading at mount
   const [dirty, setDirty] =useState(true)
   const [dirtyQuestions, setDirtyQuestions] =useState(true)
+  const [surveyId, setSurveyId]=useState(2)
 
   const MODAL = { CLOSED: -2, ADD: -1 };
   const [selectedTask, setSelectedTask] = useState(MODAL.CLOSED);
@@ -40,6 +41,7 @@ function App() {
        })
 
 
+
       }
     }, [dirty])
     
@@ -50,16 +52,13 @@ function App() {
   // }
 
   useEffect(() => {
-    if(dirtyQuestions){
-      API.loadAllQuestions().then(newQuestion=>{
+      API.getQuestions(surveyId).then(newQuestion=>{
         setQuestionList(newQuestion)
         setLoading(false)
         setDirtyQuestions(false)
        })
 
-
-      }
-    }, [dirtyQuestions])
+   }, [dirtyQuestions, surveyId])
 
   function addSurvey (survey)  {
     // const id = Math.max(...surveyList.map( s => s.id )) + 1;
@@ -71,6 +70,22 @@ function App() {
     const id = Math.max(...questionList.map( q => q.id )) + 1;
     setQuestionList((oldQuestions) => [...oldQuestions, { ...question, id: id }] );
     API.addQuestion(question).then((err)=>{setDirtyQuestions(true)})
+  }
+
+
+  
+  
+ async function handleselect (id)
+  {
+
+    setSurveyId(id)
+    // try {
+    //   const questions = await API.getQuestions(id);
+    //   setQuestionList(questions);
+    //   setDirtyQuestions(false)
+    // } catch(err) {
+    //   console.log(err);
+    // }
   }
 
   function deleteQuestion (question) {
@@ -125,14 +140,15 @@ function App() {
       <Route path="/surveys"> 
       <div className="addbtn"><Button variant="success" size="lg"  onClick={() => setSelectedTask(MODAL.ADD)}>Add a Survey</Button></div>
       {(selectedTask !== MODAL.CLOSED) && <ModalFormTitle onSave={handleSaveSurvey} onClose={handleClose}></ModalFormTitle>}
-      <SurveyList surveys={surveyList} numberOfResponders={numberResponders} onDelete={deleteSurvey} />
+      <SurveyList surveys={surveyList} numberOfResponders={numberResponders} onDelete={deleteSurvey} onSelect={handleselect} />
       
       </Route>
-      <Route path="/questions"> 
+       <Route path="/questions"> 
       <div className="addbtn"><Button variant="success" size="lg"  onClick={() => setSelectedTask(MODAL.ADD)}>Add a Question</Button></div>
       {(selectedTask !== MODAL.CLOSED) && <ModalFormQuestion onSave={handleSaveQuestions} onClose={handleClose}></ModalFormQuestion>}
       <QuestionList questions={questionList} onDelete={deleteQuestion} onUp={orderUpQuestion} onDown={orderDownQuestion} />
-      </Route>
+      </Route> 
+     
       <Route path="/login"> 
       <LoginComponet/>
       </Route>
