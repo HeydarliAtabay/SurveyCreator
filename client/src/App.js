@@ -73,7 +73,7 @@ function App(props) {
     
     let orders=[...questionList.filter(q => q.survey_id===surveyId)].map(q =>  q.order)
     let id = Math.max.apply(null,orders)+1 ;
-    if(!id)id=1
+    if(!isFinite(id)) id=1
    // setQuestionList((oldQuestions) => [...oldQuestions, { ...question, id: id }] );
    API.addQuestion(question,id, surveyId).then((err)=>{setDirtyQuestions(true)})
   }

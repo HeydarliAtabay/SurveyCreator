@@ -150,7 +150,6 @@ function QuestionList(props) {
   let last=questions.length
   let surveyId=0
   last!==0?surveyId=questions[0].survey_id: surveyId=0
-  console.log(surveyId)
   return (
     <>
       <div className="cont">
