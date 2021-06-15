@@ -17,12 +17,11 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 
 function App(props) {
   const [surveyList, setSurveyList]=useState([])
-  const [numberResponders, setNumberOfResponders]=useState(0)
   const [questionList, setQuestionList]=useState([])
   const [loading, setLoading]=useState(true)//this for checking the loading at mount
   const [dirty, setDirty] =useState(true)
   const [dirtyQuestions, setDirtyQuestions] =useState(true)
-  const [surveyId, setSurveyId]=useState(2)
+  const [surveyId, setSurveyId]=useState()
 
   const MODAL = { CLOSED: -2, ADD: -1 };
   const [selectedTask, setSelectedTask] = useState(MODAL.CLOSED);
@@ -69,7 +68,6 @@ function App(props) {
   function addQuestion (question)  {
     
     let orders=[...questionList.filter(q => q.survey_id===surveyId)].map(q =>  q.order)
-
     let id = Math.max.apply(null,orders)+1 ;
    // setQuestionList((oldQuestions) => [...oldQuestions, { ...question, id: id }] );
    API.addQuestion(question,id, surveyId).then((err)=>{setDirtyQuestions(true)})
@@ -109,17 +107,46 @@ function App(props) {
   }
 
   function orderUpQuestion (question) {
-    const id = Math.min(...questionList.map( q => q.id ))-1 ;
-    setQuestionList((oldQuestions) => oldQuestions.filter( q => q.id !== question.id ));
-    setQuestionList((oldQuestions) => [...oldQuestions, { ...question, id: id-1 }] );
+    // const id = Math.min(...questionList.map( q => q.id ))-1 ;
+    // setQuestionList((oldQuestions) => oldQuestions.filter( q => q.id !== question.id ));
+    // setQuestionList((oldQuestions) => [...oldQuestions, { ...question, id: id-1 }] );
+
+   
+    let orders=[...questionList.filter(q => q.survey_id===surveyId)].map(q =>  q.order) // getting array of order numbers
+    let questionIds=[...questionList.filter(q => q.survey_id===surveyId)].map(q =>  q.id) // getting array of question ids
+    let selectedorder=question.order  // order number of selected question
+    let index=0
+    for (let i = 0; i < orders.length; i++) {
+      if(orders[i]===selectedorder) index=i    // get the index on array where the order num is equal to the order num of selected question
+    }
+    let b=orders[index-1];orders[index-1]=orders[index];orders[index]=b // changing the place of question with the previous one
+    let neworder= orders[index]
+    let neworder2= orders[index-1]
+    const id1=questionIds[index]
+    const id2= questionIds[index-1]
+    API.updateOrderQuestionDown(neworder,id1).then((err)=>{setDirtyQuestions(false)})
+    API.updateOrderQuestionDown(neworder2,id2).then((err)=>{setDirtyQuestions(true)})
   }
 
   function orderDownQuestion (question) {
-    const id = (questionList.map( q => q.id ));
-    console.log(id)
+    // const id = (questionList.map( q => q.id ));
+    // console.log(id)
     //setQuestionList((oldQuestions) => oldQuestions.filter( q => q.id === question.id ));
     // setQuestionList((oldQuestions) => [...oldQuestions, { ...question, id: id+1 }] );
-    
+    let orders=[...questionList.filter(q => q.survey_id===surveyId)].map(q =>  q.order) // getting array of order numbers
+    let questionIds=[...questionList.filter(q => q.survey_id===surveyId)].map(q =>  q.id) // getting array of question ids
+    let selectedorder=question.order  // order number of selected question
+    let index=0
+    for (let i = 0; i < orders.length; i++) {
+      if(orders[i]===selectedorder) index=i    // get the index on array where the order num is equal to the order num of selected question
+    }
+    let b=orders[index+1];orders[index+1]=orders[index];orders[index]=b // changing the place of question with the following one
+    let neworder= orders[index]
+    let neworder2= orders[index+1]
+    const id1=questionIds[index]
+    const id2= questionIds[index+1]
+    API.updateOrderQuestionDown(neworder,id1).then((err)=>{setDirtyQuestions(false)})
+    API.updateOrderQuestionDown(neworder2,id2).then((err)=>{setDirtyQuestions(true)})
   }
 
 
@@ -143,7 +170,7 @@ function App(props) {
       <Route path="/surveys"> 
       <div className="addbtn"><Button variant="success" size="lg"  onClick={() => setSelectedTask(MODAL.ADD)}>Add a Survey</Button></div>
       {(selectedTask !== MODAL.CLOSED) && <ModalFormTitle onSave={handleSaveSurvey} onClose={handleClose}></ModalFormTitle>}
-      <SurveyList surveys={surveyList} numberOfResponders={numberResponders} onDelete={deleteSurvey} onSelect={handleselect} />
+      <SurveyList surveys={surveyList}  onDelete={deleteSurvey} onSelect={handleselect} />
       
       </Route>
        <Route path="/questions"> 

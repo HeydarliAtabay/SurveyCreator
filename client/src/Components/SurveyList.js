@@ -1,9 +1,9 @@
-import {React, useState} from 'react'
+import {React} from 'react'
 import {ListGroup,Card,Button} from 'react-bootstrap'
 import { Link } from "react-router-dom";
 
 function SurveyItem(props){
-    const {survey,numberOfResponders, onDelete, onSelect} = props
+    const {survey, onDelete, onSelect} = props
     return(
         <>
         <div className="survCards">
@@ -32,7 +32,7 @@ function SurveyItem(props){
 }
 
 function SurveyList(props){
-    const {surveys, numberOfResponders, onDelete, onSelect} =props
+    const {surveys, onDelete, onSelect} =props
     return(
         <>
         {/* <div className="addbtn"><Button variant="success" size="lg">Add a Survey</Button></div> */}
@@ -43,7 +43,7 @@ function SurveyList(props){
                 surveys.map(s=>{
                     return(
                         <ListGroup.Item as ="li" key={s.id} >
-                            <SurveyItem survey={s}  numberOfResponders={numberOfResponders}  onDelete={() => onDelete(s)} onSelect={()=>onSelect(s.id)}/>
+                            <SurveyItem survey={s}    onDelete={() => onDelete(s)} onSelect={()=>onSelect(s.id)}/>
                             </ListGroup.Item>                    )
                 })
             }

@@ -71,6 +71,19 @@ app.post('/api/questions', (req,res) => {
     }
   });
 
+  app.put('/api/questions/update/order/down/:order/:questionId',  async(req,res) => {
+    const order= req.params.order
+    const id = req.params.questionId;
+    try{
+        let task=await questionDao.moveDownQuestion(order,id)
+        res.json(`Order of the question with id: ${id}  was changed to ${order}`)
+    }
+    catch(error){
+        res.status(500).json(`Error while updating the status of the task with id: ${id}   `+ error)
+    }
+
+});
+
 
   app.delete('/api/questions/delete/:questionId', (req,res) => {
       const id= req.params.questionId

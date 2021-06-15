@@ -30,7 +30,7 @@ exports.listAllQuestions = () => {
 
   exports.getQuestionsOfSurvey = function (surveyId) {
     return new Promise((resolve, reject) => {
-        const sql = "SELECT * from questions WHERE survey_id=?";
+        const sql = "SELECT * from questions WHERE survey_id=? ORDER BY [order]";
         db.all(sql, [surveyId], (err, rows) => {
             if(err) reject(err);
             else resolve(rows);
@@ -55,6 +55,22 @@ exports.listAllQuestions = () => {
     });
   };
 
+// increasing the order of selected question
+  exports.moveDownQuestion = function(order,id) {
+    return new Promise((resolve, reject) => {
+       // const sql = 'UPDATE tasks SET completed = CASE status WHEN completed=0 THEN 1 WHEN completed=1 THEN 0 END WHERE id = ?';
+       const sql= 'UPDATE questions SET [order]=? WHERE id=?'
+        db.run(sql, [order,id], (err) => {
+            if(err){
+                console.log(err);
+                reject(err);
+            }
+            else
+                resolve(null);
+        })
+    });
+  }
+
 
   // DELETE existing question with a given id
 exports.deleteQuestion = function(id) {
@@ -69,7 +85,9 @@ exports.deleteQuestion = function(id) {
   });
 }
 
-// For answers
+
+
+// For submissions
 
 exports.listAllAnswers = () => {
   return new Promise((resolve, reject) => {

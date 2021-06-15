@@ -40,9 +40,9 @@ Content-Type: application/json
 ### Delete existing question with a given id
 DELETE http://localhost:3001/api/questions/delete/2
 
+### Moving order to down
 
-
-
+PUT http://localhost:3001/api/questions/update/order/down/2/13
 
 
 

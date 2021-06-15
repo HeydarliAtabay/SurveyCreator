@@ -9,10 +9,12 @@ import {
 } from "react-bootstrap-icons";
 
 function QuestionItem(props) {
-  const { question, onDelete, onUp, onDown } = props;
+  const { question, onDelete, onUp, onDown, index } = props;
   return (
     <>
+    
       <div className="questionCards">
+        {(index+1)!==0 && <h6>{index+1}.</h6>}
         {question.min === 1 && (
           
           <>
@@ -93,6 +95,7 @@ function QuestionItem(props) {
           </Col>
           <Col>
             <QuestionRowControl
+            index={index}
               onDelete={onDelete}
               onUp={onUp}
               onDown={onDown}
@@ -106,7 +109,7 @@ function QuestionItem(props) {
 }
 
 function QuestionRowControl(props) {
-  const { onDelete, onUp, onDown } = props;
+  const { onDelete, onUp, onDown, index } = props;
   return (
     <>
       <div className="flex-fill m-auto">
@@ -117,10 +120,10 @@ function QuestionRowControl(props) {
             </Button>
           </Col>
           <Col>
-            <Button variant="link" className="shadow-none" onClick={onUp}>
+           {index !==0 && <Button variant="link" className="shadow-none" onClick={onUp}>
               <ArrowUpSquare size={32} />
-            </Button>
-            <Button variant="link" className="shadow-none" onClick={onDown}>
+            </Button> } 
+           <Button variant="link" className="shadow-none" onClick={onDown}>
               <ArrowDownSquare size={32} />
             </Button>
           </Col>
@@ -132,7 +135,7 @@ function QuestionRowControl(props) {
 
 function QuestionList(props) {
   let number=0
-  const { questions, onDelete, onUp, onDown } = props;
+  const { questions, onDelete, onUp, onDown} = props;
   return (
     <>
       <div className="cont">
@@ -148,7 +151,7 @@ function QuestionList(props) {
           </Col>
         </Row>
         <ListGroup as="ul" variant="flush">
-          {questions.map((q) => {
+          {questions.map((q,index) => {
             number++
             return (
               <>
@@ -160,6 +163,8 @@ function QuestionList(props) {
                     onDelete={() => onDelete(q)}
                     onUp={() => onUp(q)}
                     onDown={() => onDown(q)}
+                    index={index}
+                    last={index}
                   />
                 </ListGroup.Item>
               </>

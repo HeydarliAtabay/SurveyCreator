@@ -112,6 +112,24 @@ function addQuestion(question,orderId, surveyId) {
   }
 
 
+  function updateOrderQuestionDown(order,id) {
+    // call: PUT /api/exams/:coursecode
+    return new Promise((resolve, reject) => {
+      fetch(url + '/api/questions/update/order/down/' + order + '/' +id, {
+        method: 'PUT',
+      }).then((response) => {
+        if (response.ok) {
+          resolve(null);
+        } else {
+          // analyze the cause of error
+          response.json()
+            .then((obj) => { reject(obj); }) // error message in the response body
+            .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+        }
+      }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+    });
+  }
+
   // api/questions/delete
    
   function deleteQuestion(question) {
@@ -133,5 +151,5 @@ function addQuestion(question,orderId, surveyId) {
   }
 
     //Error handling is missing
-const API={loadAllSurveys, deleteSurvey, addSurvey, addQuestion, loadAllQuestions, deleteQuestion, getQuestions}
+const API={loadAllSurveys, deleteSurvey, addSurvey, addQuestion, loadAllQuestions, deleteQuestion, getQuestions, updateOrderQuestionDown}
 export default API
