@@ -8,8 +8,11 @@ import {
   ArrowDownSquare,
 } from "react-bootstrap-icons";
 
+
+
 function QuestionItem(props) {
-  const { question, onDelete, onUp, onDown, index } = props;
+  const { question, onDelete, onUp, onDown, index,last } = props;
+  
   return (
     <>
     
@@ -99,6 +102,7 @@ function QuestionItem(props) {
               onDelete={onDelete}
               onUp={onUp}
               onDown={onDown}
+              last={last}
             />
           </Col>
         </Row>
@@ -109,7 +113,7 @@ function QuestionItem(props) {
 }
 
 function QuestionRowControl(props) {
-  const { onDelete, onUp, onDown, index } = props;
+  const { onDelete, onUp, onDown, index, last } = props;
   return (
     <>
       <div className="flex-fill m-auto">
@@ -123,9 +127,15 @@ function QuestionRowControl(props) {
            {index !==0 && <Button variant="link" className="shadow-none" onClick={onUp}>
               <ArrowUpSquare size={32} />
             </Button> } 
-           <Button variant="link" className="shadow-none" onClick={onDown}>
+            {index ===0 && <Button  disabled variant="link" className="shadow-none" onClick={onUp}>
+              <ArrowUpSquare size={32} />
+            </Button> } 
+          {(index+1)!==last &&<Button variant="link" className="shadow-none" onClick={onDown}>
               <ArrowDownSquare size={32} />
-            </Button>
+            </Button>  }
+            {(index+1)===last &&<Button  disabled variant="link" className="shadow-none" onClick={onDown}>
+              <ArrowDownSquare size={32} />
+            </Button>  }
           </Col>
         </Row>
       </div>
@@ -134,8 +144,10 @@ function QuestionRowControl(props) {
 }
 
 function QuestionList(props) {
+  
   let number=0
   const { questions, onDelete, onUp, onDown} = props;
+  let last=questions.length
   return (
     <>
       <div className="cont">
@@ -164,7 +176,7 @@ function QuestionList(props) {
                     onUp={() => onUp(q)}
                     onDown={() => onDown(q)}
                     index={index}
-                    last={index}
+                    last={last}
                   />
                 </ListGroup.Item>
               </>
