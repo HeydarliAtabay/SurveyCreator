@@ -42,7 +42,7 @@ function SurveyList(props){
             {
                 surveys.map(s=>{
                     return(
-                        <ListGroup.Item as ="li" key={s.id} >
+                        <ListGroup.Item as ="li" key={surveys.id} >
                             <SurveyItem survey={s}    onDelete={() => onDelete(s)} onSelect={()=>onSelect(s.id)}/>
                             </ListGroup.Item>                    )
                 })

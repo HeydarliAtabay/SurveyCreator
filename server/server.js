@@ -44,6 +44,18 @@ app.delete('/api/surveys/delete/:surveyId', (req,res) => {
       );
 });
 
+app.put('/api/surveys/update/published/:surveyId',  async(req,res) => {
+    const id = req.params.surveyId;
+    try{
+        let task=await surveyDao.publishSurvey(id)
+        res.json(`Survey with id: ${id} was published`)
+    }
+    catch(error){
+        res.status(500).json(`Error while updating the status of the task with id: ${id}   `+ error)
+    }
+
+});
+
 // for Questions
 
 app.get('/api/questions', (req,res)=>{

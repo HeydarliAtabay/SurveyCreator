@@ -65,10 +65,15 @@ function App(props) {
     API.addSurvey(survey).then((err)=>{setDirty(true)})
   }
 
+  function publishSurvey (id){
+    API.publishSurvey(id).then((err)=>{setDirty(true)})
+  }
+
   function addQuestion (question)  {
     
     let orders=[...questionList.filter(q => q.survey_id===surveyId)].map(q =>  q.order)
     let id = Math.max.apply(null,orders)+1 ;
+    if(!id)id=1
    // setQuestionList((oldQuestions) => [...oldQuestions, { ...question, id: id }] );
    API.addQuestion(question,id, surveyId).then((err)=>{setDirtyQuestions(true)})
   }
@@ -106,6 +111,7 @@ function App(props) {
 
   }
 
+
   function orderUpQuestion (question) {
     let orders=[...questionList.filter(q => q.survey_id===surveyId)].map(q =>  q.order) // getting array of order numbers
     let questionIds=[...questionList.filter(q => q.survey_id===surveyId)].map(q =>  q.id) // getting array of question ids
@@ -117,8 +123,8 @@ function App(props) {
     let b=orders[index-1];orders[index-1]=orders[index];orders[index]=b // changing the place of question with the previous one
     let neworder= orders[index] ; let neworder2= orders[index-1]
     const id1=questionIds[index];const id2= questionIds[index-1]
-    API.updateOrderQuestionDown(neworder,id1).then((err)=>{setDirtyQuestions(false)})
-    API.updateOrderQuestionDown(neworder2,id2).then((err)=>{setDirtyQuestions(true)})
+    API.updateOrderQuestion(neworder,id1).then((err)=>{setDirtyQuestions(false)})
+    API.updateOrderQuestion(neworder2,id2).then((err)=>{setDirtyQuestions(true)})
   }
 
   function orderDownQuestion (question) {
@@ -132,8 +138,8 @@ function App(props) {
     let b=orders[index+1];orders[index+1]=orders[index];orders[index]=b // changing the place of question with the following one
     let neworder= orders[index] ; let neworder2= orders[index+1]
     const id1=questionIds[index] ; const id2= questionIds[index+1]
-    API.updateOrderQuestionDown(neworder,id1).then((err)=>{setDirtyQuestions(false)})
-    API.updateOrderQuestionDown(neworder2,id2).then((err)=>{setDirtyQuestions(true)})
+    API.updateOrderQuestion(neworder,id1).then((err)=>{setDirtyQuestions(false)})
+    API.updateOrderQuestion(neworder2,id2).then((err)=>{setDirtyQuestions(true)})
   }
 
 
@@ -163,7 +169,7 @@ function App(props) {
        <Route path="/questions"> 
       <div className="addbtn"><Button variant="success" size="lg"  onClick={() => setSelectedTask(MODAL.ADD)}>Add a Question</Button></div>
       {(selectedTask !== MODAL.CLOSED) && <ModalFormQuestion onSave={handleSaveQuestions} onClose={handleClose}></ModalFormQuestion>}
-      <QuestionList questions={questionList} onDelete={deleteQuestion} onUp={orderUpQuestion} onDown={orderDownQuestion} />
+      <QuestionList questions={questionList} onDelete={deleteQuestion} onUp={orderUpQuestion} onDown={orderDownQuestion} onPublish={publishSurvey} />
       </Route> 
      
       <Route path="/login"> 

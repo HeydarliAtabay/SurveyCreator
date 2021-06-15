@@ -146,8 +146,11 @@ function QuestionRowControl(props) {
 function QuestionList(props) {
   
   let number=0
-  const { questions, onDelete, onUp, onDown} = props;
+  const { questions, onDelete, onUp, onDown, onPublish} = props;
   let last=questions.length
+  let surveyId=0
+  last!==0?surveyId=questions[0].survey_id: surveyId=0
+  console.log(surveyId)
   return (
     <>
       <div className="cont">
@@ -191,7 +194,7 @@ function QuestionList(props) {
           Submit the answers
         </Button>
         { number!==0 &&
-          <Button size="lg" variant="success">
+          <Button size="lg" variant="success" onClick={()=>onPublish(surveyId)}>
           Publish the survey
           </Button>
         }

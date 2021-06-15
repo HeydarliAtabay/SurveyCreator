@@ -55,6 +55,23 @@ function addSurvey(survey) {
     });
   }
 
+  function publishSurvey(id) {
+    // call: PUT /api/exams/:coursecode
+    return new Promise((resolve, reject) => {
+      fetch(url + '/api/surveys/update/published/' +id, {
+        method: 'PUT',
+      }).then((response) => {
+        if (response.ok) {
+          resolve(null);
+        } else {
+          // analyze the cause of error
+          response.json()
+            .then((obj) => { reject(obj); }) // error message in the response body
+            .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+        }
+      }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+    });
+  }
 
 
 
@@ -112,7 +129,7 @@ function addQuestion(question,orderId, surveyId) {
   }
 
 
-  function updateOrderQuestionDown(order,id) {
+  function updateOrderQuestion(order,id) {
     // call: PUT /api/exams/:coursecode
     return new Promise((resolve, reject) => {
       fetch(url + '/api/questions/update/order/down/' + order + '/' +id, {
@@ -151,5 +168,5 @@ function addQuestion(question,orderId, surveyId) {
   }
 
     //Error handling is missing
-const API={loadAllSurveys, deleteSurvey, addSurvey, addQuestion, loadAllQuestions, deleteQuestion, getQuestions, updateOrderQuestionDown}
+const API={loadAllSurveys, deleteSurvey, addSurvey, publishSurvey, addQuestion, loadAllQuestions, deleteQuestion, getQuestions, updateOrderQuestion}
 export default API

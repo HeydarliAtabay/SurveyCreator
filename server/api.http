@@ -18,7 +18,8 @@ Content-Type: application/json
 ### Delete existing survey with a given id
 DELETE http://localhost:3001/api/surveys/delete/5
 
-
+### updating the status of the survey
+PUT http://localhost:3001/api/questions/update/published/8
 
 
 ### Getting all questions

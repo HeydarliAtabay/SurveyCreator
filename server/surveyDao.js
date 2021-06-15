@@ -38,6 +38,24 @@ exports.listAllSurveys = () => {
     });
   };
 
+
+// Change the published status of survey
+
+exports.publishSurvey = function(id) {
+  return new Promise((resolve, reject) => {
+     // const sql = 'UPDATE tasks SET completed = CASE status WHEN completed=0 THEN 1 WHEN completed=1 THEN 0 END WHERE id = ?';
+     const sql= 'UPDATE surveys SET [published]=1 WHERE id=?'
+      db.run(sql, [id], (err) => {
+          if(err){
+              console.log(err);
+              reject(err);
+          }
+          else
+              resolve(null);
+      })
+  });
+}
+
 // DELETE existing question with a given id
 exports.deleteSurvey = function(id) {
   return new Promise((resolve, reject) => {
