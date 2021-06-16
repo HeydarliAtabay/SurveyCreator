@@ -12,7 +12,19 @@ import { Link } from "react-router-dom";
 
 function QuestionItem(props) {
   const { question, onDelete, onUp, onDown, index,last } = props;
-  
+  const [checked, setChecked]=useState([false,false,false,false,false,false,false,false,false,false])
+  let min=question.min
+  let max=question.max
+  let count=0
+  const handleChecked = (number) => {
+    // if the task has an id it is an update
+
+    for (let i=0;i<checked.length;i++){
+      if(checked[i]===true) count++
+    }
+    console.log(count)
+  }
+
   return (
     <>
     <Container fluid>
@@ -37,7 +49,7 @@ function QuestionItem(props) {
         <h4>{question.question}</h4>
         <Row>
           <Col sm={10}>
-            <Row><h6>min:{question.min}</h6><h6>max:{question.max}</h6></Row>
+            <Row><h6>min:{min}</h6><h6>max:{max}</h6></Row>
             {question.num !== 0 && (
               <Form.Group>
                 {[...Array(question.num)].map((q, index1) => {
@@ -74,6 +86,10 @@ function QuestionItem(props) {
                    type="checkbox"
                   size="lg"
                   label ={question[string[index1]]}
+                  checked={checked[index1]}
+                  onChange={(ev) => {
+                  handleChecked()
+                  }}
               ></Form.Check>
                 } 
                     
