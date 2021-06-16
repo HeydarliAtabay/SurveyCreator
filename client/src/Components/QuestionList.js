@@ -7,7 +7,7 @@ import {
   ArrowUpSquare,
   ArrowDownSquare,
 } from "react-bootstrap-icons";
-
+import { Link } from "react-router-dom";
 
 
 function QuestionItem(props) {
@@ -37,6 +37,7 @@ function QuestionItem(props) {
         <h4>{question.question}</h4>
         <Row>
           <Col sm={10}>
+            <Row><h6>min:{question.min}</h6><h6>max:{question.max}</h6></Row>
             {question.num !== 0 && (
               <Form.Group>
                 {[...Array(question.num)].map((q, index1) => {
@@ -131,6 +132,7 @@ function QuestionItem(props) {
 
 function QuestionRowControl(props) {
   const { onDelete, onUp, onDown, index, last } = props;
+  
   return (
     <>
     <Container fluid>
@@ -241,14 +243,25 @@ function QuestionList(props) {
 }
      
        {number!==0 &&
-       <Button size="lg" variant="primary" onClick={handleSubmit}>
+       <Button size="lg" variant="primary" type="submit">
        Submit the answers
      </Button>
        } 
         { number!==0 &&
-          <Button size="lg" variant="success" onClick={()=>onPublish(surveyId)}>
-          Publish the survey
-          </Button>
+          <Link
+          variant="primary"
+          onClick={() => onPublish(surveyId)}
+        className="btn btn-primary"
+        to={{
+          pathname: "/surveys"
+
+        }}
+      >
+        Publish the survey
+      </Link>
+          // <Button size="lg" variant="success" onClick={()=>onPublish(surveyId)}>
+          // Publish the survey
+          // </Button>
         }
         </Form>
       </div>

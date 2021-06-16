@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 function SurveyItem(props){
     const {survey, onDelete, onSelect, index} = props
+    
     return(
         <>
         <div className="survCards">
@@ -15,7 +16,7 @@ function SurveyItem(props){
             onClick={(event) => onSelect(survey.id)}
           className="btn btn-primary"
           to={{
-            pathname: "/questions"
+            pathname: "/questions",
           }}
         >
           Start the Survey

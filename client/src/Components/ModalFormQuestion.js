@@ -20,6 +20,8 @@ function ModalFormQuestion(props) {
   const [answer10, setAnswer10] = useState("");
   const [optional, setOptional] = useState(true);
   const [single, setSingle] = useState(true);
+  const [maxChoices, setMaxChoices]=useState(2)
+  const [minChoices, setMinChoices]=useState(0)
 
   const handleSubmit = (event) => {
     // stop event default and propagation
@@ -59,8 +61,8 @@ function ModalFormQuestion(props) {
         eight: answer8,
         nine: answer9,
         ten: answer10,
-        min: optional ? 0 : 1,
-        max: single ? 1 : 2,
+        min: optional ? 0 : minChoices,
+        max: single ? 1 : maxChoices,
         num: number,
       });
       onSave(newQuestion);
@@ -186,6 +188,15 @@ function ModalFormQuestion(props) {
                   </Form.Label>
 
                   <Col>
+                  {minChoices>0 ?<Form.Check
+                  disabled
+                      custom
+                      type="checkbox"
+                      label="Optional"
+                      name="opt"
+                      checked={optional}
+                      onChange={(ev) => setOptional(ev.target.checked)}
+                    />:
                     <Form.Check
                       custom
                       type="checkbox"
@@ -194,6 +205,8 @@ function ModalFormQuestion(props) {
                       checked={optional}
                       onChange={(ev) => setOptional(ev.target.checked)}
                     />
+                    }
+                    
                     <Form.Check
                       custom
                       type="checkbox"
@@ -228,6 +241,36 @@ function ModalFormQuestion(props) {
                     />
                   </Col>
                 </Form.Group>
+                {!single && 
+                <Form.Group>
+                  <Form.Label>Enter maximum amount of answers</Form.Label>
+                <Form.Control
+                  as="select"
+                  value={maxChoices}
+                  onChange={(ev) => {
+                    setMaxChoices(parseInt(ev.target.value));
+                  }}
+                >
+                  {[...Array(number-1)].map((q, index) => {
+                    return <option>{index + 2}</option>;
+                  })}
+                </Form.Control>
+                <Form.Label>Enter minimum amount of answers</Form.Label>
+                <Form.Control
+                  as="select"
+                  value={minChoices}
+                  onChange={(ev) => {
+                    setMinChoices(parseInt(ev.target.value));
+                    if(minChoices>=0) setOptional(false)
+                  }}
+                >
+                  {[...Array(maxChoices+1)].map((q, index) => {
+                    return <option>{index }</option>;
+                  })}
+                </Form.Control>
+                </Form.Group>
+
+                }
                 
               </>
                 )} 
