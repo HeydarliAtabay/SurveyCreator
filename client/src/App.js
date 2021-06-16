@@ -8,6 +8,7 @@ import SurveyList from './Components/SurveyList'
 import QuestionList from './Components/QuestionList'
 import ModalFormTitle from './Components/ModalFormTitle'
 import ModalFormQuestion from './Components/ModalFormQuestion'
+import AnswerList from './Components/AnswerList'
 import LoginComponet from './Components/LoginComponent'
 import API from './API'
 
@@ -164,6 +165,10 @@ function App(props) {
       <div className="addbtn"><Button variant="success" size="lg"  onClick={() => setSelectedTask(MODAL.ADD)}>Add a Question</Button></div>
       {(selectedTask !== MODAL.CLOSED) && <ModalFormQuestion onSave={handleSaveQuestions} onClose={handleClose}></ModalFormQuestion>}
       <QuestionList questions={questionList} onDelete={deleteQuestion} onUp={orderUpQuestion} onDown={orderDownQuestion} onPublish={publishSurvey} survey={surveyId} />
+      </Route> 
+
+       <Route path="/answers"> 
+      <AnswerList questions={questionList} onPublish={publishSurvey} survey={surveyId} />
       </Route> 
      
       <Route path="/login"> 
