@@ -73,11 +73,11 @@ GET http://localhost:3001/api/submissions/survey/1
 GET http://localhost:3001/api/answers
 
 ### Getting answers of given survey
-GET http://localhost:3001/api/answers/survey/4
+GET http://localhost:3001/api/answers/survey/1/5
 
 ### Adding new questions
 
 POST http://localhost:3001/api/answers
 Content-Type: application/json
 
-{ "submission_id": 5, "survey_id":1, "question_id":0, "questiontype":0, "answer":"Selam canim", "one": 0, "two": 0, "three": 0, "four": 0, "five":0, "six":0, "seven": 0, "eight": 0, "nine": 0, "ten" :0}
+{ "submission_id": 5, "survey_id":1, "question_id":0, "question":"Esq olsun","questiontype":0, "answer":"Selam canim", "one": 0, "two": 0, "three": 0, "four": 0, "five":0, "six":0, "seven": 0, "eight": 0, "nine": 0, "ten" :0}

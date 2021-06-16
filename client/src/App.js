@@ -19,10 +19,13 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 function App(props) {
   const [surveyList, setSurveyList]=useState([])
   const [questionList, setQuestionList]=useState([])
+  const [answerList, setAnswerList]=useState([])
   const [loading, setLoading]=useState(true)//this for checking the loading at mount
   const [dirty, setDirty] =useState(true)
   const [dirtyQuestions, setDirtyQuestions] =useState(true)
+  const [dirtyAnswers, setDirtyAnswers] =useState(true)
   const [surveyId, setSurveyId]=useState()
+  const [submission, setSubmission]=useState()
 
   const MODAL = { CLOSED: -2, ADD: -1 };
   const [selectedTask, setSelectedTask] = useState(MODAL.CLOSED);
@@ -55,6 +58,15 @@ function App(props) {
 
    }, [dirtyQuestions, surveyId])
 
+   useEffect(() => {
+    API.getAnswers(surveyId,submission).then(newQuestion=>{
+      setAnswerList(newQuestion)
+      setLoading(false)
+      setDirtyAnswers(false)
+     })
+
+ }, [dirtyAnswers, surveyId,submission])
+
   function addSurvey (survey)  {
     // const id = Math.max(...surveyList.map( s => s.id )) + 1;
     // setSurveyList((oldSurveys) => [...oldSurveys, { ...survey, id: id }] );
@@ -84,6 +96,18 @@ function App(props) {
       const questions = await API.getQuestions(id);
       setQuestionList(questions);
       setDirtyQuestions(false)
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
+  async function getAnswers(surveyId,submissionId){
+    setSurveyId(surveyId)
+    setSubmission(submissionId)
+    try {
+      const answers = await API.getAnswers(surveyId,submissionId);
+      setAnswerList(answers);
+      setDirtyAnswers(false)
     } catch(err) {
       console.log(err);
     }
@@ -158,7 +182,7 @@ function App(props) {
       <Route path="/surveys"> 
       <div className="addbtn"><Button variant="success" size="lg"  onClick={() => setSelectedTask(MODAL.ADD)}>Add a Survey</Button></div>
       {(selectedTask !== MODAL.CLOSED) && <ModalFormTitle onSave={handleSaveSurvey} onClose={handleClose}></ModalFormTitle>}
-      <SurveyList surveys={surveyList}  onDelete={deleteSurvey} onSelect={handleselect}  />
+      <SurveyList surveys={surveyList}  onDelete={deleteSurvey} onSelect={handleselect} onAnswer={getAnswers} />
       
       </Route>
        <Route path="/questions"> 
@@ -168,7 +192,7 @@ function App(props) {
       </Route> 
 
        <Route path="/answers"> 
-      <AnswerList questions={questionList} onPublish={publishSurvey} survey={surveyId} responder={"Atabay"} />
+      <AnswerList questions={answerList} onPublish={publishSurvey} survey={surveyId} responder={"Atabay"} />
       </Route> 
      
       <Route path="/login"> 

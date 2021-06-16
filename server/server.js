@@ -173,9 +173,10 @@ app.get('/api/answers', (req,res)=>{
         .catch((error)=>{res.status(500).json(error)} )
   })
 
-  app.get('/api/answers/survey/:id', async (req,res)=>{
+  app.get('/api/answers/survey/:id/:submission', async (req,res)=>{
     const surveyId = req.params.id
-    questionDao.getAnswersOfSurvey(surveyId)
+    const submissionId=req.params.submission
+    questionDao.getAnswersOfSurvey(surveyId, submissionId)
         .then((rentals) => res.json(rentals))
         .catch((err) => res.status(500).json({errors: [{'msg': err}] }));
 });

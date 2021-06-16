@@ -1,4 +1,5 @@
 import Question from './models/question'
+import Answer from './models/answer'
 
 const url='http://localhost:3000'
 
@@ -166,6 +167,27 @@ function addQuestion(question,orderId, surveyId) {
     });
   }
 
+
+
+  // for answers
+
+  async function getAnswers(surveyId, submissionId) {
+    let url1 = "/api/answers";
+    if(surveyId){
+        const queryParams = "/survey/" +surveyId +"/"+submissionId;
+        url1 += queryParams;
+    }
+    const response = await fetch(url + url1);
+    const tasksJson = await response.json();
+    if(response.ok){
+        //return tasksJson.map((t) => Task.from(t));
+        return tasksJson.map((q) => new Answer(q.id,q.submission_id, q.survey_id, q.question_id, q.question,q.questiontype,q.answer, q.num,q.min,q.max,q.one,q.two,q.three,q.four,q.five,q.six,q.seven,q.eight,q.nine,q.ten));
+    } else {
+        let err = {status: response.status, errObj:tasksJson};
+        throw err;  // An object with the error coming from the server
+    }
+  }
+
     //Error handling is missing
-const API={loadAllSurveys, deleteSurvey, addSurvey, publishSurvey, addQuestion, loadAllQuestions, deleteQuestion, getQuestions, updateOrderQuestion}
+const API={loadAllSurveys, deleteSurvey, addSurvey, publishSurvey, addQuestion, loadAllQuestions, deleteQuestion, getQuestions, updateOrderQuestion, getAnswers}
 export default API

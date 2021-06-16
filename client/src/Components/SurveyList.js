@@ -3,7 +3,7 @@ import {ListGroup,Card,Button} from 'react-bootstrap'
 import { Link } from "react-router-dom";
 
 function SurveyItem(props){
-    const {survey, onDelete, onSelect, index} = props
+    const {survey, onDelete, onSelect, index, onAnswer} = props
     
     return(
         <>
@@ -22,7 +22,7 @@ function SurveyItem(props){
           Start the Survey
         </Link>
         <Link
-            onClick={(event) => onSelect(survey.id)}
+            onClick={(event) => onAnswer(survey.id, 5)}
           className="btn btn-success"
           to={{
             pathname: "/answers",
@@ -42,7 +42,7 @@ function SurveyItem(props){
 }
 
 function SurveyList(props){
-    const {surveys, onDelete, onSelect} =props
+    const {surveys, onDelete, onSelect, onAnswer} =props
     return(
         <>
         {/* <div className="addbtn"><Button variant="success" size="lg">Add a Survey</Button></div> */}
@@ -53,7 +53,7 @@ function SurveyList(props){
                 surveys.map((s,index)=>{
                     return(
                         <ListGroup.Item as ="li" key={index} >
-                            <SurveyItem  survey={s}    onDelete={() => onDelete(s)} onSelect={()=>onSelect(s.id)} index={index}/>
+                            <SurveyItem  survey={s}    onDelete={() => onDelete(s)} onSelect={()=>onSelect(s.id)} index={index} onAnswer={()=>onAnswer(s.id,5)}/>
                             </ListGroup.Item>                    )
                 })
             }
