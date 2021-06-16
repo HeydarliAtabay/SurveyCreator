@@ -3,11 +3,11 @@ import {ListGroup,Card,Button} from 'react-bootstrap'
 import { Link } from "react-router-dom";
 
 function SurveyItem(props){
-    const {survey, onDelete, onSelect} = props
+    const {survey, onDelete, onSelect, index} = props
     return(
         <>
         <div className="survCards">
-        <Card bg="dark" text="light"> 
+        <Card bg="dark" text="light" id={index+1}> 
             <Card.Header>Survey</Card.Header>
             <Card.Body>
             <Card.Title>{survey.title}</Card.Title>
@@ -38,12 +38,12 @@ function SurveyList(props){
         {/* <div className="addbtn"><Button variant="success" size="lg">Add a Survey</Button></div> */}
         <div className="cont">
         <h3>Please, Select the survey</h3>
-            <ListGroup as="ul" variant="flush">
+            <ListGroup as="ul" variant="flush" key={surveys.id}>
             {
-                surveys.map(s=>{
+                surveys.map((s,index)=>{
                     return(
-                        <ListGroup.Item as ="li" key={surveys.id} >
-                            <SurveyItem survey={s}    onDelete={() => onDelete(s)} onSelect={()=>onSelect(s.id)}/>
+                        <ListGroup.Item as ="li" key={index} >
+                            <SurveyItem  survey={s}    onDelete={() => onDelete(s)} onSelect={()=>onSelect(s.id)} index={index}/>
                             </ListGroup.Item>                    )
                 })
             }

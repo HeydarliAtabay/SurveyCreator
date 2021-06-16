@@ -7,7 +7,6 @@ const url='http://localhost:3000'
 async function  loadAllSurveys(){
  const response= await fetch(url+'/api/surveys')
  const surveys= await response.json()
- console.log(surveys)
  return surveys
 
 

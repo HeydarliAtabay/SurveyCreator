@@ -80,6 +80,7 @@ function QuestionItem(props) {
             {question.num === 0 && (
               <>
                 <Form.Control
+                  key={index}
                   size="lg"
                   type="text"
                   placeholder="Write your answer here"
@@ -164,13 +165,13 @@ function QuestionList(props) {
             <Form.Control size="lg" type="text" placeholder="Write your name" />
           </Col>
         </Row>
-        <ListGroup as="ul" variant="flush">
+        <ListGroup as="ul" variant="flush" key={questions.id}>
           {questions.map((q,index) => {
             number++
             return (
               <>
               
-                <ListGroup.Item as="li" key={questions.id}>
+                <ListGroup.Item as="li" key={index}>
                   <QuestionItem
                    
                     question={q}
@@ -189,9 +190,11 @@ function QuestionList(props) {
 : <h6>The number of questions is {number}. It is enough for publishing. Good Luck</h6>
 }
      
-        <Button size="lg" variant="primary">
-          Submit the answers
-        </Button>
+       {number!==0 &&
+       <Button size="lg" variant="primary">
+       Submit the answers
+     </Button>
+       } 
         { number!==0 &&
           <Button size="lg" variant="success" onClick={()=>onPublish(surveyId)}>
           Publish the survey
