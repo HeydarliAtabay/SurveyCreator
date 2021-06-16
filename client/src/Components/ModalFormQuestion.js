@@ -233,7 +233,7 @@ function ModalFormQuestion(props) {
                 )} 
   </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={onClose}>
+            <Button variant="secondary" type="submit">
               Cancel
             </Button>
             <Button variant="primary" type="submit">

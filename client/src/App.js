@@ -44,11 +44,6 @@ function App(props) {
       }
     }, [dirty])
     
-  // function handleSelection() {
-  //     API.getSurveys()
-  //       .then((tasks) => setSurveyList(tasks))
-  //       .catch(err => (err) );
-  // }
 
   useEffect(() => {
       API.getQuestions(surveyId).then(newQuestion=>{
@@ -77,7 +72,6 @@ function App(props) {
    // setQuestionList((oldQuestions) => [...oldQuestions, { ...question, id: id }] );
    API.addQuestion(question,id, surveyId).then((err)=>{setDirtyQuestions(true)})
   }
-
 
   
   
@@ -163,13 +157,13 @@ function App(props) {
       <Route path="/surveys"> 
       <div className="addbtn"><Button variant="success" size="lg"  onClick={() => setSelectedTask(MODAL.ADD)}>Add a Survey</Button></div>
       {(selectedTask !== MODAL.CLOSED) && <ModalFormTitle onSave={handleSaveSurvey} onClose={handleClose}></ModalFormTitle>}
-      <SurveyList surveys={surveyList}  onDelete={deleteSurvey} onSelect={handleselect} />
+      <SurveyList surveys={surveyList}  onDelete={deleteSurvey} onSelect={handleselect}  />
       
       </Route>
        <Route path="/questions"> 
       <div className="addbtn"><Button variant="success" size="lg"  onClick={() => setSelectedTask(MODAL.ADD)}>Add a Question</Button></div>
       {(selectedTask !== MODAL.CLOSED) && <ModalFormQuestion onSave={handleSaveQuestions} onClose={handleClose}></ModalFormQuestion>}
-      <QuestionList questions={questionList} onDelete={deleteQuestion} onUp={orderUpQuestion} onDown={orderDownQuestion} onPublish={publishSurvey} />
+      <QuestionList questions={questionList} onDelete={deleteQuestion} onUp={orderUpQuestion} onDown={orderDownQuestion} onPublish={publishSurvey} survey={surveyId} />
       </Route> 
      
       <Route path="/login"> 

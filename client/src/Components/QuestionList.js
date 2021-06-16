@@ -1,5 +1,5 @@
-import { React,} from "react";
-import { ListGroup, Button, Form, Row, Col } from "react-bootstrap";
+import { React, useState} from "react";
+import { ListGroup, Button, Form, Row, Col, Container} from "react-bootstrap";
 import {
   BookmarkStar,
   Check2All,
@@ -15,7 +15,7 @@ function QuestionItem(props) {
   
   return (
     <>
-    
+    <Container fluid>
       <div className="questionCards">
         {(index+1)!==0 && <h6>{index+1}.</h6>}
         {question.min === 1 && (
@@ -39,7 +39,7 @@ function QuestionItem(props) {
           <Col sm={10}>
             {question.num !== 0 && (
               <Form.Group>
-                {[...Array(question.num)].map((q, index) => {
+                {[...Array(question.num)].map((q, index1) => {
                   // let string = `answ${index + 1}`;
                   let string = [
                     "one",
@@ -56,13 +56,27 @@ function QuestionItem(props) {
 
                   return (
                     <>
-                      <Form.Check className="questionText"
-                        id={index + 1}
-                        key={index}
-                        type="checkbox"
-                        size="lg"
-                        label ={question[string[index]]}
-                      ></Form.Check>
+                    {(question.max===1 && question.min===1) ? 
+                    <Form.Check className="questionText"
+                    id={index1}
+                    name="radio"
+                    key={`question-${index} check-${index1}`}
+                    type="radio"
+                    size="lg"
+                    label ={question[string[index1]]}
+                  ></Form.Check>
+                :  
+                   <Form.Check className="questionText"
+                   id={index1}
+                   
+                   key={index1}
+                   type="checkbox"
+                  size="lg"
+                  label ={question[string[index1]]}
+              ></Form.Check>
+                } 
+                    
+                     
                       {/* {  this part will be added after authentication part
                         <Form.Check
                         disabled
@@ -77,6 +91,7 @@ function QuestionItem(props) {
                 })}
               </Form.Group>
             )}
+            
             {question.num === 0 && (
               <>
                 <Form.Control
@@ -109,6 +124,7 @@ function QuestionItem(props) {
         </Row>
         
       </div>
+      </Container>
     </>
   );
 }
@@ -117,6 +133,7 @@ function QuestionRowControl(props) {
   const { onDelete, onUp, onDown, index, last } = props;
   return (
     <>
+    <Container fluid>
       <div className="flex-fill m-auto">
         <Row>
           <Col>
@@ -140,31 +157,63 @@ function QuestionRowControl(props) {
           </Col>
         </Row>
       </div>
+      </Container>
     </>
   );
 }
 
 function QuestionList(props) {
-  
   let number=0
-  const { questions, onDelete, onUp, onDown, onPublish} = props;
+  const { questions, onDelete, onUp, onDown, onPublish, survey} = props;
+  const [name, setName]=useState('')
+
+  const [validated, setValidated] = useState(false);
+
+
+  const handleSubmit = (event) => {
+    // stop event default and propagation
+    event.preventDefault();
+    event.stopPropagation(); 
+
+    const form = event.currentTarget; 
+
+    // check if form is valid using HTML constraints
+    if (!form.checkValidity()) { 
+      setValidated(true); // enables bootstrap validation error report
+    }
+      // we must re-compose the task object from its separated fields
+      // deadline propery must be created from the form date and time fields
+      // id must be created if already present (edit) not if the task is new
+     
+    else  console.log("Everything is fine")
+  }
+
   let last=questions.length
   let surveyId=0
   last!==0?surveyId=questions[0].survey_id: surveyId=0
   return (
     <>
       <div className="cont">
+        <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <h3>
           Please, Write your name and start answering questions for the survey
         </h3>
+        <Form.Group controlId="validationUsername">
         <Row>
           <Col sm={4}>
             <h3>Your name:</h3>
           </Col>
           <Col sm={8}>
-            <Form.Control size="lg" type="text" placeholder="Write your name" />
+            <Form.Control hasValidation size="lg" type="text" placeholder="Write your name"   value={name}
+                onChange={(ev) => setName(ev.target.value)}
+                required/>
+                <Form.Text className="text-muted"> You don't have to write your exact name, any username is accepted</Form.Text>
+                 
           </Col>
+          
         </Row>
+        </Form.Group>
+        <Form.Group>
         <ListGroup as="ul" variant="flush" key={questions.id}>
           {questions.map((q,index) => {
             number++
@@ -186,12 +235,13 @@ function QuestionList(props) {
             );
           })}
         </ListGroup>
+        </Form.Group>
 {number===0? <h4>Number of questions is {number}. You should have at least one question for publishing the survey</h4>
 : <h6>The number of questions is {number}. It is enough for publishing. Good Luck</h6>
 }
      
        {number!==0 &&
-       <Button size="lg" variant="primary">
+       <Button size="lg" variant="primary" onClick={handleSubmit}>
        Submit the answers
      </Button>
        } 
@@ -200,7 +250,7 @@ function QuestionList(props) {
           Publish the survey
           </Button>
         }
-        
+        </Form>
       </div>
     </>
   );

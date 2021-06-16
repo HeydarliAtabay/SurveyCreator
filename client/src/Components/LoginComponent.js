@@ -15,6 +15,7 @@ function LoginComponent(props) {
             <Form.Group controlId="password">
               <Form.Label className="formtxt">Password</Form.Label>
               <Form.Control type="password" size="lg" />
+              <Form.Text className="text-muted"> Length of your password should be at least 5 characters</Form.Text>
             </Form.Group>
             <Button size="lg">Login</Button>
           </Form>
