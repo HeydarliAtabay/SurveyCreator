@@ -168,7 +168,7 @@ function App(props) {
       </Route> 
 
        <Route path="/answers"> 
-      <AnswerList questions={questionList} onPublish={publishSurvey} survey={surveyId} />
+      <AnswerList questions={questionList} onPublish={publishSurvey} survey={surveyId} responder={"Atabay"} />
       </Route> 
      
       <Route path="/login"> 

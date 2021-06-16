@@ -38,7 +38,6 @@
 }
 
 .cont {
-  padding-top: 5rem;
   width: 900px;
   margin: auto;
   text-align: center;
@@ -92,4 +91,11 @@
 .questionText {
   font-size: larger;
   font-style: italic;
+}
+
+.navigationRow {
+  width: max-content;
+  margin: auto;
+  padding-top: 5rem;
+  text-align: center;
 }

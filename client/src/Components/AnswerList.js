@@ -3,11 +3,9 @@ import { ListGroup, Button, Form, Row, Col, Container} from "react-bootstrap";
 import {
   BookmarkStar,
   Check2All,
-  Trash,
-  ArrowUpSquare,
-  ArrowDownSquare,
+  ArrowLeftSquare,
+  ArrowRightSquare,
 } from "react-bootstrap-icons";
-import { Link } from "react-router-dom";
 
 
 function QuestionItem(props) {
@@ -27,6 +25,7 @@ function QuestionItem(props) {
 
   return (
     <>
+        
     <Container fluid>
       <div className="questionCards">
         {(index+1)!==0 && <h6>{index+1}.</h6>}
@@ -142,7 +141,7 @@ function QuestionItem(props) {
 
 function AnswerList(props) {
   let number=0
-  const { questions, onDelete, onUp, onDown, onPublish, survey} = props;
+  const { questions, onDelete, onUp, onDown,responder} = props;
 
 
 
@@ -151,7 +150,24 @@ function AnswerList(props) {
   last!==0?surveyId=questions[0].survey_id: surveyId=0
   return (
     <>
+     <div className="navigationRow">
+         <Form.Group>
+       <Row >
+       <Button variant="link" className="shadow-none1">
+              <ArrowLeftSquare size={32} />
+            </Button>
+            <h3>Answers of {responder}</h3>
+            <Button variant="link" className="shadow-none1">
+              <ArrowRightSquare size={32} />
+            </Button>   
+           </Row> 
+           <Form.Text className="text-muted"> For navigating between answers, press arrows</Form.Text>
+                
+           </Form.Group>
+    </div> 
       <div className="cont">
+          
+      
         <Form >
         <Form.Group>
         <ListGroup as="ul" variant="flush" key={questions.id}>
