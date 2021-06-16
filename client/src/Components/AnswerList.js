@@ -165,7 +165,7 @@ function AnswerList(props) {
                 
            </Form.Group>
     </div> 
-      <div className="cont">
+      <div className="cont1">
           
       
         <Form >

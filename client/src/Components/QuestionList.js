@@ -259,7 +259,7 @@ function QuestionList(props) {
 }
      
        {number!==0 &&
-       <Button size="lg" variant="primary" type="submit">
+       <Button  variant="success" type="submit">
        Submit the answers
      </Button>
        } 

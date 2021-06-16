@@ -21,6 +21,15 @@ function SurveyItem(props){
         >
           Start the Survey
         </Link>
+        <Link
+            onClick={(event) => onSelect(survey.id)}
+          className="btn btn-success"
+          to={{
+            pathname: "/answers",
+          }}
+        >
+          Check answers
+        </Link>
             {survey.published===0 && <Button variant="warning" onClick={(event) =>  window.location.href='/questions'}>Modify the Survey</Button>}
             <Button variant="danger" onClick={onDelete}>Delete the Survey</Button>
             

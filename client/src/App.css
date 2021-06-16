@@ -38,6 +38,12 @@
 }
 
 .cont {
+  padding-top: 5rem;
+  width: 900px;
+  margin: auto;
+  text-align: center;
+}
+.cont1 {
   width: 900px;
   margin: auto;
   text-align: center;
