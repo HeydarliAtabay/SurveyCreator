@@ -20,12 +20,14 @@ function App(props) {
   const [surveyList, setSurveyList]=useState([])
   const [questionList, setQuestionList]=useState([])
   const [answerList, setAnswerList]=useState([])
+  const [submissionList, setSubmissionList]=useState([])
   const [loading, setLoading]=useState(true)//this for checking the loading at mount
   const [dirty, setDirty] =useState(true)
   const [dirtyQuestions, setDirtyQuestions] =useState(true)
   const [dirtyAnswers, setDirtyAnswers] =useState(true)
   const [surveyId, setSurveyId]=useState()
   const [submission, setSubmission]=useState()
+
 
   const MODAL = { CLOSED: -2, ADD: -1 };
   const [selectedTask, setSelectedTask] = useState(MODAL.CLOSED);
@@ -65,7 +67,11 @@ function App(props) {
       setDirtyAnswers(false)
      })
 
- }, [dirtyAnswers, surveyId,submission])
+ }, [dirtyAnswers, surveyId, submission])
+
+ useEffect(()=>{
+  getSubmissions(surveyId)
+ },[surveyId])
 
   function addSurvey (survey)  {
     // const id = Math.max(...surveyList.map( s => s.id )) + 1;
@@ -111,6 +117,16 @@ function App(props) {
     } catch(err) {
       console.log(err);
     }
+  }
+
+  async function getSubmissions(surveyId){
+    try {
+      const submissions = await API.getSubmissionsOfSurvey(surveyId);
+      setSubmissionList(submissions);
+      setDirtyAnswers(false)
+    } catch(err) {
+      console.log(err);
+    } 
   }
 
   function deleteQuestion (question) {
@@ -163,17 +179,18 @@ function App(props) {
 
 
   const handleSaveSurvey = (survey) => {
-    // if the task has an id it is an update
     addSurvey(survey);
     setSelectedTask(MODAL.CLOSED); 
   }
 
   const handleSaveQuestions = (question) => {
-    // if the task has an id it is an update
     addQuestion(question);
     setSelectedTask(MODAL.CLOSED); 
   }
 
+  const handleRight=(submissionId)=>{
+    setSubmission(submissionId)
+  }
   return (
     <Router>
       <Container fluid > 
@@ -192,7 +209,7 @@ function App(props) {
       </Route> 
 
        <Route path="/answers"> 
-      <AnswerList questions={questionList} answers={answerList} onPublish={publishSurvey} survey={surveyId} responder={"Atabay"} />
+      <AnswerList submissions={submissionList} questions={questionList} answers={answerList} onPublish={publishSurvey} survey={surveyId} responder={"Atabay"} onRight={handleRight} />
       </Route> 
      
       <Route path="/login"> 

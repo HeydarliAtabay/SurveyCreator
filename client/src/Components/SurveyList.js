@@ -21,6 +21,7 @@ function SurveyItem(props){
         >
           Start the Survey
         </Link>
+       { survey.numRespond!==0 &&
         <Link
             onClick={(event) => onAnswer(survey.id, 5)}
           className="btn btn-success"
@@ -30,6 +31,7 @@ function SurveyItem(props){
         >
           Check answers
         </Link>
+       } 
             {survey.published===0 && <Button variant="warning" onClick={(event) =>  window.location.href='/questions'}>Modify the Survey</Button>}
             <Button variant="danger" onClick={onDelete}>Delete the Survey</Button>
             

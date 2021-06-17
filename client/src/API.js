@@ -1,5 +1,6 @@
 import Question from './models/question'
 import Answer from './models/answer'
+import Submission from './models/submission'
 
 const url='http://localhost:3000'
 
@@ -188,6 +189,25 @@ function addQuestion(question,orderId, surveyId) {
     }
   }
 
+
+  // for submissions 
+  async function getSubmissionsOfSurvey(surveyId) {
+    let url1 = "/api/submissions";
+    if(surveyId){
+        const queryParams = "/survey/" +surveyId 
+        url1 += queryParams;
+    }
+    const response = await fetch(url + url1);
+    const tasksJson = await response.json();
+    if(response.ok){
+        //return tasksJson.map((t) => Task.from(t));
+        return tasksJson.map((s) => new Submission(s.id,s.responder, s.survey_id));
+    } else {
+        let err = {status: response.status, errObj:tasksJson};
+        throw err;  // An object with the error coming from the server
+    }
+  }
+
     //Error handling is missing
-const API={loadAllSurveys, deleteSurvey, addSurvey, publishSurvey, addQuestion, loadAllQuestions, deleteQuestion, getQuestions, updateOrderQuestion, getAnswers}
+const API={loadAllSurveys, deleteSurvey, addSurvey, publishSurvey, addQuestion, loadAllQuestions, deleteQuestion, getQuestions, updateOrderQuestion, getAnswers, getSubmissionsOfSurvey}
 export default API

@@ -1,8 +1,6 @@
 import { React, useState} from "react";
 import { ListGroup, Button, Form, Row, Col, Container} from "react-bootstrap";
 import {
-  BookmarkStar,
-  Check2All,
   ArrowLeftSquare,
   ArrowRightSquare,
 } from "react-bootstrap-icons";
@@ -10,18 +8,10 @@ import {
 
 function QuestionItem(props) {
   const { answer, question, index, selectedAnswers } = props;
-  const [checked, setChecked]=useState([false,false,false,false,false,false,false,false,false,false])
   // let min=question.min
   // let max=question.max
-  let count=0
-  const handleChecked = (number) => {
-    // if the task has an id it is an update
-
-    for (let i=0;i<checked.length;i++){
-      if(checked[i]===true) count++
-    }
-    console.log(count)
-  }
+ 
+  
   return (
     <>
         
@@ -91,6 +81,7 @@ function QuestionItem(props) {
                   placeholder="Write your answer here"
                   maxLength={200}
                   as="textarea"
+                  defaultValue={answer.answer}
                   rows={3}
                 />
                 {question.min === 1 && (
@@ -115,13 +106,35 @@ function QuestionItem(props) {
 
 function AnswerList(props) {
   let number=0
-  const { questions, answers, responder} = props;
+  const { questions, answers, responder, onRight, onLeft, survey, submissions} = props;
+  const [subindex, setSubIndex]=useState(submissions?submissions[0].id:2)
 
   let selectedAnswers=[]
   let question=[]
   let last=answers.length
-  let surveyId=0
+  let surveyId=0;
+
   last!==0?surveyId=answers[0].survey_id: surveyId=0
+
+
+ let lastId=submissions[submissions.length-1].id
+  // function handleRight(index){
+  //   let a =index-1
+  //   if(a < parseInt(lastId)){
+  //     a++
+  //     setSubIndex(submissions[a].id)
+  //    //console.log(submissions[a].id)
+  //   } 
+    
+  // }
+
+  const handleRight =()=>{
+    let a=subindex
+    if(a<lastId){
+      a++
+      setSubIndex(a)
+    }
+  }
   return (
     <>
      <div className="navigationRow">
@@ -130,9 +143,15 @@ function AnswerList(props) {
        <Button variant="link" className="shadow-none1">
               <ArrowLeftSquare size={32} />
             </Button>
-            <h3>Answers of {responder}</h3>
+            <h3>Answers of {submissions[subindex-1].responder}</h3>
             <Button variant="link" className="shadow-none1">
-              <ArrowRightSquare size={32} />
+              <ArrowRightSquare size={32} 
+              onClick={()=>{
+                onRight(submissions[subindex].id)
+                handleRight()
+              }
+              }
+              />
             </Button>   
            </Row> 
            <Form.Text className="text-muted"> For navigating between answers, press arrows</Form.Text>

@@ -194,7 +194,11 @@ exports.listAllAnswers = () => {
 
 exports.getAnswersOfSurvey = function (surveyId, submissionId) {
   return new Promise((resolve, reject) => {
-      const sql = "SELECT * from answers WHERE survey_id=? AND submission_id=?";
+    //const sql = "SELECT * from rentals as r, cars as c WHERE r.cid == c.id AND uid == ? AND DATE(endDay) >= CURRENT_DATE";
+       
+     // const sql = "SELECT [id,submission_id,survey_id,question_id, questiontype, answer, one, two, three,four,five,six,seven, eight, nine, ten , order] from answers as a, questions as q WHERE a.question_id==q.id AND a.survey_id==? AND a.submission_id=? ORDER BY [order]";
+      const sql = "SELECT * from questions as q, answers as a WHERE a.question_id==q.id AND a.survey_id==? AND a.submission_id=? ORDER BY [order]";
+     
       db.all(sql, [surveyId,submissionId], (err, rows) => {
           if(err) reject(err);
           else resolve(rows);
