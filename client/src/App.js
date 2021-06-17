@@ -191,6 +191,10 @@ function App(props) {
   const handleRight=(submissionId)=>{
     setSubmission(submissionId)
   }
+
+  const handleLeft=(submissionId)=>{
+    setSubmission(submissionId)
+  }
   return (
     <Router>
       <Container fluid > 
@@ -209,7 +213,7 @@ function App(props) {
       </Route> 
 
        <Route path="/answers"> 
-      <AnswerList submissions={submissionList} questions={questionList} answers={answerList} onPublish={publishSurvey} survey={surveyId} responder={"Atabay"} onRight={handleRight} />
+      <AnswerList submissions={submissionList} questions={questionList} answers={answerList} onPublish={publishSurvey} survey={surveyId} responder={"Atabay"} onRight={handleRight} onLeft={handleLeft}/>
       </Route> 
      
       <Route path="/login"> 

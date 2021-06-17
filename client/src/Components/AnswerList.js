@@ -107,7 +107,7 @@ function QuestionItem(props) {
 function AnswerList(props) {
   let number=0
   const { questions, answers, responder, onRight, onLeft, survey, submissions} = props;
-  const [subindex, setSubIndex]=useState(submissions?submissions[0].id:2)
+  const [subindex, setSubIndex]=useState(submissions?submissions[0].id:1)
 
   let selectedAnswers=[]
   let question=[]
@@ -118,6 +118,8 @@ function AnswerList(props) {
 
 
  let lastId=submissions[submissions.length-1].id
+ let firstId=submissions[0].id
+ console.log("First id", firstId)
   // function handleRight(index){
   //   let a =index-1
   //   if(a < parseInt(lastId)){
@@ -133,26 +135,68 @@ function AnswerList(props) {
     if(a<lastId){
       a++
       setSubIndex(a)
+      console.log(a)
     }
+    
+  }
+
+  const handleLeft =()=>{
+    let b=subindex
+    
+      b--
+      setSubIndex(b)
+      console.log(b)
+    
+    
   }
   return (
     <>
      <div className="navigationRow">
          <Form.Group>
        <Row >
-       <Button variant="link" className="shadow-none1">
-              <ArrowLeftSquare size={32} />
-            </Button>
+         {(submissions[subindex-1].id !==submissions[0].id)? 
+         <Button variant="link" className="shadow-none1" >
+         <ArrowLeftSquare size={32}
+         onClick={()=>{
+           onLeft(submissions[subindex-2].id)
+           handleLeft()
+         }
+         }
+         />
+         
+
+       </Button>
+       :
+       <Button disabled variant="link" className="shadow-none1" >
+         <ArrowLeftSquare size={32}
+         
+         />
+         
+
+       </Button>
+        }
+       
             <h3>Answers of {submissions[subindex-1].responder}</h3>
+           
+           {(submissions[subindex-1].id !==submissions[submissions.length-1].id)? 
             <Button variant="link" className="shadow-none1">
-              <ArrowRightSquare size={32} 
+              
+                <ArrowRightSquare size={32} 
               onClick={()=>{
                 onRight(submissions[subindex].id)
                 handleRight()
               }
               }
               />
-            </Button>   
+      
+            </Button>
+:
+              <Button disabled variant="link" className="shadow-none1">
+              <ArrowRightSquare size={32} 
+            />
+    
+          </Button>
+}   
            </Row> 
            <Form.Text className="text-muted"> For navigating between answers, press arrows</Form.Text>
                 
