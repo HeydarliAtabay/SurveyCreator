@@ -181,7 +181,7 @@ function addQuestion(question,orderId, surveyId) {
     const tasksJson = await response.json();
     if(response.ok){
         //return tasksJson.map((t) => Task.from(t));
-        return tasksJson.map((q) => new Answer(q.id,q.submission_id, q.survey_id, q.question_id, q.question,q.questiontype,q.answer, q.num,q.min,q.max,q.one,q.two,q.three,q.four,q.five,q.six,q.seven,q.eight,q.nine,q.ten));
+        return tasksJson.map((q) => new Answer(q.id,q.submission_id, q.survey_id, q.question_id,q.questiontype,q.answer, q.num,q.min,q.max,q.one,q.two,q.three,q.four,q.five,q.six,q.seven,q.eight,q.nine,q.ten));
     } else {
         let err = {status: response.status, errObj:tasksJson};
         throw err;  // An object with the error coming from the server

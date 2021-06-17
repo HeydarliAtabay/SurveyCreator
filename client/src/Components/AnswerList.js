@@ -9,10 +9,10 @@ import {
 
 
 function QuestionItem(props) {
-  const { question, index } = props;
+  const { answer, question, index, selectedAnswers } = props;
   const [checked, setChecked]=useState([false,false,false,false,false,false,false,false,false,false])
-  let min=question.min
-  let max=question.max
+  // let min=question.min
+  // let max=question.max
   let count=0
   const handleChecked = (number) => {
     // if the task has an id it is an update
@@ -22,36 +22,18 @@ function QuestionItem(props) {
     }
     console.log(count)
   }
-
   return (
     <>
         
     <Container fluid>
       <div className="questionCards">
         {(index+1)!==0 && <h6>{index+1}.</h6>}
-        {question.min === 1 && (
-          
-          <>
-            <div className="mandatory">
-              <BookmarkStar size={36} />
-            </div>
-          </>
-        )}
-        {question.max === 2 && (
-          <>
-            <div className="multiple">
-              <Check2All size={36} />
-            </div>
-          </>
-        )}
-        {/* {mandatory ? <h1>This is mandatory</h1>: <h1>this is optional</h1>} */}
         <h4>{question.question}</h4>
         <Row>
           <Col sm={10}>
-            <Row><h6>min:{min}</h6><h6>max:{max}</h6></Row>
-            {question.num !== 0 && (
+            {answer.answer !== "" && (
               <Form.Group>
-                {[...Array(question.num)].map((q, index1) => {
+                {[...Array(selectedAnswers.length)].map((q, index1) => {
                   // let string = `answ${index + 1}`;
                   let string = [
                     "one",
@@ -68,29 +50,21 @@ function QuestionItem(props) {
 
                   return (
                     <>
-                    {(question.max===1 && question.min===1) ? 
-                    <Form.Check className="questionText"
-                    id={index1}
-                    name="radio"
-                    key={`question-${index} check-${index1}`}
-                    type="radio"
-                    size="lg"
-                    label ={question[string[index1]]}
-                  ></Form.Check>
-                :  
-                   <Form.Check className="questionText"
-                   id={index1}
-                   
-                   key={index1}
-                   type="checkbox"
-                  size="lg"
-                  label ={question[string[index1]]}
-                  checked={checked[index1]}
-                  onChange={(ev) => {
-                  handleChecked()
-                  }}
-              ></Form.Check>
-                } 
+                 {question.questiontype===1 &&
+                  <Form.Check className="questionText"
+                  id={index1}
+                  disabled
+                  key={index1}
+                  checked={true}
+                  type="checkbox"
+                 size="lg"
+                // label ={question[string[index1]]}
+                label={question[selectedAnswers[index1]]}
+                 
+             ></Form.Check>
+                 }
+                  
+                
                     
                      
                       {/* {  this part will be added after authentication part
@@ -108,7 +82,7 @@ function QuestionItem(props) {
               </Form.Group>
             )}
             
-            {question.num === 0 && (
+            {(question.num === 0 && question.questiontype===0)&& (
               <>
                 <Form.Control
                   key={index}
@@ -141,13 +115,13 @@ function QuestionItem(props) {
 
 function AnswerList(props) {
   let number=0
-  const { questions, onDelete, onUp, onDown,responder} = props;
+  const { questions, answers, responder} = props;
 
-
-
-  let last=questions.length
+  let selectedAnswers=[]
+  let question=[]
+  let last=answers.length
   let surveyId=0
-  last!==0?surveyId=questions[0].survey_id: surveyId=0
+  last!==0?surveyId=answers[0].survey_id: surveyId=0
   return (
     <>
      <div className="navigationRow">
@@ -170,19 +144,38 @@ function AnswerList(props) {
       
         <Form >
         <Form.Group>
-        <ListGroup as="ul" variant="flush" key={questions.id}>
-          {questions.map((q,index) => {
+        <ListGroup as="ul" variant="flush" key={answers.id}>
+
+          {answers.map((q,index) => {
+             let string = [
+              "one",
+              "two",
+              "three",
+              "four",
+              "five",
+              "six",
+              "seven",
+              "eight",
+              "nine",
+              "ten",
+            ];
             number++
+            for(let i=0;i<questions.length;i++){
+              if(answers[index].question_id===questions[i].id)question=questions[i]
+            }
+            for(let i=0;i<9;i++){
+              if(answers[index][string[i]]===1) selectedAnswers.push(string[i])
+            }
+            
+           
             return (
               <>
               
                 <ListGroup.Item as="li" key={index}>
                   <QuestionItem
-                   
-                    question={q}
-                    onDelete={() => onDelete(q)}
-                    onUp={() => onUp(q)}
-                    onDown={() => onDown(q)}
+                    selectedAnswers={selectedAnswers}
+                    question={question}
+                    answer={q}
                     index={index}
                     last={last}
                   />

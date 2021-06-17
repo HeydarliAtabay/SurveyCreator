@@ -1,6 +1,6 @@
 class Answer{    
 
-    constructor(id, submission_id, survey_id, question_id, question, questiontype, answer, num, min, max, one, two,three,four,five,six,seven,eight,nine,ten) {
+    constructor(id, submission_id, survey_id, question_id, questiontype, answer, num, min, max, one, two,three,four,five,six,seven,eight,nine,ten) {
         if(id){
             this.id = id;
         }
@@ -8,7 +8,6 @@ class Answer{
         this.submission_id=submission_id; 
         this.survey_id=survey_id  
         this.question_id = question_id;
-        this.question = question;
         this.questiontype = questiontype;
         if(answer) this.answer=answer
         this.num=num;
