@@ -182,7 +182,7 @@ function QuestionRowControl(props) {
 
 function QuestionList(props) {
   let number=0
-  const { questions, onDelete, onUp, onDown, onPublish, survey} = props;
+  const { questions, onDelete, onUp, onDown, onPublish} = props;
   const [name, setName]=useState('')
 
   const [validated, setValidated] = useState(false);

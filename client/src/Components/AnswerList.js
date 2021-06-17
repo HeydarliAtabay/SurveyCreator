@@ -105,16 +105,13 @@ function QuestionItem(props) {
 
 
 function AnswerList(props) {
-  let number=0
-  const { questions, answers, responder, onRight, onLeft, survey, submissions} = props;
+  const { questions, answers, onRight, onLeft, submissions} = props;
   const [subindex, setSubIndex]=useState(submissions?submissions[0].id:1)
 
   let selectedAnswers=[]
   let question=[]
   let last=answers.length
-  let surveyId=0;
-
-  last!==0?surveyId=answers[0].survey_id: surveyId=0
+ 
 
 
  let lastId=submissions[submissions.length-1].id
@@ -149,6 +146,7 @@ function AnswerList(props) {
     
     
   }
+  let number=0
   return (
     <>
      <div className="navigationRow">
