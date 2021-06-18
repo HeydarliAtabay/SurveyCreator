@@ -7,11 +7,31 @@ import {
 
 
 function QuestionItem(props) {
-  const { answer, question, index, selectedAnswers } = props;
+  const { answer, question, index } = props;
   // let min=question.min
   // let max=question.max
- 
-  
+  let selectedAnswers=[]
+  let string = [
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+    "ten",
+  ];
+  let count=0
+  for(let i=0;i< string.length-1;i++){
+    if(answer[string[i]]===1){
+      count++
+      selectedAnswers.push(string[i])
+    }
+  }
+  const number=count
+  console.log("Start")
   return (
     <>
         
@@ -23,21 +43,10 @@ function QuestionItem(props) {
           <Col sm={10}>
             {answer.answer !== "" && (
               <Form.Group>
-                {[...Array(selectedAnswers.length)].map((q, index1) => {
+                {[...Array(number)].map((q, index1) => {
+                  console.log(selectedAnswers[index1])
                   // let string = `answ${index + 1}`;
-                  let string = [
-                    "one",
-                    "two",
-                    "three",
-                    "four",
-                    "five",
-                    "six",
-                    "seven",
-                    "eight",
-                    "nine",
-                    "ten",
-                  ];
-
+            
                   return (
                     <>
                  {question.questiontype===1 &&
@@ -48,15 +57,13 @@ function QuestionItem(props) {
                   checked={true}
                   type="checkbox"
                  size="lg"
+                 label={question[selectedAnswers[index1]]}
                 // label ={question[string[index1]]}
-                label={question[selectedAnswers[index1]]}
+                //label={question[selectedAnswers[index1]]}
+                
                  
              ></Form.Check>
-                 }
-                  
-                
-                    
-                     
+                 }   
                       {/* {  this part will be added after authentication part
                         <Form.Check
                         disabled
@@ -71,7 +78,6 @@ function QuestionItem(props) {
                 })}
               </Form.Group>
             )}
-            
             {(question.num === 0 && question.questiontype===0)&& (
               <>
                 <Form.Control
@@ -108,15 +114,10 @@ function AnswerList(props) {
   const { questions, answers, onRight, onLeft, submissions} = props;
   const [subindex, setSubIndex]=useState(submissions?submissions[0].id:1)
 
-  let selectedAnswers=[]
-  let question=[]
-  let last=answers.length
  
-
-
+  let last=answers.length
  let lastId=submissions[submissions.length-1].id
  let firstId=submissions[0].id
- console.log("First id", firstId)
   // function handleRight(index){
   //   let a =index-1
   //   if(a < parseInt(lastId)){
@@ -147,19 +148,36 @@ function AnswerList(props) {
     
   }
   let number=0
+  let questionids=[]
+  let questionss=[]
+  console.log(answers)
+  console.log(questions)
+  for (let i=0;i<answers.length;i++){
+    questionids.push(answers[i].question_id)
+  }
+  console.log(questionids)
+  for (let i=0;i<questionids.length;i++){
+    for(let j=0;j<questions.length;j++){
+      if(questionids[i]===questions[j].id)  questionss.push(questions[j])
+    }
+    
+  }
+  console.log(questionss)
   return (
     <>
      <div className="navigationRow">
          <Form.Group>
        <Row >
          {(submissions[subindex-1].id !==submissions[0].id)? 
-         <Button variant="link" className="shadow-none1" >
-         <ArrowLeftSquare size={32}
+         <Button variant="link" className="shadow-none1"
          onClick={()=>{
-           onLeft(submissions[subindex-2].id)
-           handleLeft()
-         }
-         }
+          onLeft(submissions[subindex-2].id)
+          handleLeft()
+        }
+        }
+         >
+         <ArrowLeftSquare size={32}
+        
          />
          
 
@@ -177,27 +195,21 @@ function AnswerList(props) {
             <h3>Answers of {submissions[subindex-1].responder}</h3>
            
            {(submissions[subindex-1].id !==submissions[submissions.length-1].id)? 
-            <Button variant="link" className="shadow-none1">
-              
-                <ArrowRightSquare size={32} 
-              onClick={()=>{
-                onRight(submissions[subindex].id)
-                handleRight()
-              }
-              }
-              />
-      
+            <Button variant="link" className="shadow-none1"
+            onClick={()=>{
+              onRight(submissions[subindex].id)
+              handleRight()
+            }}
+            > <ArrowRightSquare size={32}  />
             </Button>
 :
               <Button disabled variant="link" className="shadow-none1">
               <ArrowRightSquare size={32} 
             />
-    
           </Button>
 }   
            </Row> 
-           <Form.Text className="text-muted"> For navigating between answers, press arrows</Form.Text>
-                
+           <Form.Text className="text-muted"> For navigating between answers, press arrows</Form.Text>  
            </Form.Group>
     </div> 
       <div className="cont1">
@@ -208,34 +220,32 @@ function AnswerList(props) {
         <ListGroup as="ul" variant="flush" key={answers.id}>
 
           {answers.map((q,index) => {
-             let string = [
-              "one",
-              "two",
-              "three",
-              "four",
-              "five",
-              "six",
-              "seven",
-              "eight",
-              "nine",
-              "ten",
-            ];
-            number++
-            for(let i=0;i<questions.length;i++){
-              if(answers[index].question_id===questions[i].id)question=questions[i]
-            }
-            for(let i=0;i<9;i++){
-              if(answers[index][string[i]]===1) selectedAnswers.push(string[i])
-            }
-            
-           
+            //  let string = [
+            //   "one",
+            //   "two",
+            //   "three",
+            //   "four",
+            //   "five",
+            //   "six",
+            //   "seven",
+            //   "eight",
+            //   "nine",
+            //   "ten",
+            // ];
+            // number++
+            // for(let i=0;i<questions.length;i++){
+            //   if(answers[index].question_id===questions[i].id)question=questions[i]
+            // }
+            // for(let i=0;i<9;i++){
+            //   if(answers[index][string[i]]===1) selectedAnswers.push(string[i])
+            // }
             return (
               <>
               
                 <ListGroup.Item as="li" key={index}>
                   <QuestionItem
-                    selectedAnswers={selectedAnswers}
-                    question={question}
+                    // selectedAnswers={selectedAnswers}
+                    question={questionss[index]}
                     answer={q}
                     index={index}
                     last={last}
