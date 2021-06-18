@@ -44,9 +44,6 @@ function App(props) {
         setLoading(false)
         setDirty(false)
        })
-
-
-
       }
     }, [dirty])
     
@@ -58,7 +55,7 @@ function App(props) {
         setDirtyQuestions(false)
        })
 
-   }, [dirtyQuestions, surveyId])
+   }, [dirtyQuestions],surveyId)
 
    useEffect(() => {
     API.getAnswers(surveyId,submission).then(newQuestion=>{
@@ -74,8 +71,6 @@ function App(props) {
  },[surveyId])
 
   function addSurvey (survey)  {
-    // const id = Math.max(...surveyList.map( s => s.id )) + 1;
-    // setSurveyList((oldSurveys) => [...oldSurveys, { ...survey, id: id }] );
     API.addSurvey(survey).then((err)=>{setDirty(true)})
   }
 
@@ -84,7 +79,6 @@ function App(props) {
   }
 
   function addQuestion (question)  {
-    
     let orders=[...questionList.filter(q => q.survey_id===surveyId)].map(q =>  q.order)
     let id = Math.max.apply(null,orders)+1 ;
     if(!isFinite(id)) id=1
@@ -92,31 +86,28 @@ function App(props) {
    API.addQuestion(question,id, surveyId).then((err)=>{setDirtyQuestions(true)})
   }
 
-  
-  
  async function handleselect (id)
   {
-
     setSurveyId(id)
-    try {
-      const questions = await API.getQuestions(id);
-      setQuestionList(questions);
-      setDirtyQuestions(false)
-    } catch(err) {
-      console.log(err);
-    }
+    // try {
+    //   const questions = await API.getQuestions(id);
+    //   setQuestionList(questions);
+    //   setDirtyQuestions(false)
+    // } catch(err) {
+    //   console.log(err);
+    // }
   }
 
   async function getAnswers(surveyId,submissionId){
     setSurveyId(surveyId)
     setSubmission(submissionId)
-    try {
-      const answers = await API.getAnswers(surveyId,submissionId);
-      setAnswerList(answers);
-      setDirtyAnswers(false)
-    } catch(err) {
-      console.log(err);
-    }
+    // try {
+    //   const answers = await API.getAnswers(surveyId,submissionId);
+    //   setAnswerList(answers);
+    //   setDirtyAnswers(false)
+    // } catch(err) {
+    //   console.log(err);
+    // }
   }
 
   async function getSubmissions(surveyId){
