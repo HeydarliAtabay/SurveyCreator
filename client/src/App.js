@@ -55,7 +55,7 @@ function App(props) {
         setDirtyQuestions(false)
        })
 
-   }, [dirtyQuestions],surveyId)
+   }, [dirtyQuestions,surveyId])
 
    useEffect(() => {
     API.getAnswers(surveyId,submission).then(newQuestion=>{
@@ -89,25 +89,27 @@ function App(props) {
  async function handleselect (id)
   {
     setSurveyId(id)
-    // try {
-    //   const questions = await API.getQuestions(id);
-    //   setQuestionList(questions);
-    //   setDirtyQuestions(false)
-    // } catch(err) {
-    //   console.log(err);
-    // }
+    try {
+      const questions = await API.getQuestions(id);
+      setQuestionList(questions);
+      setDirtyQuestions(false)
+    } catch(err) {
+      console.log(err);
+    }
   }
 
   async function getAnswers(surveyId,submissionId){
-    setSurveyId(surveyId)
+    
     setSubmission(submissionId)
-    // try {
-    //   const answers = await API.getAnswers(surveyId,submissionId);
-    //   setAnswerList(answers);
-    //   setDirtyAnswers(false)
-    // } catch(err) {
-    //   console.log(err);
-    // }
+    setSurveyId(surveyId)
+    
+    try {
+      const answers = await API.getAnswers(surveyId,submissionId);
+      setAnswerList(answers);
+      setDirtyAnswers(false)
+    } catch(err) {
+      console.log(err);
+    }
   }
 
   async function getSubmissions(surveyId){
