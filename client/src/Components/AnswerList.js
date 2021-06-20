@@ -72,14 +72,17 @@ function QuestionItem(props) {
             {(question.num === 0 && question.questiontype===0)&& (
               <>
                 <Form.Control
+                disabled
                   key={'Answer'+index}
                   size="lg"
                   type="text"
                   maxLength={200}
+                  placeholder="User doesn't responded to this question"
                   as="textarea"
-                  defaultValue={answer.answer}
-                  rows={3}
+                  value={answer.answer? answer.answer: ''}
+                  rows={1}
                 />
+                {/* <h4>{answer.answer}</h4> */}
               </>
             )}
           </Col>

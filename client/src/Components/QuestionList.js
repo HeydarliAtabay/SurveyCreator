@@ -10,21 +10,76 @@ import {
 import { Link } from "react-router-dom";
 
 
+ // setAnswered(answered => [...answered, ev.target.checked]
+  // let string = [
+  //   "one",
+  //   "two",
+  //   "three",
+  //   "four",
+  //   "five",
+  //   "six",
+  //   "seven",
+  //   "eight",
+  //   "nine",
+  //   "ten",
+  // ];
 function QuestionItem(props) {
-  const { question, onDelete, onUp, onDown, index,last } = props;
-  const [checked, setChecked]=useState([false,false,false,false,false,false,false,false,false,false])
+  const { question, onDelete, onUp, onDown, index,last, setAnswers} = props;
+  const [answered, setAnswered]=useState([false,false,false,false,false,false,false,false,false,false])
+  const [openQAnswer, setOpenQAnswer]=useState('')
+  const [message,setMessage]=useState('')
+  const [error, setError]=useState(false)
+  
+let checkedAnswers=answered
+let count=0
+// this part should be fixed
+const onChangeAnswer = (ev,question,index) => {
+  if(ev.target.checked) {
+   count++
+   if(count>=question.min && count<=question.max){
+     setError(false)
+    checkedAnswers[index]=true
+    setAnswered(checkedAnswers)
+   }
+    if(count<question.min || count>question.max) {
+     setError(true)
+  }
+   
+    // setStatus(true)
+    // const newTask = Object.assign({}, task, { completed: status} );
+    // onSave(newTask);
+  }
+  else {
+    if(count!==0){
+      count--
+      if(count>=question.min && count<=question.max) {
+        setError(false)
+        checkedAnswers[index]=false
+       setAnswered(checkedAnswers)
+      }
+      if(count<question.min || count>question.max) {
+        setError(true)
+        
+      
+      }
+    }
+   
+  }
+  
+  
+  // else {
+  //   // task.completed = false;
+  //   // setStatus(false)
+  //   // const newTask = Object.assign({}, task, { completed: status} );
+
+  //   // onMave(newTask);
+  // }
+}
+  
+        
   let min=question.min
   let max=question.max
-  let count=0
-  const handleChecked = (number) => {
-    // if the task has an id it is an update
-
-    for (let i=0;i<checked.length;i++){
-      if(checked[i]===true) count++
-    }
-    console.log(count)
-  }
-
+  let selectedAnswers=[] // empty array for adding selected answers
   return (
     <>
     <Container fluid>
@@ -53,6 +108,7 @@ function QuestionItem(props) {
             {question.num !== 0 && (
               <Form.Group>
                 {[...Array(question.num)].map((q, index1) => {
+                  
                   // let string = `answ${index + 1}`;
                   let string = [
                     "one",
@@ -71,12 +127,15 @@ function QuestionItem(props) {
                     <>
                     {(question.max===1 && question.min===1) ? 
                     <Form.Check className="questionText"
-                    id={index1}
+                    id={index1+1}
                     name="radio"
                     key={`question-${index} check-${index1}`}
                     type="radio"
                     size="lg"
+                    
                     label ={question[string[index1]]}
+                    onChange={(ev) => setAnswered(answered => [...answered, ev.target.checked])}
+                    checked={answered[index1]}
                   ></Form.Check>
                 :  
                    <Form.Check className="questionText"
@@ -85,15 +144,12 @@ function QuestionItem(props) {
                    key={index1}
                    type="checkbox"
                   size="lg"
+                  // onChange={(ev) => setAnswered(ev.target.checked)}
                   label ={question[string[index1]]}
-                  checked={checked[index1]}
-                  onChange={(ev) => {
-                  handleChecked()
-                  }}
+                  value={answered[index1]}
+                  onChange={(ev)=>{ onChangeAnswer(ev,question,index1)}}
               ></Form.Check>
                 } 
-                    
-                     
                       {/* {  this part will be added after authentication part
                         <Form.Check
                         disabled
@@ -119,6 +175,11 @@ function QuestionItem(props) {
                   maxLength={200}
                   as="textarea"
                   rows={3}
+                  value={openQAnswer}
+                  onChange={(ev)=>{
+                    setOpenQAnswer(ev.target.value)
+                  }}
+                  required
                 />
                 {question.min === 1 && (
                   <Form.Control.Feedback type="invalid">
@@ -184,7 +245,7 @@ function QuestionList(props) {
   let number=0
   const { questions, onDelete, onUp, onDown, onPublish} = props;
   const [name, setName]=useState('')
-
+  const [answers, setAnswers]=useState([0])
   const [validated, setValidated] = useState(false);
 
 
@@ -205,7 +266,7 @@ function QuestionList(props) {
      
     else  console.log("Everything is fine")
   }
-
+//console.log(answers)
   let last=questions.length
   let surveyId=0
   last!==0?surveyId=questions[0].survey_id: surveyId=0
@@ -247,6 +308,7 @@ function QuestionList(props) {
                     onDown={() => onDown(q)}
                     index={index}
                     last={last}
+                    setAnswers={setAnswers}
                   />
                 </ListGroup.Item>
               </>
