@@ -3,8 +3,14 @@ import {ListGroup,Card,Button} from 'react-bootstrap'
 import { Link } from "react-router-dom";
 
 function SurveyItem(props){
-    const {survey, onDelete, onSelect, index, onAnswer} = props
-    
+    const {survey, onDelete, onSelect, index, onAnswer, submission} = props
+    let submissionids=[]
+    for(let i=0;i<submission.length;i++){
+      if(submission[i].survey_id===survey.id) {
+        submissionids.push(submission[i].id) 
+      }
+    }
+    console.log("First index of submission of survey: "+survey.id +" is "+submissionids[0])
     return(
         <>
         <div className="survCards">
@@ -16,14 +22,14 @@ function SurveyItem(props){
             onClick={(event) => onSelect(survey.id)}
           className="btn btn-primary"
           to={{
-            pathname: "/questions",
+            pathname: "/questions/"+survey.id,
           }}
         >
           Start the Survey
         </Link>
        { survey.numRespond!==0 &&
         <Link
-            onClick={(event) => onAnswer(survey.id, 5)}
+            onClick={(event) => onAnswer(survey.id, submissionids[0])}
           className="btn btn-success"
           to={{
             pathname: "/answers",
@@ -44,7 +50,7 @@ function SurveyItem(props){
 }
 
 function SurveyList(props){
-    const {surveys, onDelete, onSelect, onAnswer} =props
+    const {surveys, onDelete, onSelect, onAnswer, submission} =props
     return(
         <>
         {/* <div className="addbtn"><Button variant="success" size="lg">Add a Survey</Button></div> */}
@@ -55,7 +61,7 @@ function SurveyList(props){
                 surveys.map((s,index)=>{
                     return(
                         <ListGroup.Item as ="li" key={index} >
-                            <SurveyItem  survey={s}    onDelete={() => onDelete(s)} onSelect={()=>onSelect(s.id)} index={index} onAnswer={()=>onAnswer(s.id,5)}/>
+                            <SurveyItem  survey={s} submission={submission}   onDelete={() => onDelete(s)} onSelect={()=>onSelect(s.id)} index={index} onAnswer={onAnswer}/>
                             </ListGroup.Item>                    )
                 })
             }

@@ -27,7 +27,6 @@ function QuestionItem(props) {
   const { question, onDelete, onUp, onDown, index,last, setAnswers} = props;
   const [answered, setAnswered]=useState([false,false,false,false,false,false,false,false,false,false])
   const [openQAnswer, setOpenQAnswer]=useState('')
-  const [message,setMessage]=useState('')
   const [error, setError]=useState(false)
   
 let checkedAnswers=answered
@@ -40,6 +39,7 @@ const onChangeAnswer = (ev,question,index) => {
      setError(false)
     checkedAnswers[index]=true
     setAnswered(checkedAnswers)
+    setAnswers(checkedAnswers)
    }
     if(count<question.min || count>question.max) {
      setError(true)
@@ -245,9 +245,9 @@ function QuestionList(props) {
   let number=0
   const { questions, onDelete, onUp, onDown, onPublish} = props;
   const [name, setName]=useState('')
-  const [answers, setAnswers]=useState([0])
+  const [answers, setAnswers]=useState([])
   const [validated, setValidated] = useState(false);
-
+  console.log(answers)
 
   const handleSubmit = (event) => {
     // stop event default and propagation
