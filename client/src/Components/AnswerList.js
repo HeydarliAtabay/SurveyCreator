@@ -35,8 +35,7 @@ function QuestionItem(props) {
         
     <Container fluid>
       <div className="questionCards">
-        {(index+1)!==0 && <h6>{index+1}.</h6>}
-        <h4>{question.question}</h4>
+        {(index+1)!==0 && <h4>{index+1}. {question.question}</h4>}
         <Row>
           <Col sm={10}>
             {answer.answer !== "" && (

@@ -2,7 +2,6 @@ import { React, useState} from "react";
 import { ListGroup, Button, Form, Row, Col, Container} from "react-bootstrap";
 import {
   BookmarkStar,
-  Check2All,
   Trash,
   ArrowUpSquare,
   ArrowDownSquare,
@@ -33,7 +32,7 @@ let checkedAnswers=answered
 let count=0
 // this part should be fixed
 const onChangeAnswer = (ev,question,index) => {
-  if(ev.target.checked) {
+  if(ev.target.true) {
    count++
    if(count>=question.min && count<=question.max){
      setError(false)
@@ -84,7 +83,9 @@ const onChangeAnswer = (ev,question,index) => {
     <>
     <Container fluid>
       <div className="questionCards">
-        {(index+1)!==0 && <h6>{index+1}.</h6>}
+        {(index+1)!==0 && <h4>{index+1}. {question.question}</h4>}
+        
+       
         {question.min === 1 && (
           
           <>
@@ -93,20 +94,14 @@ const onChangeAnswer = (ev,question,index) => {
             </div>
           </>
         )}
-        {question.max === 2 && (
-          <>
-            <div className="multiple">
-              <Check2All size={36} />
-            </div>
-          </>
-        )}
+       
         {/* {mandatory ? <h1>This is mandatory</h1>: <h1>this is optional</h1>} */}
-        <h4>{question.question}</h4>
+      
         <Row>
           <Col sm={10}>
-            <Row><h6>min:{min}</h6><h6>max:{max}</h6></Row>
+            
             {question.num !== 0 && (
-              <Form.Group>
+              <Form.Group key={index}>
                 {[...Array(question.num)].map((q, index1) => {
                   
                   // let string = `answ${index + 1}`;
@@ -134,8 +129,8 @@ const onChangeAnswer = (ev,question,index) => {
                     size="lg"
                     
                     label ={question[string[index1]]}
-                    onChange={(ev) => setAnswered(answered => [...answered, ev.target.checked])}
-                    checked={answered[index1]}
+                    onChange={(ev)=>{ onChangeAnswer(ev,question,index1)}}
+                    value={answered[index1]}
                   ></Form.Check>
                 :  
                    <Form.Check className="questionText"
@@ -200,6 +195,14 @@ const onChangeAnswer = (ev,question,index) => {
             />
           </Col>
         </Row>
+        {question.num!==0 &&
+        <>
+        <div className="specificationsTxt">   
+        <Row><label>Minimum: {min} &nbsp; &nbsp; </label> <label>Maximum: {max}</label></Row>
+       
+        </div>
+        </>
+        }
         
       </div>
       </Container>
@@ -212,15 +215,19 @@ function QuestionRowControl(props) {
   
   return (
     <>
-    <Container fluid>
+    <Container >
       <div className="flex-fill m-auto">
         <Row>
+         
+          
           <Col>
+          <div className="deletecont">
+        <Col>
             <Button variant="link" className="shadow-none" onClick={onDelete}>
-              <Trash size={24} />
+              <Trash size={24} color="red" />
             </Button>
-          </Col>
-          <Col>
+          </Col> 
+        </div>
            {index !==0 && <Button variant="link" className="shadow-none" onClick={onUp}>
               <ArrowUpSquare size={32} />
             </Button> } 
@@ -272,8 +279,12 @@ function QuestionList(props) {
   last!==0?surveyId=questions[0].survey_id: surveyId=0
   return (
     <>
+    
       <div className="cont">
+      
+      
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          
         <h3>
           Please, Write your name and start answering questions for the survey
         </h3>
@@ -330,10 +341,7 @@ function QuestionList(props) {
           variant="primary"
           onClick={() => onPublish(surveyId)}
         className="btn btn-primary"
-        to={{
-          pathname: "/surveys"
-
-        }}
+        to={{pathname: "/surveys"}}
       >
         Publish the survey
       </Link>

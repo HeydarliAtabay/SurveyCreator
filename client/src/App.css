@@ -105,3 +105,22 @@
   padding-top: 5rem;
   text-align: center;
 }
+.deletecont {
+  position: absolute;
+  right: -15px;
+  top: -50px;
+}
+.specificationsTxt {
+  margin-left: 2rem;
+}
+
+label.specificationsTxt {
+  color: blue;
+}
+
+.spec {
+  position: absolute;
+  left: 5px;
+  height: 100px;
+  width: 150px;
+}

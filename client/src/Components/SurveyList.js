@@ -21,9 +21,9 @@ function SurveyItem(props){
             <Link
             onClick={(event) => onSelect(survey.id)}
           className="btn btn-primary"
-          to={{
-            pathname: "/questions/"+survey.id,
-          }}
+           to={{
+             pathname: "/questions/"+survey.id,
+           }}
         >
           Start the Survey
         </Link>

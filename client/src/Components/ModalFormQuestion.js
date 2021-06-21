@@ -43,7 +43,7 @@ function ModalFormQuestion(props) {
         eight: emptyString,
         nine: emptyString,
         ten: emptyString, 
-        min: optional,
+        min: optional ? 0 : minChoices,
         max: 1,
       });
       onSave(newQuestion);

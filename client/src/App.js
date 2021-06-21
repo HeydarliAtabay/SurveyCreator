@@ -12,11 +12,12 @@ import AnswerList from './Components/AnswerList'
 import LoginComponet from './Components/LoginComponent'
 import API from './API'
 
-import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
 
 //import ModalForm from './Components/ModalForm'
 
 function App(props) {
+  
   const [surveyList, setSurveyList]=useState([])
   const [questionList, setQuestionList]=useState([])
   const [answerList, setAnswerList]=useState([])
@@ -27,7 +28,8 @@ function App(props) {
   const [dirtyAnswers, setDirtyAnswers] =useState(true)
   const [surveyId, setSurveyId]=useState()
   const [submission, setSubmission]=useState()
-
+ 
+ 
 
   const MODAL = { CLOSED: -2, ADD: -1 };
   const [selectedTask, setSelectedTask] = useState(MODAL.CLOSED);
