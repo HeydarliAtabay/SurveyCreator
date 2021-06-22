@@ -231,6 +231,21 @@ app.put('/api/answers/update/:question/:submission', async (req, res) => {
 
 });
 
+app.put('/api/answers/updateopen/:question/:submission', async (req, res) => {
+ 
+    const answer = {
+      answer:req.body.answer
+    };
+  
+    try {
+      const result = await questionDao.updateOpenAnswer(answer, req.params.question, req.params.submission);
+      res.json(result); 
+    } catch (err) {
+      res.status(503).json({ error: `Database error during the update of task ${req.params.id}` });
+    }
+  
+  });
+
 
 
 // activate the server

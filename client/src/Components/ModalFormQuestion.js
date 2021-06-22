@@ -43,11 +43,13 @@ function ModalFormQuestion(props) {
         eight: emptyString,
         nine: emptyString,
         ten: emptyString, 
-        min: optional ? 0 : minChoices,
+        min: optional ? 0 : 1,
         max: 1,
       });
       onSave(newQuestion);
     } else {
+      if(!optional && minChoices===0) setMinChoices(1)
+      console.log(minChoices)
       const newQuestion = Object.assign({}, question, {
         question: text,
         questiontype: 1,

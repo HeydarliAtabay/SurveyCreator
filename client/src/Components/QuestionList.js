@@ -30,7 +30,11 @@ function QuestionItem(props) {
   const [openQAnswer, setOpenQAnswer]=useState('')
   const [error, setError]=useState(false)
   const [addEmpty, setAddEmpty]=useState(false)
+  const [saveOpen, setSaveOpen]=useState(false)
   let newSubId=(submission[submission.length-1].id)+1
+
+
+  
 
   const addEmptyAnswers =(question) => {
 
@@ -38,10 +42,27 @@ function QuestionItem(props) {
  }
 
  function updateClosedAnswers(answer, questionId){
-   console.log('answer.one is ' + answer.four)
    API.updateClosedAnswers(answer, questionId ,newSubId)
   .then(()=>{
   }).catch(err=>(err))
+}
+
+function onChangeOpenAnswer(ev){
+  setOpenQAnswer(ev.target.value)
+  addEmptyAnswers(question)
+}
+
+function onChangeSaveOpen(ev, questionId){
+  if(ev.target.checked){
+    setSaveOpen(true)
+    const newAnswer=Object.assign({},  { answer: openQAnswer  })
+    API.updateClosedAnswers(newAnswer, questionId ,newSubId)
+    .then(()=>{
+    }).catch(err=>(err))
+  }
+  else {
+    setSaveOpen(false)
+  }
 }
 
 let checkedAnswers=answered
@@ -64,16 +85,11 @@ const onChangeAnswer = (ev,question,index) => {
     }
  const newAnswer=Object.assign({},  { one:finalanswers[0], two: finalanswers[1], three: finalanswers[2], four: finalanswers[3], five: finalanswers[4],six: finalanswers[5],seven: finalanswers[6],eight: finalanswers[7],nine: finalanswers[8],ten: finalanswers[9]
  })
-      console.log(newAnswer.four)
     updateClosedAnswers(newAnswer, question.id)
    }
     if(count<question.min || count>question.max) {
      setError(true)
   }
-   
-    // setStatus(true)
-    // const newTask = Object.assign({}, task, { completed: status} );
-    // onSave(newTask);
   }
   else {
     if(count!==0){
@@ -86,7 +102,9 @@ const onChangeAnswer = (ev,question,index) => {
         if(checkedAnswers[i]===false) finalanswers[i]=0
         else finalanswers[i]=1
       }
-      console.log(finalanswers)
+      const newAnswer=Object.assign({},  { one:finalanswers[0], two: finalanswers[1], three: finalanswers[2], four: finalanswers[3], five: finalanswers[4],six: finalanswers[5],seven: finalanswers[6],eight: finalanswers[7],nine: finalanswers[8],ten: finalanswers[9]
+      })
+      updateClosedAnswers(newAnswer, question.id)
       }
       if(count<question.min || count>question.max) {
         setError(true)
@@ -203,11 +221,9 @@ const onChangeAnswer = (ev,question,index) => {
                   as="textarea"
                   rows={3}
                   value={openQAnswer}
-                  onChange={(ev)=>{
-                    setOpenQAnswer(ev.target.value)
-                    addEmptyAnswers(question)
+                  onChange={(ev)=>{ onChangeOpenAnswer(ev,question.id)
                   }}
-                  required
+                  
                 />
                 {question.min === 1 && (
                   <Form.Control.Feedback type="invalid">
@@ -215,6 +231,15 @@ const onChangeAnswer = (ev,question,index) => {
                     Please provide your answer
                   </Form.Control.Feedback>
                 )}
+               <Form.Check className="questionText"
+                  
+                   type="checkbox"
+                  size="lg"
+                  // onChange={(ev) => setAnswered(ev.target.checked)}
+                  label ="Save answer"
+                  checked={saveOpen}
+                  onChange={(ev)=>{onChangeSaveOpen(ev)}}
+              ></Form.Check>
               </>
             )}
           </Col>

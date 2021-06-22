@@ -92,3 +92,10 @@ PUT http://localhost:3001/api/answers/update/44/13
 Content-Type: application/json
 
 { "one":0,"two":0,"three":0,"four":0,"five":0,"six":0,"seven":0,"eight":0,"nine":0,"ten":0 }
+
+### updating the answer
+
+PUT http://localhost:3001/api/answers/updateopen/45/13
+Content-Type: application/json
+
+{ "answer":"Hello blaaaaaaa" }

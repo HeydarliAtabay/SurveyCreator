@@ -197,7 +197,7 @@ exports.getAnswersOfSurvey = function (surveyId, submissionId) {
     //const sql = "SELECT * from rentals as r, cars as c WHERE r.cid == c.id AND uid == ? AND DATE(endDay) >= CURRENT_DATE";
        
      // const sql = "SELECT [id,submission_id,survey_id,question_id, questiontype, answer, one, two, three,four,five,six,seven, eight, nine, ten , order] from answers as a, questions as q WHERE a.question_id==q.id AND a.survey_id==? AND a.submission_id=? ORDER BY [order]";
-      const sql = "SELECT * from questions as q, answers as a WHERE a.question_id==q.id AND a.survey_id==? AND a.submission_id=? ORDER BY [order]";
+      const sql = "SELECT * from questions as q, answers as a WHERE a.question_id==q.id AND a.survey_id==? AND a.submission_id=? and a.status=1 ORDER BY [order]";
      
       db.all(sql, [surveyId,submissionId], (err, rows) => {
           if(err) reject(err);
@@ -222,24 +222,25 @@ exports.createAnswer=(question)=>{
   });
 };
 
-exports.updateAnswerClosed = function(columnName,id,submissionId) {
-  return new Promise((resolve, reject) => {
-     const sql= 'UPDATE answers SET ?=1 WHERE question_id=? AND submission_id=?'
-      db.run(sql, [columnName, id, submissionId], (err) => {
-          if(err){
-              console.log(err);
-              reject(err);
-          }
-          else
-              resolve(null);
-      })
-  });
-}
 
 exports.updateAnswer = (answer,questionId, submissionId) => {
   return new Promise((resolve, reject) => {
     const sql = 'UPDATE answers SET [one] = ?, [two] = ?, [three] = ?, [four] = ?, [five] = ?, [six]=?, [seven]=?, [eight]=?, [nine]=?, [ten]=? WHERE question_id = ? and submission_id = ?';
     db.run(sql, [answer.one, answer.two, answer.three, answer.four, answer.five, answer.six, answer.seven, answer.eight, answer.nine, answer.ten, questionId, submissionId], function (err) {
+      if (err) {
+        console.log(err)
+        reject(err);
+        return;
+      }
+      resolve(this.lastID); // changed from resolve(exports.getTask(this.lastID) because of error "not found" (wrong lastID)
+    });
+  });
+};
+
+exports.updateOpenAnswer = (answer,questionId, submissionId) => {
+  return new Promise((resolve, reject) => {
+    const sql = 'UPDATE answers SET [answer]=? WHERE question_id = ? and submission_id = ?';
+    db.run(sql, [answer.answer, questionId, submissionId], function (err) {
       if (err) {
         console.log(err)
         reject(err);
