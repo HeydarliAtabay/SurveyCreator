@@ -317,7 +317,10 @@ function QuestionList(props) {
   let newSubId=(submission[submission.length-1].id)+1
 
   function newSubmission(){
-    if(name)API.addNewSubmission(name, survey).then((err)=>{})
+    if(name && survey){
+      API.addNewSubmission(name, survey).then((err)=>{})
+      API.increaseNumRespond(survey).then((err)=>{})
+    }
   }
 
   const handleSubmit = (event) => {

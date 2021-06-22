@@ -74,6 +74,22 @@ function addSurvey(survey) {
     });
   }
 
+  function increaseNumRespond(surveyId){
+    return new Promise((resolve, reject) => {
+      fetch(url + '/api/surveys/update/' + surveyId , {
+        method: 'PUT',
+      }).then((response) => {
+        if (response.ok) {
+          resolve(null);
+        } else {
+          // analyze the cause of error
+          response.json()
+            .then((obj) => { reject(obj); }) // error message in the response body
+            .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+        }
+      }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+    });
+  }
 
 
 // APIs for questions
@@ -300,5 +316,5 @@ function addQuestion(question,orderId, surveyId) {
 
 
     //Error handling is missing
-const API={loadAllSurveys, deleteSurvey, addSurvey, publishSurvey, addQuestion, loadAllQuestions, deleteQuestion, getQuestions, updateOrderQuestion, getAnswers, addEmptyAnswers, updateClosedAnswers, updateOpenAnswers, getSubmissionsOfSurvey, addNewSubmission}
+const API={loadAllSurveys, deleteSurvey, addSurvey, publishSurvey,increaseNumRespond, addQuestion, loadAllQuestions, deleteQuestion, getQuestions, updateOrderQuestion, getAnswers, addEmptyAnswers, updateClosedAnswers, updateOpenAnswers, getSubmissionsOfSurvey, addNewSubmission}
 export default API
