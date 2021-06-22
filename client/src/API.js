@@ -234,6 +234,28 @@ function addQuestion(question,orderId, surveyId) {
     });
   }
   
+  function updateOpenAnswers(answer, questionid, submissionid){
+    return new Promise((resolve, reject) => {
+      fetch(url + '/api/answers/updateopen/' + questionid +'/' + submissionid, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+      },
+        body : JSON.stringify({answer: answer.answer})
+   
+      }).then((response) => {
+        console.log(answer.four)
+        if (response.ok) {
+          resolve(null);
+        } else {
+          // analyze the cause of error
+          response.json()
+            .then((obj) => { reject(obj); }) // error message in the response body
+            .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+        }
+      }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+    });
+  }
 
   // for submissions 
   async function getSubmissionsOfSurvey(surveyId) {
@@ -254,5 +276,5 @@ function addQuestion(question,orderId, surveyId) {
   }
 
     //Error handling is missing
-const API={loadAllSurveys, deleteSurvey, addSurvey, publishSurvey, addQuestion, loadAllQuestions, deleteQuestion, getQuestions, updateOrderQuestion, getAnswers, addEmptyAnswers, updateClosedAnswers, getSubmissionsOfSurvey}
+const API={loadAllSurveys, deleteSurvey, addSurvey, publishSurvey, addQuestion, loadAllQuestions, deleteQuestion, getQuestions, updateOrderQuestion, getAnswers, addEmptyAnswers, updateClosedAnswers, updateOpenAnswers, getSubmissionsOfSurvey}
 export default API

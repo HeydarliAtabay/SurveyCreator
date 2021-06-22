@@ -56,7 +56,7 @@ function onChangeSaveOpen(ev, questionId){
   if(ev.target.checked){
     setSaveOpen(true)
     const newAnswer=Object.assign({},  { answer: openQAnswer  })
-    API.updateClosedAnswers(newAnswer, questionId ,newSubId)
+    API.updateOpenAnswers(newAnswer, questionId ,newSubId)
     .then(()=>{
     }).catch(err=>(err))
   }
@@ -238,7 +238,7 @@ const onChangeAnswer = (ev,question,index) => {
                   // onChange={(ev) => setAnswered(ev.target.checked)}
                   label ="Save answer"
                   checked={saveOpen}
-                  onChange={(ev)=>{onChangeSaveOpen(ev)}}
+                  onChange={(ev)=>{onChangeSaveOpen(ev,question.id)}}
               ></Form.Check>
               </>
             )}
