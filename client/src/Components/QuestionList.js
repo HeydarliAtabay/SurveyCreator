@@ -314,6 +314,11 @@ function QuestionList(props) {
   const [validated, setValidated] = useState(false);
   
   
+  let newSubId=(submission[submission.length-1].id)+1
+
+  function newSubmission(){
+    if(name)API.addNewSubmission(name, survey).then((err)=>{})
+  }
 
   const handleSubmit = (event) => {
     // stop event default and propagation
@@ -331,6 +336,9 @@ function QuestionList(props) {
       // id must be created if already present (edit) not if the task is new
      
     else  console.log("Everything is fine")
+
+    newSubmission()
+
   }
 //console.log(answers)
   let last=questions.length

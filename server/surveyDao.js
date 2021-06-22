@@ -68,3 +68,17 @@ exports.deleteSurvey = function(id) {
       })
   });
 }
+
+exports.updateNumRespond = (id) => {
+  return new Promise((resolve, reject) => {
+    const sql = 'UPDATE surveys SET numRespond=numRespond+1 WHERE id = ? ';
+    db.run(sql, [id], function (err) {
+      if (err) {
+        console.log(err)
+        reject(err);
+        return;
+      }
+      resolve(this.lastID); // changed from resolve(exports.getTask(this.lastID) because of error "not found" (wrong lastID)
+    });
+  });
+};

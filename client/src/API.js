@@ -275,6 +275,30 @@ function addQuestion(question,orderId, surveyId) {
     }
   }
 
+  function addNewSubmission(responder,surveyId) {
+    return new Promise((resolve, reject) => {
+      fetch(url + '/api/submissions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        //body: JSON.stringify({code: exam.coursecode, score: exam.score, date: exam.date}),
+        body : JSON.stringify({ responder:responder, survey_id:surveyId 
+        })
+        }).then((response) => {
+          if (response.ok) {
+            resolve(null);
+          } else {
+            // analyze the cause of error
+            response.json()
+              .then((message) => { reject(message); }) // error message in the response body
+              .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+          }
+      }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+    });
+  }
+
+
     //Error handling is missing
-const API={loadAllSurveys, deleteSurvey, addSurvey, publishSurvey, addQuestion, loadAllQuestions, deleteQuestion, getQuestions, updateOrderQuestion, getAnswers, addEmptyAnswers, updateClosedAnswers, updateOpenAnswers, getSubmissionsOfSurvey}
+const API={loadAllSurveys, deleteSurvey, addSurvey, publishSurvey, addQuestion, loadAllQuestions, deleteQuestion, getQuestions, updateOrderQuestion, getAnswers, addEmptyAnswers, updateClosedAnswers, updateOpenAnswers, getSubmissionsOfSurvey, addNewSubmission}
 export default API

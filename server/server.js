@@ -56,6 +56,19 @@ app.put('/api/surveys/update/published/:surveyId',  async(req,res) => {
 
 });
 
+app.put('/api/surveys/update/:survey', async (req, res) => {
+ 
+    const id=req.params.survey
+  
+    try {
+      const result = await surveyDao.updateNumRespond(id);
+      res.json(result); 
+    } catch (err) {
+      res.status(503).json({ error: `Database error during the update of task ${req.params.id}` });
+    }
+  
+  });
+
 // for Questions
 
 app.get('/api/questions', (req,res)=>{
