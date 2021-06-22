@@ -238,7 +238,7 @@ exports.updateAnswerClosed = function(columnName,id,submissionId) {
 
 exports.updateAnswer = (answer,questionId, submissionId) => {
   return new Promise((resolve, reject) => {
-    const sql = 'UPDATE answers SET one = ?, two = ?, three = ?, four = ?, five = ?, six=?, seven=?, eight=?, nine=?, ten=? WHERE question_id = ? and submission_id = ?';
+    const sql = 'UPDATE answers SET [one] = ?, [two] = ?, [three] = ?, [four] = ?, [five] = ?, [six]=?, [seven]=?, [eight]=?, [nine]=?, [ten]=? WHERE question_id = ? and submission_id = ?';
     db.run(sql, [answer.one, answer.two, answer.three, answer.four, answer.five, answer.six, answer.seven, answer.eight, answer.nine, answer.ten, questionId, submissionId], function (err) {
       if (err) {
         console.log(err)

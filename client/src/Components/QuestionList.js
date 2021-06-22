@@ -8,6 +8,7 @@ import {
 } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 import API from '../API'
+import Answer from '../models/answer'
 
 
  // setAnswered(answered => [...answered, ev.target.checked]
@@ -31,22 +32,40 @@ function QuestionItem(props) {
   const [addEmpty, setAddEmpty]=useState(false)
   let newSubId=(submission[submission.length-1].id)+1
 
-  function addEmptyAnswers (question)  {
+  const addEmptyAnswers =(question) => {
 
     if(!addEmpty)  API.addEmptyAnswers(question,newSubId,survey).then((err)=>{setAddEmpty(true)})
  }
+
+ function updateClosedAnswers(answer, questionId){
+   console.log('answer.one is ' + answer.four)
+   API.updateClosedAnswers(answer, questionId ,newSubId)
+  .then(()=>{
+  }).catch(err=>(err))
+}
+
 let checkedAnswers=answered
+let finalanswers=[0,0,0,0,0,0,0,0,0,0]
 let count=0
 // this part should be fixed
 const onChangeAnswer = (ev,question,index) => {
   addEmptyAnswers(question)
-  if(ev.target.true) {
+  if(ev.target.checked) {
    count++
    if(count>=question.min && count<=question.max){
      setError(false)
     checkedAnswers[index]=true
     setAnswered(checkedAnswers)
     setAnswers(checkedAnswers)
+
+    for(let i=0;i<10;i++){
+      if(checkedAnswers[i]===false) finalanswers[i]=0
+      else finalanswers[i]=1
+    }
+ const newAnswer=Object.assign({},  { one:finalanswers[0], two: finalanswers[1], three: finalanswers[2], four: finalanswers[3], five: finalanswers[4],six: finalanswers[5],seven: finalanswers[6],eight: finalanswers[7],nine: finalanswers[8],ten: finalanswers[9]
+ })
+      console.log(newAnswer.four)
+    updateClosedAnswers(newAnswer, question.id)
    }
     if(count<question.min || count>question.max) {
      setError(true)
@@ -63,6 +82,11 @@ const onChangeAnswer = (ev,question,index) => {
         setError(false)
         checkedAnswers[index]=false
        setAnswered(checkedAnswers)
+       for(let i=0;i<10;i++){
+        if(checkedAnswers[i]===false) finalanswers[i]=0
+        else finalanswers[i]=1
+      }
+      console.log(finalanswers)
       }
       if(count<question.min || count>question.max) {
         setError(true)
