@@ -90,6 +90,10 @@ Content-Type: application/json
 
 PUT http://localhost:3001/api/answers/update/two/13/44
 
+### Uodate status of answer
+
+PUT http://localhost:3001/api/answers/updatestatus/44/15
+
 ### updating the answer
 
 PUT http://localhost:3001/api/answers/update/44/13

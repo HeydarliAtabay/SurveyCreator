@@ -38,7 +38,9 @@ function QuestionItem(props) {
 
   const addEmptyAnswers =(question) => {
 
-    if(!addEmpty)  API.addEmptyAnswers(question,newSubId,survey).then((err)=>{setAddEmpty(true)})
+    if(!addEmpty){
+      API.addEmptyAnswers(question,newSubId,survey).then((err)=>{setAddEmpty(true)})
+    } 
  }
 
  function updateClosedAnswers(answer, questionId){

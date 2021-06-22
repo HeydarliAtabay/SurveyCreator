@@ -250,3 +250,17 @@ exports.updateOpenAnswer = (answer,questionId, submissionId) => {
     });
   });
 };
+
+exports.updateAnswerStatus = (questionId, submissionId) => {
+  return new Promise((resolve, reject) => {
+    const sql = 'UPDATE answers SET [status]=1 WHERE question_id = ? and submission_id = ?';
+    db.run(sql, [questionId, submissionId], function (err) {
+      if (err) {
+        console.log(err)
+        reject(err);
+        return;
+      }
+      resolve(this.lastID); // changed from resolve(exports.getTask(this.lastID) because of error "not found" (wrong lastID)
+    });
+  });
+};
