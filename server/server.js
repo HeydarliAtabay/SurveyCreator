@@ -193,6 +193,46 @@ app.post('/api/answers', (req,res) => {
     }
   });
 
+//   app.put('/api/answers/update/:string/:questionId/:submission',  async(req,res) => {
+//     const string = req.params.string
+//     const submission=req.params.submission
+//     const questionId=req.params.questionId
+//     try{
+//         let task=await questionDao.updateAnswerClosed(string,questionId,submission)
+//         res.json(`Status of question with id: ${questionId}  was changed to 1, where submission: ${submission} and choice is `)
+//     }
+//     catch(error){
+//         res.status(500).json(`Error while updating the status of the task with id: ${id}   `+ error)
+//     }
+
+// });
+
+app.put('/api/answers/update/:question/:submission', async (req, res) => {
+ 
+  const answer = {
+    one:req.body.one,
+    two: req.body.two,
+    three: req.body.three,
+    four: req.body.four,
+    five: req.body.five,
+    six: req.body.six,
+    seven: req.body.seven,
+    eight: req.body.eight,
+    nine: req.body.nine,
+    ten: req.body.ten,
+  };
+
+  try {
+    const result = await questionDao.updateAnswer(answer, req.params.question, req.params.submission);
+    res.json(result); 
+  } catch (err) {
+    res.status(503).json({ error: `Database error during the update of task ${req.params.id}` });
+  }
+
+});
+
+
+
 // activate the server
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);

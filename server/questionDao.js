@@ -221,3 +221,31 @@ exports.createAnswer=(question)=>{
     });
   });
 };
+
+exports.updateAnswerClosed = function(columnName,id,submissionId) {
+  return new Promise((resolve, reject) => {
+     const sql= 'UPDATE answers SET ?=1 WHERE question_id=? AND submission_id=?'
+      db.run(sql, [columnName, id, submissionId], (err) => {
+          if(err){
+              console.log(err);
+              reject(err);
+          }
+          else
+              resolve(null);
+      })
+  });
+}
+
+exports.updateAnswer = (answer,questionId, submissionId) => {
+  return new Promise((resolve, reject) => {
+    const sql = 'UPDATE answers SET one = ?, two = ?, three = ?, four = ?, five = ?, six=?, seven=?, eight=?, nine=?, ten=? WHERE question_id = ? and submission_id = ?';
+    db.run(sql, [answer.one, answer.two, answer.three, answer.four, answer.five, answer.six, answer.seven, answer.eight, answer.nine, answer.ten, questionId, submissionId], function (err) {
+      if (err) {
+        console.log(err)
+        reject(err);
+        return;
+      }
+      resolve(this.lastID); // changed from resolve(exports.getTask(this.lastID) because of error "not found" (wrong lastID)
+    });
+  });
+};
