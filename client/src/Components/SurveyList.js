@@ -10,7 +10,7 @@ function SurveyItem(props){
         submissionids.push(submission[i].id) 
       }
     }
-    console.log("First index of submission of survey: "+survey.id +" is "+submissionids[0])
+   
     return(
         <>
         <div className="survCards">

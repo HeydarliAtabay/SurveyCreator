@@ -189,6 +189,28 @@ function addQuestion(question,orderId, surveyId) {
     }
   }
 
+  function addEmptyAnswers(question,submissionId, surveyId) {
+    return new Promise((resolve, reject) => {
+      fetch(url + '/api/answers', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        //body: JSON.stringify({code: exam.coursecode, score: exam.score, date: exam.date}),
+        body : JSON.stringify({ submission_id:submissionId, survey_id:surveyId, question_id:question.id, questiontype: question.questiontype, answer: '', one:0, two:0, three:0, four:0, five:0, six:0, seven:0, eight:0, nine:0, ten:0})
+        }).then((response) => {
+          if (response.ok) {
+            resolve(null);
+          } else {
+            // analyze the cause of error
+            response.json()
+              .then((message) => { reject(message); }) // error message in the response body
+              .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+          }
+      }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+    });
+  }
+
 
   // for submissions 
   async function getSubmissionsOfSurvey(surveyId) {
@@ -209,5 +231,5 @@ function addQuestion(question,orderId, surveyId) {
   }
 
     //Error handling is missing
-const API={loadAllSurveys, deleteSurvey, addSurvey, publishSurvey, addQuestion, loadAllQuestions, deleteQuestion, getQuestions, updateOrderQuestion, getAnswers, getSubmissionsOfSurvey}
+const API={loadAllSurveys, deleteSurvey, addSurvey, publishSurvey, addQuestion, loadAllQuestions, deleteQuestion, getQuestions, updateOrderQuestion, getAnswers, addEmptyAnswers, getSubmissionsOfSurvey}
 export default API

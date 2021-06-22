@@ -28,6 +28,7 @@ function App(props) {
   const [dirtyAnswers, setDirtyAnswers] =useState(true)
   const [surveyId, setSurveyId]=useState()
   const [submission, setSubmission]=useState()
+  const [allSub, setAllSub]=useState()
  
  
 
@@ -56,17 +57,21 @@ function App(props) {
         setLoading(false)
         setDirtyQuestions(false)
        })
+      API.getSubmissionsOfSurvey().then(allSubmissions=>{
+        setAllSub(allSubmissions)
+      })
+     
 
    }, [dirtyQuestions,surveyId])
 
-   useEffect(() => {
-    API.getAnswers(surveyId,submission).then(newQuestion=>{
-      setAnswerList(newQuestion)
-      setLoading(false)
-      setDirtyAnswers(false)
-     })
+//    useEffect(() => {
+//     API.getAnswers(surveyId,submission).then(newQuestion=>{
+//       setAnswerList(newQuestion)
+//       setLoading(false)
+//       setDirtyAnswers(false)
+//      })
 
- }, [dirtyAnswers, surveyId, submission])
+//  }, [dirtyAnswers, surveyId, submission])
 
  useEffect(()=>{
   getSubmissions(surveyId)
@@ -91,13 +96,14 @@ function App(props) {
  async function handleselect (id)
   {
     setSurveyId(id)
-    try {
-      const questions = await API.getQuestions(id);
-      setQuestionList(questions);
-      setDirtyQuestions(false)
-    } catch(err) {
-      console.log(err);
-    }
+    // try {
+      
+    //   const questions = await API.getQuestions(id);
+    //   setQuestionList(questions);
+    //   setDirtyQuestions(false)
+    // } catch(err) {
+    //   console.log(err);
+    // }
   }
 
   async function getAnswers(surveyId,submissionId){
@@ -113,6 +119,7 @@ function App(props) {
       console.log(err);
     }
   }
+  
 
   async function getSubmissions(surveyId){
     try {
@@ -190,6 +197,7 @@ function App(props) {
   const handleLeft=(submissionId)=>{
     setSubmission(submissionId)
   }
+  
   return (
     <Router>
       <Container fluid > 
@@ -205,7 +213,7 @@ function App(props) {
        <Route path={["/questions/:id"]}>
       <div className="addbtn"><Button variant="success" size="lg"  onClick={() => setSelectedTask(MODAL.ADD)}>Add a Question</Button></div>
       {(selectedTask !== MODAL.CLOSED) && <ModalFormQuestion onSave={handleSaveQuestions} onClose={handleClose}></ModalFormQuestion>}
-      <QuestionList questions={questionList} onDelete={deleteQuestion} onUp={orderUpQuestion} onDown={orderDownQuestion} onPublish={publishSurvey} survey={surveyId} />
+      <QuestionList questions={questionList} onDelete={deleteQuestion} onUp={orderUpQuestion} onDown={orderDownQuestion} onPublish={publishSurvey} survey={surveyId} submission={allSub} />
       </Route> 
 
        <Route path="/answers"> 

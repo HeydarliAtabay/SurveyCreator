@@ -7,6 +7,7 @@ import {
   ArrowDownSquare,
 } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
+import API from '../API'
 
 
  // setAnswered(answered => [...answered, ev.target.checked]
@@ -23,15 +24,22 @@ import { Link } from "react-router-dom";
   //   "ten",
   // ];
 function QuestionItem(props) {
-  const { question, onDelete, onUp, onDown, index,last, setAnswers} = props;
+  const { question, onDelete, onUp, onDown, index,last, setAnswers, survey, submission} = props;
   const [answered, setAnswered]=useState([false,false,false,false,false,false,false,false,false,false])
   const [openQAnswer, setOpenQAnswer]=useState('')
   const [error, setError]=useState(false)
-  
+  const [addEmpty, setAddEmpty]=useState(false)
+  let newSubId=(submission[submission.length-1].id)+1
+
+  function addEmptyAnswers (question)  {
+
+    if(!addEmpty)  API.addEmptyAnswers(question,newSubId,survey).then((err)=>{setAddEmpty(true)})
+ }
 let checkedAnswers=answered
 let count=0
 // this part should be fixed
 const onChangeAnswer = (ev,question,index) => {
+  addEmptyAnswers(question)
   if(ev.target.true) {
    count++
    if(count>=question.min && count<=question.max){
@@ -173,6 +181,7 @@ const onChangeAnswer = (ev,question,index) => {
                   value={openQAnswer}
                   onChange={(ev)=>{
                     setOpenQAnswer(ev.target.value)
+                    addEmptyAnswers(question)
                   }}
                   required
                 />
@@ -250,11 +259,12 @@ function QuestionRowControl(props) {
 
 function QuestionList(props) {
   let number=0
-  const { questions, onDelete, onUp, onDown, onPublish} = props;
+  const { questions, onDelete, onUp, onDown, onPublish, survey, submission} = props;
   const [name, setName]=useState('')
   const [answers, setAnswers]=useState([])
   const [validated, setValidated] = useState(false);
-  console.log(answers)
+  
+  
 
   const handleSubmit = (event) => {
     // stop event default and propagation
@@ -312,7 +322,8 @@ function QuestionList(props) {
               
                 <ListGroup.Item as="li" key={index}>
                   <QuestionItem
-                   
+                    survey={survey}
+                    submission={submission}
                     question={q}
                     onDelete={() => onDelete(q)}
                     onUp={() => onUp(q)}
