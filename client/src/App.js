@@ -255,9 +255,9 @@ function App(props) {
       
       <Switch>
       <Route path="/surveys"> 
-      <div className="addbtn"><Button variant="success" size="lg"  onClick={() => setSelectedTask(MODAL.ADD)}>Add a Survey</Button></div>
+      <div className="addbtn">{loggedIn && <Button variant="success" size="lg"  onClick={() => setSelectedTask(MODAL.ADD)}>Add a Survey</Button>}</div>
       {(selectedTask !== MODAL.CLOSED) && <ModalFormTitle onSave={handleSaveSurvey} onClose={handleClose}></ModalFormTitle>}
-      <SurveyList surveys={surveyList}  onDelete={deleteSurvey} onSelect={handleselect} onAnswer={getAnswers} submission={submissionList} />
+      <SurveyList logged ={loggedIn} surveys={surveyList}  onDelete={deleteSurvey} onSelect={handleselect} onAnswer={getAnswers} submission={submissionList} />
       
       </Route>
        {/* <Route path="/questions">  */}

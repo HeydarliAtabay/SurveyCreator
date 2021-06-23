@@ -3,7 +3,7 @@ import {ListGroup,Card,Button} from 'react-bootstrap'
 import { Link } from "react-router-dom";
 
 function SurveyItem(props){
-    const {survey, onDelete, onSelect, index, onAnswer, submission} = props
+    const {survey, onDelete, onSelect, index, onAnswer, submission, logged} = props
     let submissionids=[]
     for(let i=0;i<submission.length;i++){
       if(submission[i].survey_id===survey.id) {
@@ -27,7 +27,7 @@ function SurveyItem(props){
         >
           Start the Survey
         </Link>
-       { survey.numRespond!==0 &&
+       { (survey.numRespond!==0 && logged) &&
         <Link
             onClick={(event) => onAnswer(survey.id, submissionids[0])}
           className="btn btn-success"
@@ -38,8 +38,8 @@ function SurveyItem(props){
           Check answers
         </Link>
        } 
-            {survey.published===0 && <Button variant="warning" onClick={(event) =>  window.location.href='/questions'}>Modify the Survey</Button>}
-            <Button variant="danger" onClick={onDelete}>Delete the Survey</Button>
+            {(survey.published===0 && logged) && <Button variant="warning" onClick={(event) =>  window.location.href='/questions'}>Modify the Survey</Button>}
+            {logged && <Button variant="danger" onClick={onDelete}>Delete the Survey</Button> }
             
             <h5>number of responders for this survey is : {survey.numRespond}</h5>
         </Card.Body>
@@ -50,18 +50,18 @@ function SurveyItem(props){
 }
 
 function SurveyList(props){
-    const {surveys, onDelete, onSelect, onAnswer, submission} =props
+    const {surveys, onDelete, onSelect, onAnswer, submission, logged} =props
     return(
         <>
         {/* <div className="addbtn"><Button variant="success" size="lg">Add a Survey</Button></div> */}
         <div className="cont">
-        <h3>Please, Select the survey</h3>
+       {logged ?  <h3>Please, Select the survey for modifying or checking the responses</h3>: <h3> Please, select survey for responding</h3> }
             <ListGroup as="ul" variant="flush" key={surveys.id}>
             {
                 surveys.map((s,index)=>{
                     return(
                         <ListGroup.Item as ="li" key={index} >
-                            <SurveyItem  survey={s} submission={submission}   onDelete={() => onDelete(s)} onSelect={()=>onSelect(s.id)} index={index} onAnswer={onAnswer}/>
+                            <SurveyItem  logged ={logged} survey={s} submission={submission}   onDelete={() => onDelete(s)} onSelect={()=>onSelect(s.id)} index={index} onAnswer={onAnswer}/>
                             </ListGroup.Item>                    )
                 })
             }
