@@ -270,6 +270,17 @@ app.put('/api/answers/updateopen/:question/:submission', async (req, res) => {
   
   });
 
+  // delete answer 
+
+  app.delete('/api/answers/delete/:questionId/:submissionId', (req,res) => {
+    const id= req.params.questionId
+    const submission= req.params.submissionId
+  questionDao.deleteAnswer(id, submission)
+      .then((id) => res.status(204).json(`Selected answer with question id:${id} was deleted`))
+      .catch((err) => res.status(500).json(`Error while deleting the task with id:${req.params.questionId}  `+err),
+      );
+});  
+
 
 
 // activate the server

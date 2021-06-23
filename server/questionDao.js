@@ -89,7 +89,7 @@ exports.deleteQuestion = function(id) {
 
 // For submissions
 
-exports.listAllAnswers = () => {
+exports.listAllSubmissions = () => {
   return new Promise((resolve, reject) => {
     const sql = 'SELECT * FROM submissions';
     db.all(sql, [], (err, rows) => {
@@ -104,23 +104,6 @@ exports.listAllAnswers = () => {
   });
 };
   // for submissions
-
-
-  
-  exports.listAllSubmissions = () => {
-    return new Promise((resolve, reject) => {
-      const sql = 'SELECT * FROM submissions';
-      db.all(sql, [], (err, rows) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        const answers = rows.map((answer) => ({ id: answer.id, responder: answer.responder, survey_id: answer.survey_id
-    }));
-        resolve(answers);
-      });
-    });
-  };
 
   exports.createSubmissions=(submission)=>{
     return new Promise((resolve, reject)=>{
@@ -264,3 +247,15 @@ exports.updateAnswerStatus = (questionId, submissionId) => {
     });
   });
 };
+
+exports.deleteAnswer = function(question, submission) {
+  return new Promise((resolve, reject) => {
+      const sql = 'DELETE FROM answers WHERE question_id = ? AND submission_id=? AND [status]=0';
+      db.run(sql, [question, submission], (err) => {
+          if(err)
+              reject(err);
+          else 
+              resolve(null);
+      })
+  });
+}

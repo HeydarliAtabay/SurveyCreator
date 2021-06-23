@@ -55,8 +55,9 @@ function QuestionItem(props) {
 }
 
 function onChangeOpenAnswer(ev){
+  setTimeout(addEmptyAnswers(question),2000) 
   setOpenQAnswer(ev.target.value)
-  addEmptyAnswers(question)
+  
 }
 
 function onChangeSaveOpen(ev, questionId){
@@ -229,6 +230,7 @@ const onChangeAnswer = (ev,question,index) => {
                   value={openQAnswer}
                   onChange={(ev)=>{ onChangeOpenAnswer(ev,question.id)
                   }}
+                  
                   
                 />
                 {question.min === 1 && (
