@@ -64,14 +64,14 @@ function App(props) {
 
    }, [dirtyQuestions,surveyId])
 
-//    useEffect(() => {
-//     API.getAnswers(surveyId,submission).then(newQuestion=>{
-//       setAnswerList(newQuestion)
-//       setLoading(false)
-//       setDirtyAnswers(false)
-//      })
+   useEffect(() => {
+    API.getAnswers(surveyId,submission).then(newQuestion=>{
+      setAnswerList(newQuestion)
+      setLoading(false)
+      setDirtyAnswers(false)
+     })
 
-//  }, [dirtyAnswers, surveyId, submission])
+ }, [dirtyAnswers, surveyId, submission])
 
  useEffect(()=>{
   getSubmissions(surveyId)

@@ -24,8 +24,9 @@ import Answer from '../models/answer'
   //   "nine",
   //   "ten",
   // ];
+let abc=[]
 function QuestionItem(props) {
-  const { question, onDelete, onUp, onDown, index,last, setAnswers, survey, submission} = props;
+  const { question, onDelete, onUp, onDown, index,last, setAnswers, survey, submission, numberOfQuestions} = props;
   const [answered, setAnswered]=useState([false,false,false,false,false,false,false,false,false,false])
   const [openQAnswer, setOpenQAnswer]=useState('')
   const [error, setError]=useState(false)
@@ -36,12 +37,16 @@ function QuestionItem(props) {
 
   
 
-  const addEmptyAnswers =(question) => {
+  const addEmptyAnswers =(question1) => {
 
     if(!addEmpty){
-      API.addEmptyAnswers(question,newSubId,survey).then((err)=>{setAddEmpty(true)})
+      API.addEmptyAnswers(question1,newSubId,survey).then((err)=>{setAddEmpty(true)})
+        if(abc.length<=numberOfQuestions){
+        abc.push(question1.id)
+        setAnswers(abc)
     } 
  }
+}
 
  function updateClosedAnswers(answer, questionId){
    API.updateClosedAnswers(answer, questionId ,newSubId)
@@ -79,7 +84,6 @@ const onChangeAnswer = (ev,question,index) => {
      setError(false)
     checkedAnswers[index]=true
     setAnswered(checkedAnswers)
-    setAnswers(checkedAnswers)
 
     for(let i=0;i<10;i++){
       if(checkedAnswers[i]===false) finalanswers[i]=0
@@ -315,13 +319,16 @@ function QuestionList(props) {
   const [answers, setAnswers]=useState([])
   const [validated, setValidated] = useState(false);
   
-  
+  console.log(answers)
   let newSubId=(submission[submission.length-1].id)+1
 
   function newSubmission(){
     if(name && survey){
       API.addNewSubmission(name, survey).then((err)=>{})
       API.increaseNumRespond(survey).then((err)=>{})
+      for(let i=0;i<answers.length;i++){
+      API.updateStatusAnswer(answers[i],newSubId)
+      }
     }
   }
 
@@ -342,7 +349,8 @@ function QuestionList(props) {
      
     else  console.log("Everything is fine")
 
-    newSubmission()
+   newSubmission()
+   //console.log(answers)
 
   }
 //console.log(answers)
@@ -393,6 +401,7 @@ function QuestionList(props) {
                     index={index}
                     last={last}
                     setAnswers={setAnswers}
+                    numberOfQuestions={questions.length}
                   />
                 </ListGroup.Item>
               </>
