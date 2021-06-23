@@ -41,5 +41,7 @@
 
 ## Users Credentials
 
-- username, password (plus any other requested info)
-- username, password (plus any other requested info)
+| Email address    | Password  |
+| :--------------- | :-------: |
+| atabay@polito.it | atabay111 |
+| admin@survey.it  | admin111  |

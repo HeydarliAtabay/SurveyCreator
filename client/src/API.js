@@ -1,6 +1,7 @@
 import Question from './models/question'
 import Answer from './models/answer'
 import Submission from './models/submission'
+import Survey from './models/survey'
 
 const url='http://localhost:3000'
 
@@ -13,6 +14,19 @@ async function  loadAllSurveys(){
 
 
  //Error handling is missing
+}
+
+async function getSurveysOfUser(userId) {
+  let url1 = "/api/surveys/user";
+  const response = await fetch(url + url1);
+  const tasksJson = await response.json();
+  if(response.ok){
+      //return tasksJson.map((t) => Task.from(t));
+      return tasksJson.map((s) => new Survey(s.id,s.title, s.numRespond, s.published, userId));
+  } else {
+      let err = {status: response.status, errObj:tasksJson};
+      throw err;  // An object with the error coming from the server
+  }
 }
 
 function deleteSurvey(survey) {
@@ -398,7 +412,7 @@ function addQuestion(question,orderId, surveyId) {
 
 
     //Error handling is missing
-const API={loadAllSurveys, deleteSurvey, addSurvey, publishSurvey,increaseNumRespond,
+const API={loadAllSurveys, deleteSurvey, addSurvey, publishSurvey,increaseNumRespond, getSurveysOfUser,
    addQuestion, loadAllQuestions, deleteQuestion, getQuestions, updateOrderQuestion, 
    getAnswers, addEmptyAnswers, updateClosedAnswers, updateOpenAnswers, updateStatusAnswer, deleteAnswer,
    getSubmissionsOfSurvey, addNewSubmission,

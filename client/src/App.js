@@ -59,17 +59,24 @@ function App(props) {
   }, []);
 
 
-  // for getting all tasks
+  // for getting all surveys
   useEffect(() => {
-    if(dirty){
+    if(dirty && !loggedIn){
       API.loadAllSurveys().then(newTask=>{
         setSurveyList(newTask)
         setLoading(false)
         setDirty(false)
        })
       }
-    }, [dirty])
-    
+      if(loggedIn){
+        API.getSurveysOfUser(userId).then(newTask=>{
+          setSurveyList(newTask)
+          setLoading(false)
+          setDirty(false)
+         })
+        }
+    }, [userId,loggedIn,dirty])
+
 
   useEffect(() => {
       API.getQuestions(surveyId).then(newQuestion=>{
@@ -234,6 +241,9 @@ function App(props) {
     setLoggedIn(false);
     // clean up everything
     setSurveyList([])
+    setQuestionList([])
+    setSubmissionList([])
+    setAnswerList([])
     setMessage('')
   }
   

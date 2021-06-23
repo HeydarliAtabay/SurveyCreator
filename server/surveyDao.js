@@ -23,10 +23,10 @@ exports.listAllSurveys = () => {
   };
 
   // list surveys for user
-  exports.listUserSurveys = () => {
+  exports.listUserSurveys = (userId) => {
     return new Promise((resolve, reject) => {
       const sql = 'SELECT * FROM surveys WHERE user=?';
-      db.all(sql, [], (err, rows) => {
+      db.all(sql, [userId], (err, rows) => {
         if (err) {
           reject(err);
           return;
