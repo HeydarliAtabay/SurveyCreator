@@ -25,13 +25,13 @@ function Header(props) {
       </Form>
       <Nav className="ml-auto">
         <Nav.Item>
-          <Nav.Link href="#">
+          <Nav.Link onClick={props.logout} href={props.link}> {props.info}
             <PersonCircle size="30" />
           </Nav.Link>
         </Nav.Item>
       </Nav>
     </Navbar>
-  );
+  )
 }
 
 export default Header;

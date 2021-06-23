@@ -9,7 +9,7 @@ import QuestionList from './Components/QuestionList'
 import ModalFormTitle from './Components/ModalFormTitle'
 import ModalFormQuestion from './Components/ModalFormQuestion'
 import AnswerList from './Components/AnswerList'
-import LoginComponet from './Components/LoginComponent'
+import LoginComponent from './Components/LoginComponent'
 import API from './API'
 
 import { BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
@@ -29,6 +29,10 @@ function App(props) {
   const [surveyId, setSurveyId]=useState()
   const [submission, setSubmission]=useState()
   const [allSub, setAllSub]=useState()
+  const [loggedIn, setLoggedIn] = useState(false); // at the beginning, no user is logged in
+  const [message, setMessage] = useState('');
+  const [userId, setUserId]=useState(2)
+
  
  
 
@@ -38,6 +42,22 @@ function App(props) {
   const handleClose = () => {
     setSelectedTask(MODAL.CLOSED);
   }
+
+
+  useEffect(()=> {
+    const checkAuth = async() => {
+      try {
+        // here you have the user info, if already logged in
+        // TODO: store them somewhere and use them, if needed
+        await API.getUserInfo();
+        setLoggedIn(true);
+      } catch(err) {
+        console.error(err.error);
+      }
+    };
+    checkAuth();
+  }, []);
+
 
   // for getting all tasks
   useEffect(() => {
@@ -197,11 +217,32 @@ function App(props) {
   const handleLeft=(submissionId)=>{
     setSubmission(submissionId)
   }
+
+  const doLogIn = async (credentials) => {
+    try {
+      const user = await API.logIn(credentials);
+      setLoggedIn(true);
+      setUserId(user)
+      setMessage({msg: `Welcome, ${user}!`, type: 'success'});
+    } catch(err) {
+      setMessage({msg: err, type: 'danger'});
+    }
+  }
+
+  const doLogOut = async () => {
+    await API.logOut();
+    setLoggedIn(false);
+    // clean up everything
+    setSurveyList([])
+    setMessage('')
+  }
   
   return (
     <Router>
+      {loggedIn? <Header logout={doLogOut} link={"/login"} info={"Log out "} />: <Header logout={doLogOut} link="/login"info={"Log in "} />}
+
       <Container fluid > 
-      <Header/>
+      
       <Switch>
       <Route path="/surveys"> 
       <div className="addbtn"><Button variant="success" size="lg"  onClick={() => setSelectedTask(MODAL.ADD)}>Add a Survey</Button></div>
@@ -220,9 +261,9 @@ function App(props) {
       <AnswerList submissions={submissionList} questions={questionList} answers={answerList} onPublish={publishSurvey} survey={surveyId} responder={"Atabay"} onRight={handleRight} onLeft={handleLeft}/>
       </Route> 
      
-      <Route path="/login"> 
-      <LoginComponet/>
-      </Route>
+      <Route path="/login" render={() => 
+          <>{loggedIn ? <Redirect to="/surveys" /> : <LoginComponent login={doLogIn} serverError={message.msg}/>}</>
+        }/>
      <Redirect to="/surveys"/>
       </Switch>
     </Container>
