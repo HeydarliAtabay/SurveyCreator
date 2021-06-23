@@ -37,14 +37,21 @@ function QuestionItem(props) {
 
   
 
-  const addEmptyAnswers =(question1) => {
+  async function addEmptyAnswers(question1){
 
     if(!addEmpty){
-      API.addEmptyAnswers(question1,newSubId,survey).then((err)=>{setAddEmpty(true)})
-        if(abc.length<=numberOfQuestions){
-        abc.push(question1.id)
-        setAnswers(abc)
-    } 
+      try{
+        await API.deleteAnswer(question.id, newSubId).then((err)=>{})
+        API.addEmptyAnswers(question1,newSubId,survey).then((err)=>{setAddEmpty(true)})
+          if(abc.length<=numberOfQuestions){
+          abc.push(question1.id)
+          setAnswers(abc)
+      } 
+      }
+      catch {
+
+      }
+     
  }
 }
 

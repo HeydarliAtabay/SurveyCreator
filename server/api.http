@@ -107,3 +107,7 @@ PUT http://localhost:3001/api/answers/updateopen/45/13
 Content-Type: application/json
 
 { "answer":"Hello blaaaaaaa" }
+
+
+### delete answer
+DELETE  http://localhost:3001/api/answers/delete/45/18

@@ -290,6 +290,26 @@ function addQuestion(question,orderId, surveyId) {
     });
   }
 
+  function deleteAnswer(questionId, submissionId) {
+    // call: DELETE /api/exams/:coursecode
+    return new Promise((resolve, reject) => {
+      fetch(url + '/api/answers/delete/' + questionId + "/" + submissionId, {
+        method: 'DELETE',
+      }).then((response) => {
+        if (response.ok) {
+          resolve(null);
+        } else {
+          // analyze the cause of error
+          response.json()
+            .then((message) => { reject(message); }) // error message in the response body
+            .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+          }
+      }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+    });
+  }
+
+
+
   // for submissions 
   async function getSubmissionsOfSurvey(surveyId) {
     let url1 = "/api/submissions";
@@ -335,6 +355,6 @@ function addQuestion(question,orderId, surveyId) {
     //Error handling is missing
 const API={loadAllSurveys, deleteSurvey, addSurvey, publishSurvey,increaseNumRespond,
    addQuestion, loadAllQuestions, deleteQuestion, getQuestions, updateOrderQuestion, 
-   getAnswers, addEmptyAnswers, updateClosedAnswers, updateOpenAnswers, updateStatusAnswer,
+   getAnswers, addEmptyAnswers, updateClosedAnswers, updateOpenAnswers, updateStatusAnswer, deleteAnswer,
    getSubmissionsOfSurvey, addNewSubmission}
 export default API
