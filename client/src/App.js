@@ -257,14 +257,14 @@ function App(props) {
       <Route path="/surveys"> 
       <div className="addbtn">{loggedIn && <Button variant="success" size="lg"  onClick={() => setSelectedTask(MODAL.ADD)}>Add a Survey</Button>}</div>
       {(selectedTask !== MODAL.CLOSED) && <ModalFormTitle onSave={handleSaveSurvey} onClose={handleClose}></ModalFormTitle>}
-      <SurveyList logged ={loggedIn} surveys={surveyList}  onDelete={deleteSurvey} onSelect={handleselect} onAnswer={getAnswers} submission={submissionList} />
+      <SurveyList loading={loading} logged ={loggedIn} surveys={surveyList}  onDelete={deleteSurvey} onSelect={handleselect} onAnswer={getAnswers} submission={submissionList} />
       
       </Route>
        {/* <Route path="/questions">  */}
        <Route path={["/questions/:id"]}>
       <div className="addbtn"><Button variant="success" size="lg"  onClick={() => setSelectedTask(MODAL.ADD)}>Add a Question</Button></div>
       {(selectedTask !== MODAL.CLOSED) && <ModalFormQuestion onSave={handleSaveQuestions} onClose={handleClose}></ModalFormQuestion>}
-      <QuestionList questions={questionList} onDelete={deleteQuestion} onUp={orderUpQuestion} onDown={orderDownQuestion} onPublish={publishSurvey} survey={surveyId} submission={allSub} />
+      <QuestionList loading ={loading}questions={questionList} onDelete={deleteQuestion} onUp={orderUpQuestion} onDown={orderDownQuestion} onPublish={publishSurvey} survey={surveyId} submission={allSub} />
       </Route> 
 
        <Route path="/answers"> 

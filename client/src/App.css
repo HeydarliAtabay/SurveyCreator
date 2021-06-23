@@ -124,3 +124,8 @@ label.specificationsTxt {
   height: 100px;
   width: 150px;
 }
+
+.cardimage {
+  object-fit: cover;
+  width: 10px;
+}

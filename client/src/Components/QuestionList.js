@@ -323,7 +323,7 @@ function QuestionRowControl(props) {
 
 function QuestionList(props) {
   let number=0
-  const { questions, onDelete, onUp, onDown, onPublish, survey, submission} = props;
+  const { questions, onDelete, onUp, onDown, onPublish, survey, submission, loading} = props;
   const [name, setName]=useState('')
   const [answers, setAnswers]=useState([])
   const [validated, setValidated] = useState(false);
@@ -393,7 +393,9 @@ function QuestionList(props) {
         </Row>
         </Form.Group>
         <Form.Group>
-        <ListGroup as="ul" variant="flush" key={questions.id}>
+          {loading ?<h3>Please wait for your questions loading</h3> :
+          <>
+ <ListGroup as="ul" variant="flush" key={questions.id}>
           {questions.map((q,index) => {
             number++
             return (
@@ -417,6 +419,9 @@ function QuestionList(props) {
             );
           })}
         </ListGroup>
+          </>
+          }
+       
         </Form.Group>
 {number===0? <h4>Number of questions is {number}. You should have at least one question for publishing the survey</h4>
 : <h6>The number of questions is {number}. It is enough for publishing. Good Luck</h6>
