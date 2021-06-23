@@ -56,7 +56,7 @@ function addSurvey(survey) {
           'Content-Type': 'application/json',
         },
         //body: JSON.stringify({code: exam.coursecode, score: exam.score, date: exam.date}),
-        body : JSON.stringify({title: survey.title, numRespond: 0, published: 0, user: 1})
+        body : JSON.stringify({title: survey.title, numRespond: 0, published: 0, user: survey.user})
         }).then((response) => {
           if (response.ok) {
             resolve(null);

@@ -88,12 +88,12 @@ app.get('/api/surveys/user', isLoggedIn, async (req, res) => {
   }
 });
 
-app.post('/api/surveys', (req,res) => {
+app.post('/api/surveys', isLoggedIn, (req,res) => {
   const survey = req.body;
   if(!survey){
       res.status(400).end();
   } else {
-      surveyDao.createSurvey(survey)
+      surveyDao.createSurvey(survey, req.user.id)
           .then((id) => res.status(201).json({"id" : id}))
           .catch((err) => res.status(500).json(error),
       );

@@ -9,7 +9,7 @@ const db = require('./db');
 //get all tasks
 exports.listAllSurveys = () => {
     return new Promise((resolve, reject) => {
-      const sql = 'SELECT * FROM surveys';
+      const sql = 'SELECT * FROM surveys WHERE published=1';
       db.all(sql, [], (err, rows) => {
         if (err) {
           reject(err);
@@ -38,12 +38,12 @@ exports.listAllSurveys = () => {
     });
   };
 
-  exports.createSurvey=(survey)=>{
+  exports.createSurvey=(survey, userId)=>{
     return new Promise((resolve, reject)=>{
       const sql = 'INSERT INTO surveys(title, numRespond, published, user) VALUES(?,?,?,?)'
       //const sql= 'INSERT INTO tasks(description,user) VALUES(?,?))';
   
-      db.run(sql, [survey.title,survey.numRespond, survey.published,survey.user], function(err){
+      db.run(sql, [survey.title,survey.numRespond, survey.published,userId], function(err){
         if(err){
           reject(err);
           return;
