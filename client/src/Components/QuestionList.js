@@ -71,10 +71,15 @@ function QuestionItem(props) {
   .then(()=>{
   }).catch(err=>(err))
 }
-
+let control=count
 function onChangeOpenAnswer(ev){
- addEmptyAnswers(question)
-  setOpenQAnswer(ev.target.value)
+control++
+setCount(control)
+if(count===1){
+  addEmptyAnswers(question)
+ 
+} 
+setOpenQAnswer(ev.target.value)
   
 }
 
