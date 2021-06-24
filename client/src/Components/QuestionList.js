@@ -8,23 +8,8 @@ import {
 } from "react-bootstrap-icons";
 import { Link, useHistory } from "react-router-dom";
 import API from '../API'
-import Answer from '../models/answer'
 
-
- // setAnswered(answered => [...answered, ev.target.checked]
-  // let string = [
-  //   "one",
-  //   "two",
-  //   "three",
-  //   "four",
-  //   "five",
-  //   "six",
-  //   "seven",
-  //   "eight",
-  //   "nine",
-  //   "ten",
-  // ];
-let abc=[]
+let abc=[] // array for storing question ids, which then will be used for submitting the answers
 
 function QuestionItem(props) {
   const { question, onDelete, onUp, onDown, index,last, setAnswers, survey, submission, numberOfQuestions, logged} = props;
@@ -39,24 +24,25 @@ function QuestionItem(props) {
   const [addEmpty, setAddEmpty]=useState(false)
   const [saveOpen, setSaveOpen]=useState(false)
   
-  let newSubId=(submission[submission.length-1].id)+1
+  let newSubId=(submission[submission.length-1].id)+1 // new id of the new submission
   
+  // styles for different message types
   const okayStyle = {color: "green" }
   const noStyle={color:"red"}
   
 
-  let num=count
+  let num=count // counter for counting the number of selected answers
 
-
+  // function for adding empty answers, which will be updated after
   async function addEmptyAnswers(question1){
 
     if(!addEmpty){
       try{
-        await API.deleteAnswer(question.id, newSubId).then((err)=>{})
+        await API.deleteAnswer(question.id, newSubId).then((err)=>{}) // deleting previously added empty answer to this question if it i not submitted
         API.addEmptyAnswers(question1,newSubId,survey).then((err)=>{setAddEmpty(true)})
           if(abc.length<=numberOfQuestions){
           abc.push(question1.id)
-          setAnswers(abc)
+          setAnswers(abc) // sending to the questionList item, the ids of added empty questions
       } 
       }
       catch {
@@ -66,23 +52,26 @@ function QuestionItem(props) {
  }
 }
 
+// function for updating the results of closed questions
  function updateClosedAnswers(answer, questionId){
    API.updateClosedAnswers(answer, questionId ,newSubId)
   .then(()=>{
   }).catch(err=>(err))
 }
-let control=count
+
+let control=count // defining control integer for adding empty answer for opened questions only once, otherwise if typing very fast it adds some useless lines 
 function onChangeOpenAnswer(ev){
 control++
 setCount(control)
 if(count===1){
-  addEmptyAnswers(question)
+  addEmptyAnswers(question) // calling function for adding empty answer for open question
  
 } 
-setOpenQAnswer(ev.target.value)
+setOpenQAnswer(ev.target.value)  // changing state of open answer, to the value of the form input control
   
 }
 
+// function for adding the result of open answer to the DB
 function onChangeSaveOpen(ev, questionId){
   if(ev.target.checked){
     setSaveOpen(true)
@@ -99,14 +88,12 @@ function onChangeSaveOpen(ev, questionId){
 let checkedAnswers=answered
 let finalanswers=[0,0,0,0,0,0,0,0,0,0]
 
-
-
-// this part should be fixed
+// function for adding answers and specifications of closed questions
 async function onChangeAnswer (ev,question,index) {
-  await addEmptyAnswers(question)
+  await addEmptyAnswers(question) // adding empty answer only once
   if(ev.target.checked)  {
-    num++
-    setCount(num)
+    num++ // increasing number of selected answers after checking the answer
+    setCount(num) 
     
     if(num>=question.min && num<=question.max){
     setError(false)
@@ -138,7 +125,7 @@ async function onChangeAnswer (ev,question,index) {
  
   else if(ev.target.checked===false) {
    if(num!==0){
-    num--
+    num-- // decreasing number of selected answers after checking the answer
     setCount(num)
    }
     if(num<=question.min || num>=question.max){
@@ -177,10 +164,7 @@ async function onChangeAnswer (ev,question,index) {
     <Container fluid>
       <div className="questionCards">
         {(index+1)!==0 && <h4>{index+1}. {question.question}</h4>}
-        
-       
-        {question.min === 1 && (
-          
+        {question.min === 1 && (  
           <>
             <div className="mandatory">
               <BookmarkStar size={36} />
@@ -197,7 +181,6 @@ async function onChangeAnswer (ev,question,index) {
               <Form.Group key={index}>
                 {[...Array(question.num)].map((q, index1) => {
                   
-                  // let string = `answ${index + 1}`;
                   let string = [
                     "one",
                     "two",
@@ -213,19 +196,6 @@ async function onChangeAnswer (ev,question,index) {
 
                   return (
                     <>
-                    {/* {(question.max===1 && question.min===1) ? 
-                    <Form.Check className="questionText"
-                    id={index1+1}
-                    name="radio"
-                    key={`question-${index} check-${index1}`}
-                    type="radio"
-                    size="lg"
-                    
-                    label ={question[string[index1]]}
-                    onChange={(ev)=>{ onChangeAnswer(ev,question,index1)}}
-                    value={answered[index1]}
-                  ></Form.Check>
-                :   */}
                  <Form.Check className="questionText"
                  id={index1}
                  
@@ -326,8 +296,6 @@ function QuestionRowControl(props) {
     <Container >
       <div className="flex-fill m-auto">
         <Row>
-         
-          
           <Col>
           <div className="deletecont">
         <Col>
@@ -388,9 +356,6 @@ function QuestionList(props) {
     if (!form.checkValidity()) { 
       setValidated(true); // enables bootstrap validation error report
     }
-      // we must re-compose the task object from its separated fields
-      // deadline propery must be created from the form date and time fields
-      // id must be created if already present (edit) not if the task is new
      
     else  console.log("Everything is fine")
 
