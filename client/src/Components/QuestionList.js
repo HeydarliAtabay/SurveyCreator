@@ -26,7 +26,7 @@ import Answer from '../models/answer'
   // ];
 let abc=[]
 function QuestionItem(props) {
-  const { question, onDelete, onUp, onDown, index,last, setAnswers, survey, submission, numberOfQuestions} = props;
+  const { question, onDelete, onUp, onDown, index,last, setAnswers, survey, submission, numberOfQuestions, logged} = props;
   const [answered, setAnswered]=useState([false,false,false,false,false,false,false,false,false,false])
   const [openQAnswer, setOpenQAnswer]=useState('')
   const [error, setError]=useState(false)
@@ -62,7 +62,7 @@ function QuestionItem(props) {
 }
 
 function onChangeOpenAnswer(ev){
-  setTimeout(addEmptyAnswers(question),2000) 
+ addEmptyAnswers(question)
   setOpenQAnswer(ev.target.value)
   
 }
@@ -84,8 +84,8 @@ let checkedAnswers=answered
 let finalanswers=[0,0,0,0,0,0,0,0,0,0]
 let count=0
 // this part should be fixed
-const onChangeAnswer = (ev,question,index) => {
-  addEmptyAnswers(question)
+async function onChangeAnswer (ev,question,index) {
+  await addEmptyAnswers(question)
   if(ev.target.checked) {
    count++
    if(count>=question.min && count<=question.max){
@@ -142,7 +142,6 @@ const onChangeAnswer = (ev,question,index) => {
         
   let min=question.min
   let max=question.max
-  let selectedAnswers=[] // empty array for adding selected answers
   return (
     <>
     <Container fluid>
@@ -258,15 +257,18 @@ const onChangeAnswer = (ev,question,index) => {
               </>
             )}
           </Col>
-          <Col>
-            <QuestionRowControl
-            index={index}
-              onDelete={onDelete}
-              onUp={onUp}
-              onDown={onDown}
-              last={last}
-            />
-          </Col>
+         
+         {logged && 
+         <Col>
+         <QuestionRowControl
+         index={index}
+           onDelete={onDelete}
+           onUp={onUp}
+           onDown={onDown}
+           last={last}
+         />
+       </Col>
+         } 
         </Row>
         {question.num!==0 &&
         <>
@@ -323,7 +325,7 @@ function QuestionRowControl(props) {
 
 function QuestionList(props) {
   let number=0
-  const { questions, onDelete, onUp, onDown, onPublish, survey, submission, loading} = props;
+  const { questions, onDelete, onUp, onDown, onPublish, survey, submission, loading, logged} = props;
   const [name, setName]=useState('')
   const [answers, setAnswers]=useState([])
   const [validated, setValidated] = useState(false);
@@ -413,6 +415,7 @@ function QuestionList(props) {
                     last={last}
                     setAnswers={setAnswers}
                     numberOfQuestions={questions.length}
+                    logged={logged}
                   />
                 </ListGroup.Item>
               </>
@@ -423,16 +426,15 @@ function QuestionList(props) {
           }
        
         </Form.Group>
-{number===0? <h4>Number of questions is {number}. You should have at least one question for publishing the survey</h4>
-: <h6>The number of questions is {number}. It is enough for publishing. Good Luck</h6>
-}
+{(number===0 && logged) && <h4>Number of questions is {number}. You should have at least one question for publishing the survey</h4>}
+ {(number!==0 && logged) && <h6>The number of questions is {number}. It is enough for publishing. Good Luck</h6> }
      
        {number!==0 &&
        <Button  variant="success" type="submit">
        Submit the answers
      </Button>
        } 
-        { number!==0 &&
+        { (number!==0 && logged) &&
           <Link
           variant="primary"
           onClick={() => onPublish(surveyId)}

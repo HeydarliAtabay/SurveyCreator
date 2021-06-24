@@ -262,9 +262,9 @@ function App(props) {
       </Route>
        {/* <Route path="/questions">  */}
        <Route path={["/questions/:id"]}>
-      <div className="addbtn"><Button variant="success" size="lg"  onClick={() => setSelectedTask(MODAL.ADD)}>Add a Question</Button></div>
+      <div className="addbtn">{loggedIn && <Button variant="success" size="lg"  onClick={() => setSelectedTask(MODAL.ADD)}>Add a Question</Button> }</div>
       {(selectedTask !== MODAL.CLOSED) && <ModalFormQuestion onSave={handleSaveQuestions} onClose={handleClose}></ModalFormQuestion>}
-      <QuestionList loading ={loading}questions={questionList} onDelete={deleteQuestion} onUp={orderUpQuestion} onDown={orderDownQuestion} onPublish={publishSurvey} survey={surveyId} submission={allSub} />
+      <QuestionList loading ={loading} logged={loggedIn} questions={questionList} onDelete={deleteQuestion} onUp={orderUpQuestion} onDown={orderDownQuestion} onPublish={publishSurvey} survey={surveyId} submission={allSub} />
       </Route> 
 
        <Route path="/answers"> 
