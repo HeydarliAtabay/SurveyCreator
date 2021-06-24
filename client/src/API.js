@@ -251,7 +251,6 @@ function addQuestion(question,orderId, surveyId) {
         body : JSON.stringify({one:answer.one , two:answer.two, three:answer.three, four:answer.four, five:answer.five, six:answer.six, seven:answer.seven, eight:answer.eight, nine:answer.nine, ten:answer.ten})
    
       }).then((response) => {
-        console.log(answer.four)
         if (response.ok) {
           resolve(null);
         } else {

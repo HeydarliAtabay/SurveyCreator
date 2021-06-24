@@ -25,17 +25,28 @@ import Answer from '../models/answer'
   //   "ten",
   // ];
 let abc=[]
+
 function QuestionItem(props) {
   const { question, onDelete, onUp, onDown, index,last, setAnswers, survey, submission, numberOfQuestions, logged} = props;
   const [answered, setAnswered]=useState([false,false,false,false,false,false,false,false,false,false])
   const [openQAnswer, setOpenQAnswer]=useState('')
-  const [error, setError]=useState(false)
+  const [error, setError]=useState(true)
+  const [message, setMessage]=useState({
+    text: '',
+    type: 'yes',
+  })
+  const [count, setCount] = useState(0)
   const [addEmpty, setAddEmpty]=useState(false)
   const [saveOpen, setSaveOpen]=useState(false)
-  let newSubId=(submission[submission.length-1].id)+1
-
-
   
+  let newSubId=(submission[submission.length-1].id)+1
+  
+  const okayStyle = {color: "green" }
+  const noStyle={color:"red"}
+  
+
+  let num=count
+
 
   async function addEmptyAnswers(question1){
 
@@ -82,61 +93,75 @@ function onChangeSaveOpen(ev, questionId){
 
 let checkedAnswers=answered
 let finalanswers=[0,0,0,0,0,0,0,0,0,0]
-let count=0
+
+
+
 // this part should be fixed
 async function onChangeAnswer (ev,question,index) {
   await addEmptyAnswers(question)
-  if(ev.target.checked) {
-   count++
-   if(count>=question.min && count<=question.max){
-     setError(false)
+  if(ev.target.checked)  {
+    num++
+    setCount(num)
+    
+    if(num>=question.min && num<=question.max){
+    setError(false)
+    setMessage({text:'All specifications are done', type:'okay'})
     checkedAnswers[index]=true
     setAnswered(checkedAnswers)
-
     for(let i=0;i<10;i++){
       if(checkedAnswers[i]===false) finalanswers[i]=0
       else finalanswers[i]=1
     }
- const newAnswer=Object.assign({},  { one:finalanswers[0], two: finalanswers[1], three: finalanswers[2], four: finalanswers[3], five: finalanswers[4],six: finalanswers[5],seven: finalanswers[6],eight: finalanswers[7],nine: finalanswers[8],ten: finalanswers[9]
- })
-    updateClosedAnswers(newAnswer, question.id)
-   }
-    if(count<question.min || count>question.max) {
-     setError(true)
-  }
-  }
-  else {
-    if(count!==0){
-      count--
-      if(count>=question.min && count<=question.max) {
-        setError(false)
-        checkedAnswers[index]=false
-       setAnswered(checkedAnswers)
-       for(let i=0;i<10;i++){
-        if(checkedAnswers[i]===false) finalanswers[i]=0
-        else finalanswers[i]=1
-      }
-      const newAnswer=Object.assign({},  { one:finalanswers[0], two: finalanswers[1], three: finalanswers[2], four: finalanswers[3], five: finalanswers[4],six: finalanswers[5],seven: finalanswers[6],eight: finalanswers[7],nine: finalanswers[8],ten: finalanswers[9]
-      })
-      updateClosedAnswers(newAnswer, question.id)
-      }
-      if(count<question.min || count>question.max) {
-        setError(true)
-        
-      
-      }
+    const newAnswer=Object.assign({},  { one:finalanswers[0], two: finalanswers[1], three: finalanswers[2], four: finalanswers[3], five: finalanswers[4],six: finalanswers[5],seven: finalanswers[6],eight: finalanswers[7],nine: finalanswers[8],ten: finalanswers[9]})
+    await updateClosedAnswers(newAnswer, question.id)
+
     }
+    if (num<question.min || num>question.max) {
+      setError(true)
+      setMessage({text:`You can submit minimum ${question.min} and maximum ${question.max} answers`, type:'no'})  
+      checkedAnswers[index]=true
+    setAnswered(checkedAnswers)
+    for(let i=0;i<10;i++){
+      if(checkedAnswers[i]===false) finalanswers[i]=0
+      else finalanswers[i]=1
+    }
+    const newAnswer=Object.assign({},  { one:finalanswers[0], two: finalanswers[1], three: finalanswers[2], four: finalanswers[3], five: finalanswers[4],six: finalanswers[5],seven: finalanswers[6],eight: finalanswers[7],nine: finalanswers[8],ten: finalanswers[9]})
+    await updateClosedAnswers(newAnswer, question.id)
+    }
+
+  }
+ 
+  else if(ev.target.checked===false) {
+   if(num!==0){
+    num--
+    setCount(num)
+   }
+    if(num<=question.min || num>=question.max){
+      setError(true)
+      setMessage({text:`You can submit minimum ${question.min} and maximum ${question.max} answers`, type:'no'}) 
+      checkedAnswers[index]=false
+     setAnswered(checkedAnswers)
+      for(let i=0;i<10;i++){
+       if(checkedAnswers[i]===false) finalanswers[i]=0
+       else finalanswers[i]=1
+    }
+    const newAnswer=Object.assign({},  { one:finalanswers[0], two: finalanswers[1], three: finalanswers[2], four: finalanswers[3], five: finalanswers[4],six: finalanswers[5],seven: finalanswers[6],eight: finalanswers[7],nine: finalanswers[8],ten: finalanswers[9]})
+    await updateClosedAnswers(newAnswer, question.id)
+    }
+    if(num>=question.min && num<=question.max) {
+     setError(false)
+     setMessage({text:'All specifications are done', type:'okay'})
+     checkedAnswers[index]=false
+     setAnswered(checkedAnswers)
+      for(let i=0;i<10;i++){
+       if(checkedAnswers[i]===false) finalanswers[i]=0
+       else finalanswers[i]=1
+    }
+    const newAnswer=Object.assign({},  { one:finalanswers[0], two: finalanswers[1], three: finalanswers[2], four: finalanswers[3], five: finalanswers[4],six: finalanswers[5],seven: finalanswers[6],eight: finalanswers[7],nine: finalanswers[8],ten: finalanswers[9]})
+    await updateClosedAnswers(newAnswer, question.id)
+  }
    
   }
-  
-  
-  // else {
-  //   // task.completed = false;
-  //   // setStatus(false)
-  //   // const newTask = Object.assign({}, task, { completed: status} );
-
-  //   // onMave(newTask);
-  // }
 }
   
         
@@ -183,7 +208,7 @@ async function onChangeAnswer (ev,question,index) {
 
                   return (
                     <>
-                    {(question.max===1 && question.min===1) ? 
+                    {/* {(question.max===1 && question.min===1) ? 
                     <Form.Check className="questionText"
                     id={index1+1}
                     name="radio"
@@ -195,19 +220,21 @@ async function onChangeAnswer (ev,question,index) {
                     onChange={(ev)=>{ onChangeAnswer(ev,question,index1)}}
                     value={answered[index1]}
                   ></Form.Check>
-                :  
-                   <Form.Check className="questionText"
-                   id={index1}
-                   
-                   key={index1}
-                   type="checkbox"
-                  size="lg"
-                  // onChange={(ev) => setAnswered(ev.target.checked)}
-                  label ={question[string[index1]]}
-                  value={answered[index1]}
-                  onChange={(ev)=>{ onChangeAnswer(ev,question,index1)}}
-              ></Form.Check>
-                } 
+                :   */}
+                 <Form.Check className="questionText"
+                 id={index1}
+                 
+                 key={index1}
+                 type="checkbox"
+                size="lg"
+                // onChange={(ev) => setAnswered(ev.target.checked)}
+                label ={question[string[index1]]}
+                defaultChecked={answered[index1]}
+                onChange={(ev)=>{ onChangeAnswer(ev,question,index1)}}
+            ></Form.Check> 
+              
+                  
+                
                       {/* {  this part will be added after authentication part
                         <Form.Check
                         disabled
@@ -274,7 +301,8 @@ async function onChangeAnswer (ev,question,index) {
         <>
         <div className="specificationsTxt">   
         <Row><label>Minimum: {min} &nbsp; &nbsp; </label> <label>Maximum: {max}</label></Row>
-       
+       {message.type==="okay" && <Row><span style={okayStyle}>{message.text}</span></Row>} 
+       {message.type!=="okay" && <Row><span style={noStyle}>{message.text}</span></Row>} 
         </div>
         </>
         }
@@ -330,7 +358,6 @@ function QuestionList(props) {
   const [answers, setAnswers]=useState([])
   const [validated, setValidated] = useState(false);
   
-  console.log(answers)
   let newSubId=(submission[submission.length-1].id)+1
 
   function newSubmission(){
@@ -360,11 +387,10 @@ function QuestionList(props) {
      
     else  console.log("Everything is fine")
 
-   newSubmission()
-   //console.log(answers)
+    newSubmission()
+ 
 
   }
-//console.log(answers)
   let last=questions.length
   let surveyId=0
   last!==0?surveyId=questions[0].survey_id: surveyId=0
@@ -372,10 +398,8 @@ function QuestionList(props) {
     <>
     
       <div className="cont">
-      
-      
-        <Form noValidate validated={validated} onSubmit={handleSubmit}>
-          
+
+         <Form noValidate validated={validated} onSubmit={handleSubmit}>  
         <h3>
           Please, Write your name and start answering questions for the survey
         </h3>
