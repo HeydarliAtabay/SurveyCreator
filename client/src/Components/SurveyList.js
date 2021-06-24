@@ -1,8 +1,9 @@
 import {React} from 'react'
 import {ListGroup,Card,Button} from 'react-bootstrap'
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 function SurveyItem(props){
+  const history=useHistory()
     const {survey, onDelete, onSelect, index, onAnswer, submission, logged} = props
     let submissionids=[]
     for(let i=0;i<submission.length;i++){
@@ -19,25 +20,26 @@ function SurveyItem(props){
            
             <Card.Body>
             <Card.Title>{survey.title}</Card.Title>
-            <Link
-            onClick={(event) => onSelect(survey.id)}
-          className="btn btn-primary"
-           to={{
-             pathname: "/questions/"+survey.id,
-           }}
-        >
-          Start the Survey
-        </Link>
+            <Button
+             onClick={(event) => {
+              onSelect(survey.id)
+              history.push("/questions/" + survey.id)
+             }}
+             className="btn btn-primary"
+            >
+              Start the survey
+            </Button>
        { (survey.numRespond!==0 && logged) &&
-        <Link
-            onClick={(event) => onAnswer(survey.id, submissionids[0])}
+
+       <Button
+       onClick={(event) => {
+        onAnswer(survey.id, submissionids[0])
+        history.push('/answers')
+       }}
           className="btn btn-success"
-          to={{
-            pathname: "/answers",
-          }}
-        >
-          Check answers
-        </Link>
+       >
+         Check Responses
+       </Button>
        } 
             {(survey.published===0 && logged) && <Button variant="warning" onClick={(event) =>  window.location.href='/questions'}>Modify the Survey</Button>}
             {logged && <Button variant="danger" onClick={onDelete}>Delete the Survey</Button> }

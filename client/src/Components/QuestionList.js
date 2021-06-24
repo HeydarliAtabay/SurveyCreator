@@ -6,7 +6,7 @@ import {
   ArrowUpSquare,
   ArrowDownSquare,
 } from "react-bootstrap-icons";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import API from '../API'
 import Answer from '../models/answer'
 
@@ -353,6 +353,7 @@ function QuestionRowControl(props) {
 
 function QuestionList(props) {
   let number=0
+  const history=useHistory()
   const { questions, onDelete, onUp, onDown, onPublish, survey, submission, loading, logged} = props;
   const [name, setName]=useState('')
   const [answers, setAnswers]=useState([])
@@ -375,6 +376,7 @@ function QuestionList(props) {
     event.preventDefault();
     event.stopPropagation(); 
 
+    history.push('/surveys')
     const form = event.currentTarget; 
 
     // check if form is valid using HTML constraints
@@ -459,17 +461,16 @@ function QuestionList(props) {
      </Button>
        } 
         { (number!==0 && logged) &&
-          <Link
-          variant="primary"
-          onClick={() => onPublish(surveyId)}
-        className="btn btn-primary"
-        to={{pathname: "/surveys"}}
-      >
-        Publish the survey
-      </Link>
-          // <Button size="lg" variant="success" onClick={()=>onPublish(surveyId)}>
-          // Publish the survey
-          // </Button>
+        <Button
+        variant="primary"
+           onClick={() => {
+            onPublish(surveyId)
+            history.push("/surveys")
+           } }
+         className="btn btn-primary"
+        >
+          Publish this survey
+        </Button>
         }
         </Form>
       </div>
