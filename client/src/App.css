@@ -44,7 +44,7 @@
   text-align: center;
 }
 .cont1 {
-  width: 900px;
+  width: 1100px;
   margin: auto;
   text-align: center;
 }
@@ -128,4 +128,13 @@ label.specificationsTxt {
 .cardimage {
   object-fit: cover;
   width: 10px;
+}
+
+.userdet {
+  position: absolute;
+  left: -5px;
+  padding-top: 5rem;
+  border: 2px solid rgb(41, 39, 39);
+  border-radius: 25px;
+  width: 250px;
 }

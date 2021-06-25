@@ -2,7 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import {React, useState, useEffect} from 'react'
-import{Button,Container} from 'react-bootstrap'
+import{Button,Container, Row} from 'react-bootstrap'
 import Header from './Components/Header'
 import SurveyList from './Components/SurveyList'
 import QuestionList from './Components/QuestionList'
@@ -10,6 +10,7 @@ import ModalFormTitle from './Components/ModalFormTitle'
 import ModalFormQuestion from './Components/ModalFormQuestion'
 import AnswerList from './Components/AnswerList'
 import LoginComponent from './Components/LoginComponent'
+import AdminDetails from './Components/AdminDetails'
 import API from './API'
 
 import { BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
@@ -250,9 +251,8 @@ function App(props) {
   return (
     <Router>
       {loggedIn? <Header logout={doLogOut} link={"/login"} info={"Log out "} />: <Header logout={doLogOut} link="/login"info={"Log in "} />}
-
+      {(loggedIn && message) &&<AdminDetails greetings={message.msg}/>}
       <Container fluid > 
-      
       <Switch>
       <Route path="/surveys"> 
       <div className="addbtn">{loggedIn && <Button variant="success" size="lg"  onClick={() => setSelectedTask(MODAL.ADD)}>Add a Survey</Button>}</div>
@@ -270,7 +270,6 @@ function App(props) {
        <Route path="/answers"> 
       <AnswerList submissions={submissionList} questions={questionList} answers={answerList} onPublish={publishSurvey} survey={surveyId} responder={"Atabay"} onRight={handleRight} onLeft={handleLeft}/>
       </Route> 
-     
       <Route path="/login" render={() => 
           <>{loggedIn ? <Redirect to="/surveys" /> : <LoginComponent login={doLogIn} serverError={message.msg}/>}</>
         }/>
