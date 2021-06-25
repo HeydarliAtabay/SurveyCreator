@@ -2,7 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import {React, useState, useEffect} from 'react'
-import{Button,Container, Row} from 'react-bootstrap'
+import{Button,Container} from 'react-bootstrap'
 import Header from './Components/Header'
 import SurveyList from './Components/SurveyList'
 import QuestionList from './Components/QuestionList'

@@ -6,7 +6,7 @@ import {
   ArrowUpSquare,
   ArrowDownSquare,
 } from "react-bootstrap-icons";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import API from '../API'
 
 let abc=[] // array for storing question ids, which then will be used for submitting the answers
@@ -84,6 +84,7 @@ function onChangeSaveOpen(ev, questionId){
     setSaveOpen(false)
   }
 }
+
 
 let checkedAnswers=answered
 let finalanswers=[0,0,0,0,0,0,0,0,0,0]
