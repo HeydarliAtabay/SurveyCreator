@@ -226,7 +226,40 @@ async function onChangeAnswer (ev,question,index) {
               </Form.Group>
             )}
             
-            {question.num === 0 && (
+            {(question.num === 0 && question.min===1)&& (
+              <>
+                <Form.Control
+                  key={index}
+                  size="lg"
+                  required
+                  type="text"
+                  placeholder="Write your answer here"
+                  maxLength={200}
+                  as="textarea"
+                  rows={3}
+                  value={openQAnswer}
+                  onChange={(ev)=>{ onChangeOpenAnswer(ev,question.id)
+                  
+                  }}
+                  
+                />
+                <Form.Control.Feedback type="invalid">
+                    {" "}
+                    Please provide your answer
+                  </Form.Control.Feedback>
+               
+               <Form.Check className="questionText"
+                  
+                   type="checkbox"
+                  size="lg"
+                  // onChange={(ev) => setAnswered(ev.target.checked)}
+                  label ="Save answer"
+                  checked={saveOpen}
+                  onChange={(ev)=>{onChangeSaveOpen(ev,question.id)}}
+              ></Form.Check>
+              </>
+            )}
+             {(question.num === 0 && question.min===0)&& (
               <>
                 <Form.Control
                   key={index}
@@ -238,16 +271,10 @@ async function onChangeAnswer (ev,question,index) {
                   rows={3}
                   value={openQAnswer}
                   onChange={(ev)=>{ onChangeOpenAnswer(ev,question.id)
+                  
                   }}
-                  
-                  
                 />
-                {question.min === 1 && (
-                  <Form.Control.Feedback type="invalid">
-                    {" "}
-                    Please provide your answer
-                  </Form.Control.Feedback>
-                )}
+               
                <Form.Check className="questionText"
                   
                    type="checkbox"
@@ -350,7 +377,7 @@ function QuestionList(props) {
     event.preventDefault();
     event.stopPropagation(); 
 
-    history.push('/surveys')
+   
     const form = event.currentTarget; 
 
     // check if form is valid using HTML constraints
@@ -358,9 +385,11 @@ function QuestionList(props) {
       setValidated(true); // enables bootstrap validation error report
     }
      
-    else  console.log("Everything is fine")
-
-    newSubmission()
+    else {
+      console.log("Everything is fine")
+      newSubmission()
+      history.push('/surveys')
+    }
  
 
   }
