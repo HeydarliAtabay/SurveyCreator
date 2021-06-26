@@ -15,8 +15,10 @@
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "morgan": "^1.10.0",
+    "npm": "^7.19.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5.0.2",
+    "start": "^5.1.0"
   }
 }
