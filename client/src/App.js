@@ -45,6 +45,7 @@ function App(props) {
   }
 
 
+
   useEffect(()=> {
     const checkAuth = async() => {
       try {
@@ -133,6 +134,8 @@ function App(props) {
     //   console.log(err);
     // }
   }
+
+  
 
   async function getAnswers(surveyId,submissionId){
     

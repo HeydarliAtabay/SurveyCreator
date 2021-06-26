@@ -1,4 +1,4 @@
-import { React, useState, useEffect} from "react";
+import { React, useState, useEffect,useRef} from "react";
 import { ListGroup, Button, Form, Row, Col, Container} from "react-bootstrap";
 import {
   BookmarkStar,
@@ -20,6 +20,7 @@ function QuestionItem(props) {
     type: 'yes',
   })
   const [count, setCount] = useState(0)
+  const [error, setError]=useState(true)
   const [errArr, setErrArr]=useState(false)
   const [addEmpty, setAddEmpty]=useState(false)
   const [saveOpen, setSaveOpen]=useState(false)
@@ -45,26 +46,26 @@ function QuestionItem(props) {
   const id=index
 
   function changeErrorCheck (value){
-    // if(value===true){
-    //   let items=[...newCheck]
-    //   console.log('items are '+ items)
-    //   let item = items[id]
-    //   console.log('item: '+ item)
-    //   items[id]=true
-    //   setError(true)
-    //   setNewCheck(items)
-    //   setMessage({text:`You can submit minimum ${question.min} and maximum ${question.max} answers`, type:'no'})  
-    // }
-    // else{
-    //   let items=[...newCheck]
-    //   console.log('items are '+ items)
-    //   let item = items[id]
-    //   console.log('item: '+ item)
-    //   items[id]=false
-    //   setError(false)
-    //   setNewCheck(items)
-    //   setMessage({text:'All specifications are done', type:'okay'})
-    // }
+    if(value===true){
+      let items=[...newCheck]
+      console.log('items are '+ items)
+      let item = items[id]
+      console.log('item: '+ item)
+      items[id]=true
+      setError(true)
+      setNewCheck(items)
+      setMessage({text:`You can submit minimum ${question.min} and maximum ${question.max} answers`, type:'no'})  
+    }
+    else{
+      let items=[...newCheck]
+      console.log('items are '+ items)
+      let item = items[id]
+      console.log('item: '+ item)
+      items[id]=false
+      setError(false)
+      setNewCheck(items)
+      setMessage({text:'All specifications are done', type:'okay'})
+    }
     
    }
 
@@ -102,6 +103,7 @@ let control=count // defining control integer for adding empty answer for opened
 function onChangeOpenAnswer(ev){
 control++
 setCount(control)
+setSaveOpen(false)
 if(count===1){
   addEmptyAnswers(question) // calling function for adding empty answer for open question
  
@@ -394,20 +396,51 @@ function QuestionRowControl(props) {
 
 function QuestionList(props) {
   let number=0
-  let errorArray=[]
+  
   const history=useHistory()
   const { questions, onDelete, onUp, onDown, onPublish, survey, submission, loading, logged} = props;
-  const [name, setName]=useState('')
-  const [answers, setAnswers]=useState([])
-  const [newCheck, setNewcheck]=useState([false,false,true,false,true,false,false])
-  const [openCheck, setOpenCheck]=useState(false)
-  const [validated, setValidated] = useState(false);
+  const [name, setName]=useState('') // state for responder's name
+  const [answers, setAnswers]=useState([])  // state for ids of given answers
+  const [newCheck, setNewcheck]=useState([]) // state for question errors
+  const [openCheck, setOpenCheck]=useState(false) // state for changing open question state from question item function
+  const [validated, setValidated] = useState(false); // state for bootstrap validations
   const [errorMessage, setErrorMessage]= useState({
     text: '',
     type: 'okay'
-  })
+  }) // state for error messages, which will be shown while checking the specifications
+  const countRef = useRef(0); // useRefference for limiting the number of re-rendering 
+  // styles for different message types
   const okayStyle = {color: "green" }
   const noStyle={color:"red"}
+
+  let errorArray=[]
+let b=0
+
+
+  useEffect(() => {
+    countRef.current++
+    console.log(countRef)
+    const makeArrayOfErrors= async()=>{
+     if(countRef.current<10){
+      try{
+        let num=0
+        for(let i=0;i<questions.length;i++){
+          if(questions[i].survey_id===survey) num++
+        }
+        if(errorArray.length<num){
+          for(let i=0;i<num;i++){
+           if(questions[i].survey_id===survey && questions[i].min===1 && questions[i].questiontype===1) errorArray.push(true)
+           else errorArray.push(false)
+           console.log(errorArray)
+          }
+      }
+    }
+    catch(err) {}
+    setNewcheck(errorArray)
+        }
+     }
+        makeArrayOfErrors()
+    },)
 
   console.log('new check: ' + newCheck)
   let newSubId=(submission[submission.length-1].id)+1
@@ -439,33 +472,20 @@ function QuestionList(props) {
     }
     else {
       if(valid===true){
-        setErrorMessage({text:`Your answer is submitted `, type:'okay'}) 
+        setErrorMessage({text:`Your answer is submitted, now You will be redirected to the main page `, type:'okay'}) 
         console.log("Everything is fine")
+        newSubmission()
+        setTimeout(()=>history.push('/surveys'),1500) 
+       // errorArray.length=0
       }
-      
-     // newSubmission()
-     // history.push('/surveys')
-    //  errorArray.length=0
-
     }
 
     if(valid===false){ // enables bootstrap validation error report
       setErrorMessage({text:`You can not submit your responses, please check the specifications `, type:'no'})  
     }
- 
+   
 
   }
-  // **************************bidene burdan errorArrayi setstate kimi newChecke atsam duzeler*****************************
-  //********************************************************************************************************************** */
-  // let num=questions.length
-  // for(let i=0;i<num;i++) errorArray.push(0)
-  // console.log(errorArray)
-  // for(let i=0;i<errorArray.length;i++){
-  //   if(questions[i].min!==0 && questions[i].questiontype===1)errorArray[i]=true
-  //   else errorArray[i]=false
-  // }
-  // console.log(errorArray)  
-
 
   let last=questions.length
   let surveyId=0
