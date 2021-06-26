@@ -13,22 +13,18 @@ let abc=[] // array for storing question ids, which then will be used for submit
 
 function QuestionItem(props) {
   const { question, onDelete, onUp, onDown, index,last, setAnswers, survey, submission, numberOfQuestions, logged, newCheck, setNewCheck, openCheck} = props;
-  const [answered, setAnswered]=useState([false,false,false,false,false,false,false,false,false,false])
-  const [openQAnswer, setOpenQAnswer]=useState('')
+  const [answered, setAnswered]=useState([false,false,false,false,false,false,false,false,false,false]) // state for checked checkboxes
+  const [openQAnswer, setOpenQAnswer]=useState('') // state for open answers
   const [message, setMessage]=useState({
     text: '',
     type: 'yes',
-  })
+  }) // state for error emssages
   const [count, setCount] = useState(0)
-  const [error, setError]=useState(true)
-  const [errArr, setErrArr]=useState(false)
-  const [addEmpty, setAddEmpty]=useState(false)
-  const [saveOpen, setSaveOpen]=useState(false)
+  const [addEmpty, setAddEmpty]=useState(false) // state for checking if for that question, empty question was alreadya added or not
+  const [saveOpen, setSaveOpen]=useState(false) // state for saving open answers
   let newSubId=(submission[submission.length-1].id)+1 // new id of the new submission
  
-  console.log('open check is '+ openCheck)
-
-
+  // use effect for submitting the open answers
   useEffect(() => {
     if(openCheck){
      setSaveOpen(true)
@@ -36,7 +32,6 @@ function QuestionItem(props) {
     API.updateOpenAnswers(newAnswer, question.id ,newSubId)
     .then(()=>{
     }).catch(err=>(err))
-     console.log("save open state was changed")
       }
     
     }, [openCheck])
@@ -45,24 +40,23 @@ function QuestionItem(props) {
   const noStyle={color:"red"}
   const id=index
 
+  // function for changing error values in a error array state of question list
   function changeErrorCheck (value){
-    if(value===true){
+    if(value===true){ // if sent value has error
       let items=[...newCheck]
       console.log('items are '+ items)
       let item = items[id]
       console.log('item: '+ item)
       items[id]=true
-      setError(true)
       setNewCheck(items)
       setMessage({text:`You can submit minimum ${question.min} and maximum ${question.max} answers`, type:'no'})  
     }
-    else{
+    else{ // else if sent value doesn't has error
       let items=[...newCheck]
       console.log('items are '+ items)
       let item = items[id]
       console.log('item: '+ item)
       items[id]=false
-      setError(false)
       setNewCheck(items)
       setMessage({text:'All specifications are done', type:'okay'})
     }
@@ -136,7 +130,6 @@ let finalanswers=[0,0,0,0,0,0,0,0,0,0]
 async function onChangeAnswer (ev,question,index) {
   
   await addEmptyAnswers(question) // adding empty answer only once
-  setErrArr(true)
   if(ev.target.checked)  {
     num++ // increasing number of selected answers after checking the answer
     setCount(num) 
@@ -414,14 +407,13 @@ function QuestionList(props) {
   const noStyle={color:"red"}
 
   let errorArray=[]
-let b=0
 
-
+  // useEffect for creating an array which stores the values of errors
   useEffect(() => {
     countRef.current++
     console.log(countRef)
     const makeArrayOfErrors= async()=>{
-     if(countRef.current<10){
+     if(countRef.current<10){ // maximum number of re renders is 10
       try{
         let num=0
         for(let i=0;i<questions.length;i++){
@@ -436,31 +428,32 @@ let b=0
       }
     }
     catch(err) {}
-    setNewcheck(errorArray)
+    setNewcheck(errorArray) // change state of error array to the modified array
         }
      }
-        makeArrayOfErrors()
+        makeArrayOfErrors() // calling asynchronous function for creating an array of errors
     },)
 
-  console.log('new check: ' + newCheck)
-  let newSubId=(submission[submission.length-1].id)+1
+  let newSubId=(submission[submission.length-1].id)+1 // getting id of the new submission
+
+  // function for adding new submissions
   function newSubmission(){
     if(name && survey){
-      API.addNewSubmission(name, survey).then((err)=>{})
-      API.increaseNumRespond(survey).then((err)=>{})
+      API.addNewSubmission(name, survey).then((err)=>{}) // calling api for adding a new submission with a written name
+      API.increaseNumRespond(survey).then((err)=>{}) // calling api for increasing the number of responders in a survey table
       for(let i=0;i<answers.length;i++){
-      API.updateStatusAnswer(answers[i],newSubId)
+      API.updateStatusAnswer(answers[i],newSubId) // changing the status of given responses to 1, for making them visible to the admins
       }
     }
   }
 
   const handleSubmit = (event) => {
-    // stop event default and propagation
     event.preventDefault();
     event.stopPropagation(); 
-    setOpenCheck(true)
+    setOpenCheck(true) // change the state of open answer to true
     let valid=true
     const form = event.currentTarget; 
+    //checking if there any error during the checking of specifications
     for(let i=0;i<newCheck.length;i++){
       if(newCheck[i]===true) valid=false
     }
@@ -474,13 +467,14 @@ let b=0
       if(valid===true){
         setErrorMessage({text:`Your answer is submitted, now You will be redirected to the main page `, type:'okay'}) 
         console.log("Everything is fine")
-        newSubmission()
-        setTimeout(()=>history.push('/surveys'),1500) 
+        newSubmission() // calling a function of adding new submission
+        setTimeout(()=>history.push('/surveys'),1500)  // waiting 1,5 second for redirecting user to the main page
        // errorArray.length=0
       }
     }
 
-    if(valid===false){ // enables bootstrap validation error report
+    // if there any error, dont give the user to submit answers
+    if(valid===false){ 
       setErrorMessage({text:`You can not submit your responses, please check the specifications `, type:'no'})  
     }
    
@@ -496,7 +490,7 @@ let b=0
       <div className="cont">
 
          <Form noValidate validated={validated} onSubmit={handleSubmit}>  
-       {!logged &&
+       {!logged && // if user is logged in it couldn't see that part
        <>
         <h3>
         Please, Write your name and start answering questions for the survey
@@ -559,7 +553,7 @@ let b=0
  {(number!==0 && logged) && <h6>The number of questions is {number}. It is enough for publishing. Good Luck</h6> }
        {errorMessage.type==="okay" && <Row><span style={okayStyle}>{errorMessage.text}</span></Row>} 
        {errorMessage.type!=="okay" && <Row><span style={noStyle}>{errorMessage.text}</span></Row>} 
-       {number!==0 &&
+       {(number!==0 && !logged)&&
        <Button  variant="success" type="submit">
        Submit the answers
      </Button>
