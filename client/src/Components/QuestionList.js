@@ -18,7 +18,7 @@ function QuestionItem(props) {
   const [message, setMessage]=useState({
     text: '',
     type: 'yes',
-  }) // state for error emssages
+  }) // state for error messages
   const [count, setCount] = useState(0)
   const [addEmpty, setAddEmpty]=useState(false) // state for checking if for that question, empty question was alreadya added or not
   const [saveOpen, setSaveOpen]=useState(false) // state for saving open answers
@@ -554,12 +554,13 @@ function QuestionList(props) {
        {errorMessage.type==="okay" && <Row><span style={okayStyle}>{errorMessage.text}</span></Row>} 
        {errorMessage.type!=="okay" && <Row><span style={noStyle}>{errorMessage.text}</span></Row>} 
        {(number!==0 && !logged)&&
-       <Button  variant="success" type="submit">
+       <Button  variant="success" type="submit" size="lg">
        Submit the answers
      </Button>
        } 
         { (number!==0 && logged) &&
         <Button
+        size="lg"
         variant="primary"
            onClick={() => {
             onPublish(surveyId)

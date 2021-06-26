@@ -97,7 +97,7 @@ function QuestionItem(props) {
 
 
 function AnswerList(props) {
-  const { questions, answers, onRight, onLeft, submissions} = props;
+  const { questions, answers, onRight, onLeft, submissions, loading} = props;
   const [subindex, setSubIndex]=useState(submissions?submissions[0].id:1)
   let last=answers.length
  let lastId=submissions[submissions.length-1].id  // last id of selected submissions, for avoiding navigation to undefined value
@@ -167,6 +167,7 @@ function AnswerList(props) {
     </div> 
       <div className="cont1">
         <Form >
+        {loading ?<h3>Please wait for answers to be loaded</h3> :
         <Form.Group>
         <ListGroup as="ul" variant="flush" key={'List of questions:'+ answers.id}>
 
@@ -186,6 +187,7 @@ function AnswerList(props) {
           })}
         </ListGroup>
         </Form.Group>
+}
         </Form>
       </div>
     </>

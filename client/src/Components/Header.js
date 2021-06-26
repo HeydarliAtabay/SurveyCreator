@@ -16,12 +16,6 @@ function Header(props) {
         role="search"
         aria-label="Quick search"
       >
-        <Form.Control
-          className="mr-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search query"
-        />
       </Form>
       <Nav className="ml-auto">
         <Nav.Item>

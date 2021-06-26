@@ -2,7 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import {React, useState, useEffect} from 'react'
-import{Button,Container} from 'react-bootstrap'
+import{Button,Container, Row} from 'react-bootstrap'
 import Header from './Components/Header'
 import SurveyList from './Components/SurveyList'
 import QuestionList from './Components/QuestionList'
@@ -253,7 +253,7 @@ function App(props) {
   
   return (
     <Router>
-      {loggedIn? <Header logout={doLogOut} link={"/login"} info={"Log out "} />: <Header logout={doLogOut} link="/login"info={"Log in "} />}
+      {loggedIn? <Header logout={doLogOut} link={"/"} info={"Log out "} />: <Header logout={doLogOut} link="/login"info={"Log in "} />}
       {(loggedIn && message) &&<AdminDetails greetings={message.msg}/>}
       <Container fluid > 
       <Switch>
@@ -271,11 +271,16 @@ function App(props) {
       </Route> 
 
        <Route path="/answers"> 
-      <AnswerList submissions={submissionList} questions={questionList} answers={answerList} onPublish={publishSurvey} survey={surveyId} responder={"Atabay"} onRight={handleRight} onLeft={handleLeft}/>
+      <AnswerList submissions={submissionList} questions={questionList} answers={answerList} onPublish={publishSurvey} survey={surveyId} responder={"Atabay"} onRight={handleRight} onLeft={handleLeft} loading={loading}/>
       </Route> 
-      <Route path="/login" render={() => 
+      <Route path="/login">
+          <Row className="vh-100 below-nav">
+          {loggedIn ? <Redirect to="/surveys" /> : <LoginComponent login={doLogIn} serverError={message.msg}/>}
+          </Row>
+        </Route>
+      {/* <Route path="/login" render={() => 
           <>{loggedIn ? <Redirect to="/surveys" /> : <LoginComponent login={doLogIn} serverError={message.msg}/>}</>
-        }/>
+        }/> */}
      <Redirect to="/surveys"/>
       </Switch>
     </Container>

@@ -20,7 +20,20 @@ function SurveyItem(props){
            
             <Card.Body>
             <Card.Title>{survey.title}</Card.Title>
-            <Button
+           {(logged===true) ?
+           
+              <Button
+             onClick={(event) => {
+              onSelect(survey.id)
+              history.push("/questions/" + survey.id)
+             }}
+             className="btn btn-primary"
+            >
+              Modify the survey
+            </Button>
+          
+           :
+           <Button
              onClick={(event) => {
               onSelect(survey.id)
               history.push("/questions/" + survey.id)
@@ -29,6 +42,9 @@ function SurveyItem(props){
             >
               Start the survey
             </Button>
+
+                     }
+            
        { (survey.numRespond!==0 && logged) &&
 
        <Button
@@ -41,7 +57,7 @@ function SurveyItem(props){
          Check Responses
        </Button>
        } 
-            {(survey.published===0 && logged) && <Button variant="warning" onClick={(event) =>  window.location.href='/questions'}>Modify the Survey</Button>}
+           
             {logged && <Button variant="danger" onClick={onDelete}>Delete the Survey</Button> }
             
          {logged &&  <h5>number of responders for this survey is : {survey.numRespond}</h5> }  
