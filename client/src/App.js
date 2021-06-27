@@ -269,7 +269,7 @@ function App(props) {
       <div className="goHomeBtn"><Row><Link variant="link" to="/"  > <HouseFill size={64} color='black' /> </Link></Row><Row><span> Home Page </span></Row> </div>
       <div className="addbtn">{loggedIn && <Button variant="success" size="lg"  onClick={() => setSelectedTask(MODAL.ADD)}>Add a Question</Button> }</div>
       {(selectedTask !== MODAL.CLOSED) && <ModalFormQuestion onSave={handleSaveQuestions} onClose={handleClose}></ModalFormQuestion>}
-      <QuestionList loading ={loading} logged={loggedIn} questions={questionList} onDelete={deleteQuestion} onUp={orderUpQuestion} onDown={orderDownQuestion} onPublish={publishSurvey} survey={surveyId} submission={allSub} />
+      <QuestionList loading ={loading} logged={loggedIn} questions={questionList} onDelete={deleteQuestion} onUp={orderUpQuestion} onDown={orderDownQuestion} onPublish={publishSurvey} survey={surveyId} submission={allSub} surveys={surveyList} />
       </Route> 
 
        <Route path="/answers"> 

@@ -456,7 +456,7 @@ let newSubId=null
   const handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation(); 
-    setOpenCheck(true) // change the state of open answer to true
+    
     let valid=true
     const form = event.currentTarget; 
     //checking if there any error during the checking of specifications
@@ -470,9 +470,22 @@ let newSubId=null
     }
     else {
       if(valid===true){
+        setOpenCheck(true)
+        // change the state of open answer to true
         setErrorMessage({text:`Your answer is submitted, now You will be redirected to the main page `, type:'okay'}) 
-        newSubmission() // calling a function of adding new submission
-        setTimeout(()=>history.push('/surveys'),1500)  // waiting 1,5 second for redirecting user to the main page
+        try{
+         
+          
+          setTimeout(()=>{
+            newSubmission()  // calling a function of adding new submission
+            setTimeout(()=>history.push('/surveys'),1500)  // waiting 1 second for redirecting user to the main page
+            window.location.reload();
+          },1500)
+        }
+        catch{
+
+        }
+      
        // errorArray.length=0
       }
     }
@@ -555,8 +568,8 @@ let newSubId=null
         </Form.Group>
 {(number===0 && logged) && <h4>Number of questions is {number}. You should have at least one question for publishing the survey</h4>}
  {(number!==0 && logged) && <h6>The number of questions is {number}. It is enough for publishing. Good Luck</h6> }
-       {errorMessage.type==="okay" && <Row><span style={okayStyle}>{errorMessage.text}</span></Row>} 
-       {errorMessage.type!=="okay" && <Row><span style={noStyle}>{errorMessage.text}</span></Row>} 
+       {errorMessage.type==="okay" && <Row><h3 style={okayStyle}>{errorMessage.text}</h3></Row>} 
+       {errorMessage.type!=="okay" && <Row><h3 style={noStyle}>{errorMessage.text}</h3></Row>} 
        {(number!==0 && !logged)&&
        <Button  variant="success" type="submit" size="lg">
        Submit the answers
