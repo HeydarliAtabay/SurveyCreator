@@ -235,7 +235,7 @@ async function onChangeAnswer (ev,question,index) {
                   ];
 
                   return (
-                    <>
+                    <div key={index1}>
                  <Form.Check className="questionText"
                  id={index1}
                  
@@ -259,7 +259,7 @@ async function onChangeAnswer (ev,question,index) {
                           label={question[string[index]]}
                         ></Form.Check>
                       } */}
-                    </>
+                    </div>
                   );
                 })}
               </Form.Group>
@@ -359,7 +359,7 @@ function QuestionRowControl(props) {
   const { onDelete, onUp, onDown, index, last } = props;
   
   return (
-    <>
+    <div key={index}>
     <Container >
       <div className="flex-fill m-auto">
         <Row>
@@ -387,7 +387,7 @@ function QuestionRowControl(props) {
         </Row>
       </div>
       </Container>
-    </>
+    </div>
   );
 }
 
@@ -544,7 +544,7 @@ let newSubId=null
             number++
               
             return (
-              <>
+              <div key={index}>
               
                 <ListGroup.Item as="li" key={index}>
                   <QuestionItem
@@ -564,7 +564,7 @@ let newSubId=null
                     openCheck={openCheck}
                   />
                 </ListGroup.Item>
-              </>
+              </div>
             );
           })}
         </ListGroup>

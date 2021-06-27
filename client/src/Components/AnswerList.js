@@ -42,7 +42,7 @@ function QuestionItem(props) {
               <Form.Group>
                 {[...Array(number)].map((q, index1) => {
                   return (
-                    <>
+                    <div key={index1}>
                  {question.questiontype===1 &&
                   <Form.Check className="questionText"
                   id={index1}
@@ -63,7 +63,7 @@ function QuestionItem(props) {
                           label={question[string[index]]}
                         ></Form.Check>
                       } */}
-                    </>
+                    </div>
                   );
                 })}
               </Form.Group>
@@ -176,7 +176,7 @@ function AnswerList(props) {
 
           {answers.map((q,index) => {
             return (
-              <>
+              <div key={index}>
                 <ListGroup.Item as="li" key={'Question:'+ index}>
                   <QuestionItem
                     question={questionss[index]}
@@ -185,7 +185,7 @@ function AnswerList(props) {
                     last={last}
                   />
                 </ListGroup.Item>
-              </>
+              </div>
             );
           })}
         </ListGroup>
