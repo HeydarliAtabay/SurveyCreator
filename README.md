@@ -250,9 +250,13 @@
 
 ## Screenshots
 
-### Login page ("/login")
+### Form for adding Closed questions
 
-![Login Page](./screenshots/LoginPage.png)
+![Modal For Questions](./screenshots/ModalQuestion.png)
+
+### Form for adding Open questions
+
+![Modal For Questions](./screenshots/ModalQuestion_Open.png)
 
 ### Survey List for non authenticated user ("/surveys")
 
@@ -269,10 +273,6 @@
 ### Questions List for authenticated user ("/questions")
 
 ![Questions Page](./screenshots/Questions_User.png)
-
-### Form for adding questions
-
-![Modal For Questions](./screenshots/ModalQuestion.png)
 
 ### Answer List for authenticated user ("/answers")
 
