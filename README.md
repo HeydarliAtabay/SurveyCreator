@@ -12,16 +12,218 @@
 
 ## API Server
 
-- POST `/api/login`
-  - request parameters and request body content
-  - response body content
-- GET `/api/something`
-  - request parameters
-  - response body content
-- POST `/api/something`
-  - request parameters and request body content
-  - response body content
-- ...
+### APIs for surveys
+
+- GET `/api/surveys`
+
+  - request parameters: /
+  - response body: array with surveys(
+    {"id": 1,
+    "title": "How rich you are?",
+    "numRespond": 6,
+    "published": 1,
+    "user": 1 })
+    or object with error
+
+- POST `/api/surveys`
+
+  - request parameters and request body content : { "title": "Atabays Survey", "numRespond": 4,"published": 1, "user":1 }
+  - response body content : error object or the id of the new survey
+
+- DELETE `/api/surveys/delete/:surveyId`
+
+  - request parameters and request body content : params= surveyId
+  - response body content : `Selected survey with id:${id} was deleted`
+    `Error while deleting the survey with id:${req.params.id} ` and error object
+
+- PUT `/api/surveys/update/:surveyId` - Increasing the number of responders
+
+  - request parameters and request body content : params= surveyId
+  - response body content : `Database error during the update of survey ${surveyId}` and error object
+
+- PUT `/api/surveys/update/published/:surveyId` - Changing the status of the survey to 1
+
+  - request parameters and request body content : params= surveyId
+  - response body content : `Error while updating the status of the survey with id: ${id} ` and error object
+
+### APIs for questions
+
+- GET `/api/questions`
+
+  - request parameters: /
+  - response body: array with questions(
+    {
+    "id": 47,
+    "question": "Type your favorite color",
+    "questiontype": 0,
+    "num": 0,
+    "min": 0,
+    "max": 1,
+    "one": "",
+    "two": "",
+    "three": "",
+    "four": "",
+    "five": "",
+    "six": "",
+    "seven": "",
+    "eight": "",
+    "nine": "",
+    "ten": "",
+    "survey_id": 2,
+    "order": 1
+    }
+    or object with error
+
+- GET `/api/questions/survey/:surveyId` - all questions of selected survey
+
+  - request parameters: params= surveyId
+  - response body: array with questions of selected survey(
+    {
+    "id": 47,
+    "question": "Type your favorite color",
+    "questiontype": 0,
+    "num": 0,
+    "min": 0,
+    "max": 1,
+    "one": "",
+    "two": "",
+    "three": "",
+    "four": "",
+    "five": "",
+    "six": "",
+    "seven": "",
+    "eight": "",
+    "nine": "",
+    "ten": "",
+    "survey_id": 2,
+    "order": 1
+    }
+    or object with error
+
+- POST `/api/questions` - Adding a question for survey
+
+  - request parameters and request body content :
+    { "question": "Describe yourself", "questiontype":0, "num":0, "min":1, "max":1, "one": "", "two": "", "three": "", "four": "", "five":"", "six":"", "seven": "", "eight": "", "nine": "", "ten" :"", "order": 1, "survey_id":2}
+  - response body content : error object or the id of the new question
+
+- DELETE `/api/questions/delete/:questionId`
+
+  - request parameters and request body content : params= questionId
+  - response body content : `Selected question with id:${id} was deleted`
+    `Error while deleting the question with id:${id} ` and error object
+
+- PUT `/api/questions/update/order/down/:order/:questionId` - Changing the order of selected question
+
+  - request parameters and request body content : params= order and question id
+  - response body content : `Error while updating the order of the question with id: ${id} ` and error object
+
+### APIs for submissions
+
+- GET `/api/submissions`
+
+  - request parameters: /
+  - response body: array with submissions(
+    {
+    "id": 1,
+    "responder": "Atabay",
+    "survey_id": 1
+    }
+    or object with error
+
+- GET `/api/submissions/survey/:surveyId` - getting submissions of survey
+
+  - request parameters: params= survey id
+  - response body: array with submissions(
+    {
+    "id": 1,
+    "responder": "Atabay",
+    "survey_id": 1
+    }
+    or object with error
+
+- POST `/api/submissions` - Adding new submission
+
+  - request parameters and request body content :
+    { "responder": "Yuri Caridi", "survey_id":1 }
+  - response body content : error object or the id of the new submission
+
+### APIs for answers
+
+- GET `/api/answers`
+
+  - request parameters: /
+  - response body: array with answers(
+    {
+    "id": 10,
+    "submission_id": 5,
+    "survey_id": 1,
+    "question_id": 48,
+    "questiontype": 1,
+    "answer": null,
+    "one": 0,
+    "two": 1,
+    "three": 0,
+    "four": 0,
+    "five": 0,
+    "six": 0,
+    "seven": 0,
+    "eight": 0,
+    "nine": 0,
+    "ten": 0,
+    "status": 1
+    }
+    or object with error
+
+- GET `/api/answers/survey/:surveyId/:submissionId` - getting answers of specific survey and selected submission
+
+  - request parameters: params= survey id and submission id
+  - response body: array with answers(
+    {
+    "id": 10,
+    "question": "Select your weight",
+    "questiontype": 1,
+    "num": 3,
+    "min": 0,
+    "max": 1,
+    "one": 0,
+    "two": 1,
+    "three": 0,
+    "four": 0,
+    "five": 0,
+    "six": 0,
+    "seven": 0,
+    "eight": 0,
+    "nine": 0,
+    "ten": 0,
+    "order": 2,
+    "survey_id": 1,
+    "submission_id": 5,
+    "question_id": 48,
+    "answer": null,
+    "status": 1
+    },
+    or object with error
+
+- POST `/api/answers` - Adding a answer for a question
+
+  - request parameters and request body content :
+    { "submission_id": 13, "survey_id":1, "question_id":46, "questiontype": 1, "answer":"Memento", "one": 0, "two": 0, "three": 0, "four": 0, "five":0, "six":0, "seven": 0, "eight": 0, "nine": 0, "ten" :0}
+  - response body content : error object or the id of the new answer
+
+- PUT `/api/answer/update/:questionId/:submissionId` - Changing the answer of the existing question with selected submission id
+
+  - request parameters and request body content : params= question id and submission id ; body: { "one":0,"two":0,"three":0,"four":0,"five":0,"six":0,"seven":0,"eight":0,"nine":0,"ten":0 }
+  - response body content : `Database error during the update of answer ${id} ` and error object
+
+- PUT `/api/answer/updateopen/:questionId/:submissionId` - Changing the answer of existing open question with selected submission id
+
+  - request parameters and request body content : params= question id and submission id ; body: { "answer":"My favourite color is yellow" }
+  - response body content : `Database error during the update of answer ${id} ` and error object
+
+- PUT `/api/answer/updatestatus/:questionId/:submissionId` - Changing the submission status of the existing question with selected submission id tp the 1
+
+  - request parameters and request body content : params= question id and submission id
+  - response body content : `Database error during the update of answer ${id} ` and error object
 
 ## Database Tables
 
