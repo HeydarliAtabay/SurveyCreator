@@ -16,7 +16,6 @@ import API from './API'
 
 import { BrowserRouter as Router, Redirect, Route, Switch,  Link} from 'react-router-dom';
 
-//import ModalForm from './Components/ModalForm'
 
 function App(props) {
   const [surveyList, setSurveyList]=useState([])
