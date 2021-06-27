@@ -155,3 +155,10 @@ label.specificationsTxt {
 .formtxt {
   color: white;
 }
+
+.surveyName {
+  color: #214896;
+  text-shadow: #61dafb;
+  font-style: italic;
+  font-weight: 400;
+}

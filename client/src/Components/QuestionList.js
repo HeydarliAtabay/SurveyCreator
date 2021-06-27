@@ -395,7 +395,7 @@ function QuestionList(props) {
   let number=0
   
   const history=useHistory()
-  const { questions, onDelete, onUp, onDown, onPublish, survey,  submission, loading, logged} = props;
+  const { questions, onDelete, onUp, onDown, onPublish, survey,  submission, loading, logged, surveys} = props;
   const [name, setName]=useState('') // state for responder's name
   const [answers, setAnswers]=useState([])  // state for ids of given answers
   const [newCheck, setNewcheck]=useState([]) // state for question errors
@@ -501,12 +501,18 @@ let newSubId=null
   let last=questions.length
   let surveyId=0
   last!==0?surveyId=questions[0].survey_id: surveyId=0
+  let title=''
+  for(let i=0;i<surveys.length;i++){
+    if(surveys[i].id===survey) title=surveys[i].title 
+  }
+  
   return (
     <>
     
       <div className="cont">
 
          <Form noValidate validated={validated} onSubmit={handleSubmit}>  
+         <h3 className='surveyName'>{title}</h3>
        {!logged && // if user is logged in it couldn't see that part
        <>
         <h3>
