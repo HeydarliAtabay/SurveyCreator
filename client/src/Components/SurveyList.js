@@ -11,7 +11,8 @@ function SurveyItem(props){
         submissionids.push(submission[i].id) 
       }
     }
-   
+    const publishedStyle = {color: "#ADFE00" }
+  const notPublishedStyle={color:"red"}
     
     return(
         <>
@@ -62,6 +63,8 @@ function SurveyItem(props){
             {logged && <Button variant="danger" onClick={onDelete}>Delete the Survey</Button> }
             
          {logged &&  <h5>number of responders for this survey is : {survey.numRespond}</h5> }  
+         {(logged && survey.published===1) &&  <h6 style={publishedStyle}>Published</h6> }  
+         {(logged && survey.published===0) &&  <h6 style={notPublishedStyle}>Not published</h6> } 
         </Card.Body>
 </Card>  
         </div>
