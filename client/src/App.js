@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import {React, useState, useEffect} from 'react'
 import{Button,Container, Row} from 'react-bootstrap'
+import {HouseFill} from 'react-bootstrap-icons'
 import Header from './Components/Header'
 import SurveyList from './Components/SurveyList'
 import QuestionList from './Components/QuestionList'
@@ -13,12 +14,11 @@ import LoginComponent from './Components/LoginComponent'
 import AdminDetails from './Components/AdminDetails'
 import API from './API'
 
-import { BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Switch,  Link} from 'react-router-dom';
 
 //import ModalForm from './Components/ModalForm'
 
 function App(props) {
-  
   const [surveyList, setSurveyList]=useState([])
   const [questionList, setQuestionList]=useState([])
   const [answerList, setAnswerList]=useState([])
@@ -251,6 +251,7 @@ function App(props) {
     setMessage('')
   }
   
+  
   return (
     <Router>
       {loggedIn? <Header logout={doLogOut} link={"/"} info={"Log out "} />: <Header logout={doLogOut} link="/login"info={"Log in "} />}
@@ -264,13 +265,15 @@ function App(props) {
       
       </Route>
        {/* <Route path="/questions">  */}
-       <Route path={["/questions/:id"]}>
+       <Route path="/questions">
+      <div className="goHomeBtn"><Row><Link variant="link" to="/"  > <HouseFill size={64} color='black' /> </Link></Row><Row><span> Home Page </span></Row> </div>
       <div className="addbtn">{loggedIn && <Button variant="success" size="lg"  onClick={() => setSelectedTask(MODAL.ADD)}>Add a Question</Button> }</div>
       {(selectedTask !== MODAL.CLOSED) && <ModalFormQuestion onSave={handleSaveQuestions} onClose={handleClose}></ModalFormQuestion>}
       <QuestionList loading ={loading} logged={loggedIn} questions={questionList} onDelete={deleteQuestion} onUp={orderUpQuestion} onDown={orderDownQuestion} onPublish={publishSurvey} survey={surveyId} submission={allSub} />
       </Route> 
 
        <Route path="/answers"> 
+       <div className="goHomeBtn"><Row><Link variant="link" to="/"  > <HouseFill size={64} color='black' /> </Link></Row><Row><span> Home Page </span></Row> </div>
       <AnswerList submissions={submissionList} questions={questionList} answers={answerList} onPublish={publishSurvey} survey={surveyId} responder={"Atabay"} onRight={handleRight} onLeft={handleLeft} loading={loading}/>
       </Route> 
       <Route path="/login">

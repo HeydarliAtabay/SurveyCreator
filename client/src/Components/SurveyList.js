@@ -26,7 +26,7 @@ function SurveyItem(props){
               <Button
              onClick={(event) => {
               onSelect(survey.id)
-              history.push("/questions/" + survey.id)
+              history.push("/questions")
              }}
              className="btn btn-primary"
             >
@@ -37,7 +37,7 @@ function SurveyItem(props){
            <Button
              onClick={(event) => {
               onSelect(survey.id)
-              history.push("/questions/" + survey.id)
+              history.push("/questions" )
              }}
              className="btn btn-primary"
             >
