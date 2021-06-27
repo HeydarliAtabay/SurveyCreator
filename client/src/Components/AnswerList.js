@@ -4,6 +4,7 @@ import {
   ArrowLeftSquare,
   ArrowRightSquare,
 } from "react-bootstrap-icons";
+import {useHistory} from 'react-router-dom'
 
 
 function QuestionItem(props) {
@@ -97,6 +98,7 @@ function QuestionItem(props) {
 
 
 function AnswerList(props) {
+  const history=useHistory()
   const { questions, answers, onRight, onLeft, submissions, loading} = props;
   const [subindex, setSubIndex]=useState(submissions?submissions[0].id:1)
   let last=answers.length
@@ -131,6 +133,7 @@ function AnswerList(props) {
      <div className="navigationRow">
          <Form.Group>
        <Row >
+         <Col sm={2}>
          {(submissions[subindex-1].id !==submissions[0].id)?  //if submission ID is not equal to the last id button is active, otherwise disabled
          <Button variant="link" className="shadow-none1"
          onClick={()=>{
@@ -145,8 +148,10 @@ function AnswerList(props) {
        <Button disabled variant="link" className="shadow-none1" >
          <ArrowLeftSquare size={32}/>
        </Button>
-        } <h3>Answers of {submissions[subindex-1].responder}</h3>
-         
+        }
+        </Col> 
+        <Col sm={8}><h3>Answers of {submissions[subindex-1].responder}</h3></Col>
+         <Col sm={2}>
            {(submissions[subindex-1].id !==submissions[submissions.length-1].id)? //if submission ID is not equal to the first id button is active, otherwise disabled
             <Button variant="link" className="shadow-none1"
             onClick={()=>{
@@ -160,7 +165,7 @@ function AnswerList(props) {
               <ArrowRightSquare size={32} 
             />
           </Button>
-}   
+}   </Col>
            </Row> 
            <Form.Text className="text-muted"> For navigating between answers, press arrows</Form.Text>  
            </Form.Group>
