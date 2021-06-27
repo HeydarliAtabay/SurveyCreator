@@ -248,9 +248,35 @@
 - `ModalFormTitle` (in `ModalFormTitle.js`): Modal form for adding new survey
 - `ModalFormQuestion` (in `ModalFormQuestion.js`): Modal form for adding a new question with selecting all specifications, question type and possible answers of the question
 
-## Screenshot
+## Screenshots
 
-![Screenshot](./img/screenshot.jpg)
+### Login page ("/login")
+
+![Login Page](./screenshots/LoginPage.png)
+
+### Survey List for non authenticated user ("/surveys")
+
+![Main Page](./screenshots/MainPage_Nonuser.png)
+
+### Questions List for non authenticated user ("/questions")
+
+![Questions Page](./screenshots/Questions_Nonuser.png)
+
+### Survey List for authenticated user ("/surveys")
+
+![Main Page](./screenshots/MainPage_User.png)
+
+### Questions List for authenticated user ("/questions")
+
+![Questions Page](./screenshots/Questions_User.png)
+
+### Form for adding questions
+
+![Modal For Questions](./screenshots/ModalQuestion.png)
+
+### Answer List for authenticated user ("/answers")
+
+![Answer List](./screenshots/Answers_User.png)
 
 ## Users Credentials
 
