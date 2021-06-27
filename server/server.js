@@ -103,8 +103,8 @@ app.post('/api/surveys', isLoggedIn, (req,res) => {
 app.delete('/api/surveys/delete/:surveyId', (req,res) => {
     const id= req.params.surveyId
   surveyDao.deleteSurvey(id)
-      .then((id) => res.status(204).json(`Selected task with id:${id} was deleted`))
-      .catch((err) => res.status(500).json(`Error while deleting the task with id:${req.params.id}  `+err),
+      .then((id) => res.status(204).json(`Selected survey with id:${id} was deleted`))
+      .catch((err) => res.status(500).json(`Error while deleting the survey with id:${req.params.id}  `+err),
       );
 });
 
@@ -115,7 +115,7 @@ app.put('/api/surveys/update/published/:surveyId',  async(req,res) => {
         res.json(`Survey with id: ${id} was published`)
     }
     catch(error){
-        res.status(500).json(`Error while updating the status of the task with id: ${id}   `+ error)
+        res.status(500).json(`Error while updating the status of the survey with id: ${id}   `+ error)
     }
 
 });
@@ -128,7 +128,7 @@ app.put('/api/surveys/update/:survey', async (req, res) => {
       const result = await surveyDao.updateNumRespond(id);
       res.json(result); 
     } catch (err) {
-      res.status(503).json({ error: `Database error during the update of task ${req.params.id}` });
+      res.status(503).json({ error: `Database error during the update of survey ${req.params.id}` });
     }
   
   });
@@ -168,7 +168,7 @@ app.post('/api/questions', (req,res) => {
         res.json(`Order of the question with id: ${id}  was changed to ${order}`)
     }
     catch(error){
-        res.status(500).json(`Error while updating the status of the task with id: ${id}   `+ error)
+        res.status(500).json(`Error while updating the order of the question with id: ${id}   `+ error)
     }
 
 });
@@ -177,8 +177,8 @@ app.post('/api/questions', (req,res) => {
   app.delete('/api/questions/delete/:questionId', (req,res) => {
       const id= req.params.questionId
     questionDao.deleteQuestion(id)
-        .then((id) => res.status(204).json(`Selected task with id:${id} was deleted`))
-        .catch((err) => res.status(500).json(`Error while deleting the task with id:${req.params.questionId}  `+err),
+        .then((id) => res.status(204).json(`Selected question with id:${id} was deleted`))
+        .catch((err) => res.status(500).json(`Error while deleting the question with id:${req.params.questionId}  `+err),
         );
 });
   
@@ -303,7 +303,7 @@ app.put('/api/answers/update/:question/:submission', async (req, res) => {
     const result = await questionDao.updateAnswer(answer, req.params.question, req.params.submission);
     res.json(result); 
   } catch (err) {
-    res.status(503).json({ error: `Database error during the update of task ${req.params.id}` });
+    res.status(503).json({ error: `Database error during the update of answer ${req.params.id}` });
   }
 
 });
@@ -318,7 +318,7 @@ app.put('/api/answers/updateopen/:question/:submission', async (req, res) => {
       const result = await questionDao.updateOpenAnswer(answer, req.params.question, req.params.submission);
       res.json(result); 
     } catch (err) {
-      res.status(503).json({ error: `Database error during the update of task ${req.params.id}` });
+      res.status(503).json({ error: `Database error during the update of answer ${req.params.id}` });
     }
   
   });
@@ -329,7 +329,7 @@ app.put('/api/answers/updateopen/:question/:submission', async (req, res) => {
       const result = await questionDao.updateAnswerStatus(req.params.question, req.params.submission);
       res.json(result); 
     } catch (err) {
-      res.status(503).json({ error: `Database error during the update of task ${req.params.id}` });
+      res.status(503).json({ error: `Database error during the update of answer ${req.params.id}` });
     }
   
   });
