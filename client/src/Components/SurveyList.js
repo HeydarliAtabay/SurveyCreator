@@ -12,6 +12,7 @@ function SurveyItem(props){
       }
     }
    
+    
     return(
         <>
         <div className="survCards">

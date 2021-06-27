@@ -86,12 +86,12 @@ function App(props) {
         setLoading(false)
         setDirtyQuestions(false)
        })
-      API.getSubmissionsOfSurvey().then(allSubmissions=>{
+       API.getSubmissionsOfSurvey().then(allSubmissions=>{
         setAllSub(allSubmissions)
-      })
-     
+      }) 
 
    }, [dirtyQuestions,surveyId])
+
 
    useEffect(() => {
     API.getAnswers(surveyId,submission).then(newQuestion=>{
@@ -122,7 +122,7 @@ function App(props) {
    API.addQuestion(question,id, surveyId).then((err)=>{setDirtyQuestions(true)})
   }
  
- async function handleselect (id)
+ const handleselect = (id) =>
   {
     setSurveyId(id)
     // try {

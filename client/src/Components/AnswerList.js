@@ -4,7 +4,6 @@ import {
   ArrowLeftSquare,
   ArrowRightSquare,
 } from "react-bootstrap-icons";
-import {useHistory} from 'react-router-dom'
 
 
 function QuestionItem(props) {
@@ -98,7 +97,6 @@ function QuestionItem(props) {
 
 
 function AnswerList(props) {
-  const history=useHistory()
   const { questions, answers, onRight, onLeft, submissions, loading} = props;
   const [subindex, setSubIndex]=useState(submissions?submissions[0].id:1)
   let last=answers.length

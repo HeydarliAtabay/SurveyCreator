@@ -9,10 +9,11 @@ import {
 import { useHistory } from "react-router-dom";
 import API from '../API'
 
+
 let abc=[] // array for storing question ids, which then will be used for submitting the answers
 
 function QuestionItem(props) {
-  const { question, onDelete, onUp, onDown, index,last, setAnswers, survey, submission, numberOfQuestions, logged, newCheck, setNewCheck, openCheck} = props;
+  const { question, onDelete, onUp, onDown, index,last, setAnswers, survey, newSubId, numberOfQuestions, logged, newCheck, setNewCheck, openCheck} = props;
   const [answered, setAnswered]=useState([false,false,false,false,false,false,false,false,false,false]) // state for checked checkboxes
   const [openQAnswer, setOpenQAnswer]=useState('') // state for open answers
   const [message, setMessage]=useState({
@@ -22,7 +23,7 @@ function QuestionItem(props) {
   const [count, setCount] = useState(0)
   const [addEmpty, setAddEmpty]=useState(false) // state for checking if for that question, empty question was alreadya added or not
   const [saveOpen, setSaveOpen]=useState(false) // state for saving open answers
-  let newSubId=(submission[submission.length-1].id)+1 // new id of the new submission
+  //let newSubId=(submission[submission.length-1].id)+1 // new id of the new submission
  
   // use effect for submitting the open answers
   useEffect(() => {
@@ -35,6 +36,7 @@ function QuestionItem(props) {
       }
     
     }, [openCheck])
+
   // styles for different message types
   const okayStyle = {color: "green" }
   const noStyle={color:"red"}
@@ -102,8 +104,10 @@ if(count===1){
   addEmptyAnswers(question) // calling function for adding empty answer for open question
  
 } 
-setOpenQAnswer(ev.target.value)  // changing state of open answer, to the value of the form input control
-changeErrorCheck(false)
+
+  setOpenQAnswer(ev.target.value)  // changing state of open answer, to the value of the form input control
+  changeErrorCheck(false)
+
 }
 
 // function for adding the result of open answer to the DB
@@ -391,7 +395,7 @@ function QuestionList(props) {
   let number=0
   
   const history=useHistory()
-  const { questions, onDelete, onUp, onDown, onPublish, survey, submission, loading, logged} = props;
+  const { questions, onDelete, onUp, onDown, onPublish, survey,  submission, loading, logged} = props;
   const [name, setName]=useState('') // state for responder's name
   const [answers, setAnswers]=useState([])  // state for ids of given answers
   const [newCheck, setNewcheck]=useState([]) // state for question errors
@@ -407,11 +411,10 @@ function QuestionList(props) {
   const noStyle={color:"red"}
 
   let errorArray=[]
-
+  
   // useEffect for creating an array which stores the values of errors
   useEffect(() => {
     countRef.current++
-    console.log(countRef)
     const makeArrayOfErrors= async()=>{
      if(countRef.current<10){ // maximum number of re renders is 10
       try{
@@ -423,7 +426,6 @@ function QuestionList(props) {
           for(let i=0;i<num;i++){
            if(questions[i].survey_id===survey && questions[i].min===1 && questions[i].questiontype===1) errorArray.push(true)
            else errorArray.push(false)
-           console.log(errorArray)
           }
       }
     }
@@ -433,8 +435,12 @@ function QuestionList(props) {
      }
         makeArrayOfErrors() // calling asynchronous function for creating an array of errors
     },)
-
-  let newSubId=(submission[submission.length-1].id)+1 // getting id of the new submission
+let newSubId=null
+ if(submission){
+  newSubId=(submission[submission.length-1].id)+1
+  }
+  else history.push("/")
+  // getting id of the new submission
 
   // function for adding new submissions
   function newSubmission(){
@@ -457,7 +463,6 @@ function QuestionList(props) {
     for(let i=0;i<newCheck.length;i++){
       if(newCheck[i]===true) valid=false
     }
-    console.log("is form valid: " + valid)
     // check if form is valid using HTML constraints
     if (!form.checkValidity() ) { 
         setValidated(true); // enables bootstrap validation error report
@@ -466,7 +471,6 @@ function QuestionList(props) {
     else {
       if(valid===true){
         setErrorMessage({text:`Your answer is submitted, now You will be redirected to the main page `, type:'okay'}) 
-        console.log("Everything is fine")
         newSubmission() // calling a function of adding new submission
         setTimeout(()=>history.push('/surveys'),1500)  // waiting 1,5 second for redirecting user to the main page
        // errorArray.length=0
@@ -526,7 +530,7 @@ function QuestionList(props) {
                 <ListGroup.Item as="li" key={index}>
                   <QuestionItem
                     survey={survey}
-                    submission={submission}
+                    newSubId={newSubId}
                     question={q}
                     onDelete={() => onDelete(q)}
                     onUp={() => onUp(q)}
