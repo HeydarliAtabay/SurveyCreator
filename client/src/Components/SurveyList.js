@@ -22,30 +22,34 @@ function SurveyItem(props){
            
             <Card.Body>
             <Card.Title>{survey.title}</Card.Title>
-           {(logged===true) ?
-           
-              <Button
-             onClick={(event) => {
-              onSelect(survey.id)
-              history.push("/questions")
-             }}
-             className="btn btn-primary"
-            >
-              Modify the survey
-            </Button>
-          
-           :
+            
+           {(logged  && survey.published===0) &&
            <Button
-             onClick={(event) => {
-              onSelect(survey.id)
-              history.push("/questions" )
-             }}
-             className="btn btn-primary"
-            >
-              Start the survey
-            </Button>
+           onClick={(event) => {
+            onSelect(survey.id)
+            history.push("/questions")
+           }}
+           className="btn btn-primary"
+          >
+            Modify the survey
+          </Button>
+           }
+              
+          
+          {!logged  &&
+          <Button
+          onClick={(event) => {
+           onSelect(survey.id)
+           history.push("/questions" )
+          }}
+          className="btn btn-primary"
+         >
+           Start the survey
+         </Button>
 
-                     }
+          }
+           
+                    
             
        { (survey.numRespond!==0 && logged) &&
 
