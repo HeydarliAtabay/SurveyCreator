@@ -1,6 +1,7 @@
-# Exam #1: "Survey"
+# Web application which manage the creation of an online survey and the collection of responses through that survey.
 
-## Student: s277000 HEYDARLI ATABAY
+
+## Developer: HEYDARLI ATABAY
 
 ## React Client Application Routes
 
